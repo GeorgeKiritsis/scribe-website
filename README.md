@@ -14,6 +14,7 @@ Before publishing, fill in `DOWNLOADS` at the top of `main.js` with each platfor
 
 ## What's where
 
+- `manual.html`: how to use Scribe, linked as `\input{manual}`.
 - `changelog.html`: what changed in Scribe, linked from the menu as `\include{changelog}`. Add new entries at the top.
 - `index.html`: the page, an article with numbered sections, captioned figures and a booktabs table.
 - `main.js`: Figure 1, the app's welcome animation ported from `papyrus/src/welcome.ts`. It also starts each demo when it scrolls into view and pauses it when it leaves; with Reduce Motion on, a demo waits for a click.
@@ -22,6 +23,26 @@ Before publishing, fill in `DOWNLOADS` at the top of `main.js` with each platfor
   - `.webm` and `.mp4` are what the page plays.
   - `.jpg` is the poster shown before it plays.
   - `.gif` is a copy for READMEs and posts; the page never loads it.
+
+## Publishing
+
+`.github/workflows/pages.yml` publishes the site to GitHub Pages on every push to `main`. It publishes only the site files; `recorder/` stays out.
+
+To set it up:
+1. Create a GitHub repository named `scribe-website` and push this folder to it.
+2. In the repository, open Settings → Pages and set Source to "GitHub Actions".
+
+The site then lives at https://georgekiritsis.github.io/scribe-website/. If the account or repository name is different, change that address in these places:
+- `robots.txt` and `sitemap.xml`
+- the `canonical` links of the three pages
+- the BibTeX entry in Appendix B
+- the `/scribe-website/` path in `404.html`
+
+`404.html` is served for any missing page, set as a LaTeX error. Type X to go back, or H for help.
+
+## The template gallery
+
+`node recorder/templates.mjs` compiles every template in the app's `src/templates.ts` into `assets/templates/`, as a PDF and a thumbnail. It needs TeX Live and `pdftoppm`. Lecture notes go through the app's own note-to-PDF code. The article with a notebook is the example paper, because its figures need a notebook run.
 
 ## Recording the demos again
 
@@ -34,6 +55,7 @@ npm install                       # Playwright and a bundled ffmpeg
 node record.mjs                   # every scene, or e.g. `node record.mjs notes table`
 node encode.mjs                   # raw/*.webm -> ../assets/demos
 node shots.mjs                    # screenshots, and a check that every demo loads and plays
+node pages-check.mjs              # every page, the menu at four widths, the 404 page
 ```
 
 - `record.mjs` scripts each scene at a human pace, with a camera that zooms and pans to follow the action and a drawn pointer.

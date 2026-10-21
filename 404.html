@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>File not found · Scribe</title>
+  <meta name="robots" content="noindex" />
+  <!-- GitHub Pages serves this page for any missing path, at any depth, so it carries its own
+       styles and works out where the site starts instead of linking relatively. -->
+  <style>
+    :root { --paper: #fffefb; --ink: #282828; --soft: #7c6f64; --err: #9d0006; --cmd: #af3a03; --caret: #b5832c; color-scheme: light; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #141312; --ink: #ebdbb2; --soft: #a89984; --err: #fb4934; --cmd: #fe8019; --caret: #d4a556; color-scheme: dark; } }
+    :root[data-theme="dark"] { --paper: #141312; --ink: #ebdbb2; --soft: #a89984; --err: #fb4934; --cmd: #fe8019; --caret: #d4a556; color-scheme: dark; }
+    * { box-sizing: border-box; margin: 0; }
+    html { background: var(--paper); color: var(--ink); }
+    body { display: grid; place-items: center; min-height: 100vh; min-height: 100svh; padding: 1.5rem; font: 15px/1.7 ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+    main { width: min(44rem, 100%); }
+    pre { font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .soft { color: var(--soft); }
+    .err { color: var(--err); font-weight: 600; }
+    .cmd { color: var(--cmd); }
+    form { display: flex; align-items: baseline; gap: 0.6ch; margin-top: 0.2rem; }
+    input { width: 12ch; padding: 0; font: inherit; color: var(--ink); caret-color: var(--caret); background: none; border: none; outline: none; }
+    .help { margin-top: 1.2rem; }
+    a { color: var(--cmd); }
+  </style>
+  <script>try { const t = localStorage.getItem("scribe.theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
+</head>
+<body>
+  <main>
+<pre><span class="soft">This is Scribe, Version 0.1 (offline)
+(./<span id="path">page</span>.tex</span>
+<span class="err">! LaTeX Error: File `<span id="file">page</span>' not found.</span>
+
+<span class="soft">See the Scribe manual for explanation.
+Type  H &lt;return&gt;  for immediate help.
+ ...</span>
+
+l.1 <span class="cmd">\input</span>{<span id="input">page</span>}
+</pre>
+    <form id="prompt" aria-label="Answer TeX's question">
+      <label for="answer">?</label>
+      <input id="answer" autocomplete="off" spellcheck="false" autofocus aria-describedby="hint" />
+    </form>
+    <p id="hint" class="help soft">Type <strong>X</strong> and press return to go back to Scribe, or <strong>H</strong> for help. Or just <a id="home" href="/">take me home</a>.</p>
+  </main>
+  <script>
+    // Where the site starts: the project folder on GitHub Pages, or the root of its own domain.
+    const home = location.pathname.startsWith("/scribe-website/") ? "/scribe-website/" : "/";
+    document.getElementById("home").href = home;
+    const missing = decodeURIComponent(location.pathname.replace(home, "").replace(/\/$/, "")) || "page";
+    for (const id of ["path", "file", "input"]) document.getElementById(id).textContent = missing;
+    document.getElementById("prompt").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const answer = document.getElementById("answer").value.trim().toUpperCase();
+      const hint = document.getElementById("hint");
+      if (answer === "X" || answer === "Q" || answer === "E") location.href = home;
+      else if (answer === "H") hint.innerHTML = `The page <strong>${missing.replace(/[<>&]/g, "")}</strong> isn't on this site; it may have moved, or the link has a typo. The <a href="${home}manual.html">manual</a>, the <a href="${home}changelog.html">changelog</a> and the <a href="${home}">front page</a> are all still here. Type <strong>X</strong> to go back.`;
+      else hint.innerHTML = `TeX only understands <strong>X</strong> (go back) and <strong>H</strong> (help) here. Or <a href="${home}">take me home</a>.`;
+      document.getElementById("answer").value = "";
+    });
+  </script>
+</body>
+</html>

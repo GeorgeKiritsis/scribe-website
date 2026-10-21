@@ -446,12 +446,31 @@ kbd { font: 0.85em var(--mono); padding: 0.05em 0.35em; border: 1px solid var(--
 .chip { display: inline-block; margin-right: 0.35rem; padding: 0.08rem 0.36rem 0.12rem; font: 700 0.72rem var(--mono); letter-spacing: 0.04em; vertical-align: 0.12em; border-radius: 3px; }
 .chip.q { color: var(--paper); background: var(--caret); }
 .chip.a { color: var(--ink); background: var(--hairline); }
+.soon-tag { display: inline-block; margin-left: 0.3rem; padding: 0.04rem 0.4rem 0.08rem; font: italic 0.82rem var(--serif); color: var(--syn-math); border: 1px dashed currentColor; border-radius: 3px; vertical-align: 0.06em; white-space: nowrap; }
 
 /* ── the LaTeX logo, set the way \LaTeX sets it ── */
 .latex, .tex { white-space: nowrap; }
 .latex .a, .latex .e, .tex .e { line-height: 0; } /* the raised A and lowered E don't push lines apart */
 .latex .a { font-size: 0.72em; vertical-align: 0.24em; margin-left: -0.33em; margin-right: -0.14em; }
 .latex .e, .tex .e { vertical-align: -0.22em; margin-left: -0.14em; margin-right: -0.11em; text-transform: uppercase; }
+
+/* ── Figure 7: the templates, as subfigures (a)–(g) ── */
+.article > section.gallery { grid-column: wide; display: block; }
+.gallery > p { max-width: var(--measure); }
+.templates { margin-top: 1.6rem; }
+.template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: 1.6rem 1.4rem; align-items: end; }
+.template { display: flex; flex-direction: column; gap: 0.55rem; color: var(--ink); }
+.template:hover { text-decoration: none; }
+.template img { display: block; width: 100%; height: auto; background: #fff; border: 1px solid var(--sheet-edge); transition: translate 200ms var(--ease-out, ease), border-color 200ms ease; }
+.template:hover img { translate: 0 -4px; border-color: var(--ink-soft); }
+.subcaption { font-size: 0.92rem; text-align: center; }
+.templates figcaption { margin-top: 1.4rem; }
+
+/* ── Listing 2: the BibTeX entry, with a copy button ── */
+.bibtex figcaption { display: flex; align-items: baseline; gap: 0.8rem; }
+.copy-bib { margin-left: auto; padding: 0.15rem 0.6rem; font: 0.85rem var(--mono); color: var(--ink); background: none; border: 1px solid var(--hairline); border-radius: 3px; cursor: pointer; }
+.copy-bib:hover { border-color: var(--ink-soft); }
+.appendix .listing { max-width: var(--measure); }
 
 /* ── Table 1, booktabs: thick top and bottom rules, a thin one under the head, no verticals ── */
 .table-wrap { margin-top: 1.4rem; overflow-x: auto; }
@@ -478,10 +497,10 @@ tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
 
 @media (max-width: 1560px) {
   .tex-comment { display: none; }
-  .include { margin-left: auto; }
+  .include[href$="manual.html"] { margin-left: auto; } /* the right-hand group starts here */
 }
 
-@media (max-width: 1240px) {
+@media (max-width: 1380px) {
   .packages { display: none; }
 }
 
@@ -499,8 +518,8 @@ tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
 
 @media (max-width: 760px) {
   body { font-size: 1.06rem; }
-  /* a phone shows scribe  changelog  \pagecolor  \download */
-  .brand-cmd, .brand-brace, .pagecolor-arg, .include .tex-cmd, .include-arg .tex-brace { display: none; }
+  /* a phone shows scribe  manual  changelog  \download; its colours follow the phone */
+  .brand-cmd, .brand-brace, .pagecolor, .include .tex-cmd, .include-arg .tex-brace { display: none; }
   .topbar { gap: 0.9rem; padding: 0 1rem; font-size: 13px; }
   .article { padding-top: 3rem; }
   .maketitle h1 { font-size: 2.7rem; }
@@ -602,3 +621,14 @@ html.lenis, html.lenis body { height: auto; }
 .entry ul { margin: 0.6rem 0 0 1.3rem; }
 .entry li { line-height: 1.5; }
 .entry li + li { margin-top: 0.45rem; }
+
+/* ── the manual ── */
+.toc { margin-top: 2.6rem; }
+.toc h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+.toc ol { margin-left: 1.5rem; }
+.toc li { line-height: 1.7; }
+.manual-page .article > section.tech-wide, .manual-page .listing { grid-column: text; }
+.tech-list.single { grid-template-columns: minmax(0, 1fr); gap: 0.9rem; margin-top: 1.2rem; }
+.manual-page .listing { margin-top: 1.6rem; }
+.manual-page .listing pre { font-size: 0.8rem; }
+.manual-page .keys td:nth-child(odd) { white-space: nowrap; }

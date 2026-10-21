@@ -6,6 +6,9 @@
   <title>Scribe: papers that run their own figures</title>
   <meta name="description" content="Scribe is a free, offline editor for LaTeX and Python, for papers, theses, lecture notes and reports. Run the notebook and its figures and numbers land in the PDF, already up to date." />
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://georgekiritsis.github.io/scribe-website/" />
+  <meta name="theme-color" content="#fffefb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#141312" media="(prefers-color-scheme: dark)" />
   <link rel="preload" href="assets/fonts/LM-regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="styles.css" />
   <!-- the colour chosen in the menu, applied before the page paints so it doesn't flash -->
@@ -19,8 +22,9 @@
   <!-- the menu, written as the first lines of a LaTeX file -->
   <nav class="topbar" aria-label="Scribe">
     <a class="brand" href="#top" aria-label="Scribe, back to the top"><span><span class="tex-cmd brand-cmd">\documentclass</span><span class="tex-brace brand-brace">{</span><span class="tex-arg">scribe</span><span class="tex-brace brand-brace">}</span></span></a>
-    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="#tables">tables</a><span class="tex-comma">,</span> <a class="tex-arg" href="#internals">internals</a><span class="tex-brace">}</span></span>
+    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="#tables">tables</a><span class="tex-brace">}</span></span>
     <span class="tex-comment">% offline, and free for everyone, forever</span>
+    <a class="include" href="manual.html"><span class="tex-cmd">\input</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">manual</span><span class="tex-brace">}</span></span></a>
     <a class="include" href="changelog.html"><span class="tex-cmd">\include</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">changelog</span><span class="tex-brace">}</span></span></a>
     <button class="pagecolor" type="button" aria-label="Dark or light page"><span class="tex-cmd">\pagecolor</span><span class="pagecolor-arg"><span class="tex-brace">{</span><span class="tex-arg pagecolor-name">white</span><span class="tex-brace">}</span></span></button>
     <a class="download-cmd" href="#download"><span class="tex-cmd">\download</span></a>
@@ -151,6 +155,23 @@ $$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
       </figure>
     </section>
 
+    <section id="templates" class="gallery">
+      <h2>Start from a template</h2>
+      <p>New Project offers these, each a complete project that compiles as it is. Figure 7 shows their first pages, compiled by Scribe; open one to see the whole PDF.</p>
+      <figure class="templates">
+        <div class="template-grid">
+          <a class="template" href="assets/templates/lecture-notes.pdf" target="_blank" rel="noopener"><img src="assets/templates/lecture-notes.jpg" alt="The first page of the lecture notes template" loading="lazy" width="560" height="792" /><span class="subcaption">(a) Lecture notes</span></a>
+          <a class="template" href="assets/templates/article-with-a-notebook.pdf" target="_blank" rel="noopener"><img src="assets/templates/article-with-a-notebook.jpg" alt="The first page of the article with a notebook template" loading="lazy" width="560" height="792" /><span class="subcaption">(b) Article with a notebook</span></a>
+          <a class="template" href="assets/templates/plain-article.pdf" target="_blank" rel="noopener"><img src="assets/templates/plain-article.jpg" alt="The first page of the plain article template" loading="lazy" width="560" height="792" /><span class="subcaption">(c) Plain article</span></a>
+          <a class="template" href="assets/templates/thesis.pdf" target="_blank" rel="noopener"><img src="assets/templates/thesis.jpg" alt="The first page of the thesis template" loading="lazy" width="560" height="792" /><span class="subcaption">(d) Thesis</span></a>
+          <a class="template" href="assets/templates/ieee-conference-paper.pdf" target="_blank" rel="noopener"><img src="assets/templates/ieee-conference-paper.jpg" alt="The first page of the ieee conference paper template" loading="lazy" width="560" height="792" /><span class="subcaption">(e) IEEE conference paper</span></a>
+          <a class="template" href="assets/templates/acm-conference-paper.pdf" target="_blank" rel="noopener"><img src="assets/templates/acm-conference-paper.jpg" alt="The first page of the acm conference paper template" loading="lazy" width="560" height="792" /><span class="subcaption">(f) ACM conference paper</span></a>
+          <a class="template" href="assets/templates/slides.pdf" target="_blank" rel="noopener"><img src="assets/templates/slides.jpg" alt="The first page of the slides template" loading="lazy" width="560" height="315" /><span class="subcaption">(g) Slides</span></a>
+        </div>
+        <figcaption><span class="label">Figure 7:</span> The templates in New Project. The article with a notebook is the example paper from the demos above, its figures and numbers made by its notebook.</figcaption>
+      </figure>
+    </section>
+
     <section>
       <h2>Everything else</h2>
       <p>The rest of Scribe, briefly, in Table 1.<span class="sidenote-ref" aria-hidden="true">4</span><span class="sidenote" role="note"><span class="sidenote-num">4</span> Tables here are set the way the booktabs package sets them: three horizontal rules and no vertical ones.</span></p>
@@ -251,7 +272,7 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
         <div class="card"><p><span class="chip q">Q:</span> Do I need to install LaTeX first?</p><p><span class="chip a">A:</span> No. If none is found, one click installs Tectonic, about 20&nbsp;MB. If you already have TeX Live, Scribe uses it.</p></div>
         <div class="card"><p><span class="chip q">Q:</span> Do I need Python?</p><p><span class="chip a">A:</span> Only for notebooks. Papers, a thesis, notes and slides need nothing but LaTeX.</p></div>
         <div class="card"><p><span class="chip q">Q:</span> Can I bring my Overleaf projects?</p><p><span class="chip a">A:</span> Yes: open the zip from Overleaf's Download menu, or paste the project's git link.</p></div>
-        <div class="card"><p><span class="chip q">Q:</span> Can I write with other people?</p><p><span class="chip a">A:</span> Through git, with commit, pull and push in a panel. There's no live co-editing; for that, Overleaf is the better tool.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Can I write with other people?</p><p><span class="chip a">A:</span> Through git, with commit, pull and push in a panel. Writing together live, in the same document at the same time, is on its way. <span class="soon-tag">coming soon</span></p></div>
         <div class="card"><p><span class="chip q">Q:</span> Where do my files live?</p><p><span class="chip a">A:</span> In a folder you choose, as plain <code>.tex</code>, <code>.bib</code>, <code>.py</code> and <code>.md</code> files. Nothing is locked inside Scribe.</p></div>
         <div class="card"><p><span class="chip q">Q:</span> Which systems does it run on?</p><p><span class="chip a">A:</span> macOS today. Windows and Linux are coming; see <a href="#download">Getting Scribe</a>.</p></div>
       </div>
@@ -289,10 +310,25 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
       </ol>
       <p class="download-note">Free for everyone, forever.</p>
     </section>
+
+    <section class="appendix" id="cite">
+      <h2><span class="appendix-label">B</span>Citing Scribe</h2>
+      <p>If Scribe helped with your work, citing it helps other people find it. Listing 2 is a BibTeX entry for <code>\cite{kiritsis2026scribe}</code>.</p>
+      <figure class="listing bibtex">
+        <figcaption><span class="label">Listing 2:</span> Scribe in your bibliography. <button class="copy-bib" type="button">Copy</button></figcaption>
+<pre><code id="bibtex">@misc{kiritsis2026scribe,
+  author       = {Kiritsis, Georgios},
+  title        = {Scribe: an offline editor for {LaTeX} and {Python}},
+  year         = {2026},
+  note         = {Version 0.1},
+  howpublished = {\url{https://georgekiritsis.github.io/scribe-website/}}
+}</code></pre>
+      </figure>
+    </section>
   </main>
 
   <footer class="colophon">
-    <p>© 2026 Georgios Kiritsis · Set in Latin Modern, like everything it writes.</p>
+    <p>© 2026 Georgios Kiritsis · <a href="manual.html">Manual</a> · <a href="changelog.html">Changelog</a></p>
   </footer>
 </body>
 </html>

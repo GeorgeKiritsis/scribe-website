@@ -275,6 +275,18 @@ document.querySelectorAll(".article > section:not(.abstract):not(.appendix) > h2
   }
 })();
 
+// Listing 2's Copy button
+document.querySelector(".copy-bib")?.addEventListener("click", async (e) => {
+  const button = e.currentTarget;
+  try {
+    await navigator.clipboard.writeText(document.getElementById("bibtex").textContent);
+    button.textContent = "Copied";
+  } catch {
+    button.textContent = "Select it and copy";
+  }
+  setTimeout(() => { button.textContent = "Copy"; }, 1600);
+});
+
 // \pagecolor{white|black}: says the page's colour; a click turns it over and remembers it
 const pagecolor = document.querySelector(".pagecolor");
 if (pagecolor) {

@@ -6,6 +6,9 @@
   <title>Changelog · Scribe</title>
   <meta name="description" content="What changed in Scribe, the free offline LaTeX and Python editor." />
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://georgekiritsis.github.io/scribe-website/changelog.html" />
+  <meta name="theme-color" content="#fffefb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#141312" media="(prefers-color-scheme: dark)" />
   <link rel="preload" href="assets/fonts/LM-regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="styles.css" />
   <!-- the colour chosen in the menu, applied before the page paints so it doesn't flash -->
@@ -18,8 +21,9 @@
   <!-- the menu, written as the first lines of a LaTeX file -->
   <nav class="topbar" aria-label="Scribe">
     <a class="brand" href="index.html" aria-label="Scribe, back to the top"><span><span class="tex-cmd brand-cmd">\documentclass</span><span class="tex-brace brand-brace">{</span><span class="tex-arg">scribe</span><span class="tex-brace brand-brace">}</span></span></a>
-    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="index.html#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#tables">tables</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#internals">internals</a><span class="tex-brace">}</span></span>
+    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="index.html#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#tables">tables</a><span class="tex-brace">}</span></span>
     <span class="tex-comment">% offline, and free for everyone, forever</span>
+    <a class="include" href="manual.html"><span class="tex-cmd">\input</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">manual</span><span class="tex-brace">}</span></span></a>
     <a class="include" href="changelog.html" aria-current="page"><span class="tex-cmd">\include</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">changelog</span><span class="tex-brace">}</span></span></a>
     <button class="pagecolor" type="button" aria-label="Dark or light page"><span class="tex-cmd">\pagecolor</span><span class="pagecolor-arg"><span class="tex-brace">{</span><span class="tex-arg pagecolor-name">white</span><span class="tex-brace">}</span></span></button>
     <a class="download-cmd" href="index.html#download"><span class="tex-cmd">\download</span></a>

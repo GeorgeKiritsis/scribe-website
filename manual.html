@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manual · Scribe</title>
+  <meta name="description" content="How to use Scribe: notebooks that feed the paper, notes with maths, references, and every shortcut." />
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://georgekiritsis.github.io/scribe-website/manual.html" />
+  <meta name="theme-color" content="#fffefb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#141312" media="(prefers-color-scheme: dark)" />
+  <link rel="preload" href="assets/fonts/LM-regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- the colour chosen in the menu, applied before the page paints so it doesn't flash -->
+  <script>try { const t = localStorage.getItem("scribe.theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
+  <script src="assets/vendor/lenis.min.js" defer></script>
+  <script src="main.js" defer></script>
+  <script src="motion.js" defer></script>
+</head>
+<body class="changelog-page manual-page">
+  <!-- the menu, written as the first lines of a LaTeX file -->
+  <nav class="topbar" aria-label="Scribe">
+    <a class="brand" href="index.html" aria-label="Scribe, back to the top"><span><span class="tex-cmd brand-cmd">\documentclass</span><span class="tex-brace brand-brace">{</span><span class="tex-arg">scribe</span><span class="tex-brace brand-brace">}</span></span></a>
+    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="index.html#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#tables">tables</a><span class="tex-brace">}</span></span>
+    <span class="tex-comment">% offline, and free for everyone, forever</span>
+    <a class="include" href="manual.html" aria-current="page"><span class="tex-cmd">\input</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">manual</span><span class="tex-brace">}</span></span></a>
+    <a class="include" href="changelog.html"><span class="tex-cmd">\include</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">changelog</span><span class="tex-brace">}</span></span></a>
+    <button class="pagecolor" type="button" aria-label="Dark or light page"><span class="tex-cmd">\pagecolor</span><span class="pagecolor-arg"><span class="tex-brace">{</span><span class="tex-arg pagecolor-name">white</span><span class="tex-brace">}</span></span></button>
+    <a class="download-cmd" href="index.html#download"><span class="tex-cmd">\download</span></a>
+  </nav>
+
+  <main class="article">
+    <header class="maketitle">
+      <h1>The Scribe Manual</h1>
+      <p class="subtitle">Everything Scribe does, and how to ask it to</p>
+    </header>
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#start">Getting started</a></li>
+        <li><a href="#notebooks">Notebooks and the paper</a></li>
+        <li><a href="#writing">Writing LaTeX</a></li>
+        <li><a href="#notes">Notes</a></li>
+        <li><a href="#references">References and reading</a></li>
+        <li><a href="#keys">Keyboard shortcuts</a></li>
+      </ol>
+    </nav>
+
+    <section id="start">
+      <h2>Getting started</h2>
+      <p>Open a folder as a project with <strong>Open Project</strong> (<kbd>⌘O</kbd>), start one from a template with <strong>New Project</strong>, or bring one in with <strong>Import from Overleaf or Git</strong>, which takes Overleaf's zip download or a git link. The paper is the <code>.tex</code> file with <code>\documentclass</code> in it, usually <code>main.tex</code>.</p>
+      <p>Press <kbd>⌘↵</kbd> to compile; the PDF appears on the right. If no LaTeX is installed, Scribe offers to install Tectonic, about 20&nbsp;MB, which fetches the packages a paper needs the first time it compiles. With TeX Live installed, Scribe uses <code>latexmk</code>.</p>
+      <p>Double-click the PDF to jump to the line that made it, or press <kbd>⇧⌘J</kbd> to go the other way. Select text in the PDF and press <strong>Show in source</strong> to find it in the LaTeX. Every command is in the menus, and in the command palette, <kbd>⇧⌘P</kbd>.</p>
+    </section>
+
+    <section id="notebooks">
+      <h2>Notebooks and the paper</h2>
+      <p>A notebook is a Python file whose cells are separated by <code># %%</code> lines, or a Jupyter <code>.ipynb</code>. A cell marked <code># %% [markdown]</code> is text, written as comment lines. A cell marked <code># %% [figure: loss]</code> makes a figure: whatever it plots is saved as <code>figures/loss.pdf</code>.</p>
+      <p>In the LaTeX, load <code>\usepackage{scribe-figures}</code>, which Scribe writes for you, and bring the figure in with <code>\nbfig{loss}</code>. A figure cell's <strong>Insert into paper</strong> button writes the whole <code>figure</code> environment. Run a cell with <kbd>⇧↵</kbd> and every notebook with <kbd>⇧⌘↵</kbd>; a compile runs first the notebooks that changed since they last ran.</p>
+
+      <figure class="listing">
+        <figcaption><span class="label">Listing 1:</span> What a notebook can send to the paper.</figcaption>
+<pre><code><span class="c"># %% [figure: loss]</span>
+fig, ax = plt.subplots()
+ax.plot(epochs, loss)
+
+<span class="c"># %%</span>
+nbval(<span class="s">"acc"</span>, <span class="n">0.960</span>, err=<span class="n">0.003</span>, unit=<span class="s">r"\percent"</span>)   <span class="c"># \nbval{acc}    96.0 ± 0.3 %</span>
+nbval(<span class="s">"n"</span>, <span class="n">400</span>)                                    <span class="c"># \nbval{n}      400</span>
+nbtable(<span class="s">"results"</span>, rows, header=[<span class="s">"Optimiser"</span>, <span class="s">"Loss"</span>])   <span class="c"># \nbtable{results}</span>
+nbmath(<span class="s">"model"</span>, sympy_expression)                        <span class="c"># $\nbmath{model}$</span></code></pre>
+      </figure>
+
+      <dl class="tech-list single">
+        <div><dt><code>nbval(name, value, unit=, err=, sig=, raw=)</code></dt><dd>A number or text, read with <code>\nbval{name}</code>. With a unit, an uncertainty or a number of significant figures it is typeset by siunitx, so load <code>\usepackage{siunitx}</code>; the uncertainty is rounded to one significant figure (two if it starts with 1) and the value to the same place. <code>raw=True</code> writes LaTeX as it is.</dd></div>
+        <div><dt><code>nbtable(name, rows, header=)</code></dt><dd>A <code>tabular</code>, read with <code>\nbtable{name}</code>. Rows are lists, or a pandas DataFrame; a cell given as <code>(value, uncertainty)</code> is written value ± uncertainty, and columns of numbers are right-aligned.</dd></div>
+        <div><dt><code>nbmath(name, expr)</code></dt><dd>A formula, used inside maths as <code>\nbmath{name}</code>. SymPy expressions are converted; a string is taken to be LaTeX already.</dd></div>
+        <div><dt><code>\nbenv</code></dt><dd>How the notebooks last ran: Python and package versions, the seed, the git commit and the date. Useful in an appendix on reproducibility.</dd></div>
+      </dl>
+      <p>A value no notebook has exported prints as <strong>??</strong> in the PDF, and <strong>Check Before Submitting</strong> lists it.</p>
+    </section>
+
+    <section id="writing">
+      <h2>Writing LaTeX</h2>
+      <p>Completion knows your labels, citations, figures and notebook values. Errors come with a line in plain words and an underline at their place; turn on <strong>Compile on Save</strong> or <strong>Compile as You Type</strong> in the Build menu or in Settings.</p>
+      <dl class="tech-list single">
+        <div><dt>Tables.</dt><dd>With the cursor in a <code>tabular</code>, <strong>Edit → Edit Table</strong> opens it as a grid; elsewhere it inserts a new table. Paste a block from a spreadsheet into any cell.</dd></div>
+        <div><dt>Check Before Submitting.</dt><dd>In the Build menu: citations without an entry, references to missing labels, figures the text never mentions, missing images, stale notebook results, TODOs left in, and what arXiv would reject.</dd></div>
+        <div><dt>Export for Submission.</dt><dd>In the File menu: one zip of plain LaTeX a journal can compile, with every <code>\input</code> inlined and every notebook value written in.</dd></div>
+        <div><dt>History.</dt><dd>The clock in the sidebar lists earlier versions of the open file, kept at every save. Click one to see what changed since; <strong>Restore</strong> brings it back, and <kbd>⌘Z</kbd> undoes that.</dd></div>
+        <div><dt>Git and the terminal.</dt><dd>The git panel commits, pushes and shows diffs; <strong>View → Toggle Terminal</strong> opens your own shell in the project folder.</dd></div>
+        <div><dt>Vim keys.</dt><dd>Turn them on in Settings, for the editor and notebook cells: normal, insert and visual modes, with <code>:w</code>, <code>:q</code> and <code>:wq</code>. Line numbers can be absolute, relative, or off.</dd></div>
+      </dl>
+    </section>
+
+    <section id="notes">
+      <h2>Notes</h2>
+      <p>Notes are Markdown files: <strong>File → New Note</strong>, <strong>Today's Note</strong> (<kbd>⌥⌘T</kbd>) for a dated page, or <strong>Quick Note</strong> (<kbd>⌥⌘N</kbd>) to jot a line into <code>notes/Inbox.md</code> without leaving what you're doing. Maths, headings, checkboxes and images show as they will look; the line you are on shows its Markdown.</p>
+      <div class="table-wrap">
+        <table class="keys">
+          <caption><span class="label">Table 1:</span> Typing maths in a note.</caption>
+          <thead><tr><th>Type</th><th>Get</th><th>Type</th><th>Get</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>$</kbd></td><td>a formula, <code>$…$</code></td><td><kbd>$</kbd><kbd>$</kbd></td><td>a displayed one, <code>$$…$$</code></td></tr>
+            <tr><td><kbd>//</kbd></td><td>a fraction</td><td><kbd>Tab</kbd></td><td>the next blank, then out</td></tr>
+            <tr><td><kbd>;a</kbd> <kbd>;b</kbd> <kbd>;g</kbd></td><td>α β γ (<kbd>;G</kbd> is Γ)</td><td><kbd>-&gt;</kbd> <kbd>=&gt;</kbd></td><td>→ ⟹</td></tr>
+            <tr><td><kbd>&lt;=</kbd> <kbd>&gt;=</kbd> <kbd>!=</kbd></td><td>≤ ≥ ≠</td><td><kbd>~=</kbd> <kbd>**</kbd> <kbd>...</kbd></td><td>≈ · …</td></tr>
+            <tr><td><kbd>RR</kbd> <kbd>NN</kbd> <kbd>ZZ</kbd></td><td>ℝ ℕ ℤ (also QQ, CC)</td><td><kbd>\</kbd></td><td>commands and templates</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <dl class="tech-list single">
+        <div><dt>Links and tags.</dt><dd><code>[[Lecture 2]]</code> links to another note, <kbd>⌘</kbd>-click to follow; <code>@kingma2015</code> is a citation; <code>#exam</code> is a tag. The Notes panel searches the text of every note, filters by tag, and shows which notes link to the open one.</dd></div>
+        <div><dt>Definitions and theorems.</dt><dd>A line starting <strong>Definition</strong>, <strong>Theorem</strong>, <strong>Lemma</strong>, <strong>Proposition</strong>, <strong>Corollary</strong> or <strong>Example</strong> (bold, or as a heading) is listed in the Notes panel, for revision.</dd></div>
+        <div><dt>Revision cards.</dt><dd>A line starting <code>Q:</code> with the answer on the next line starting <code>A:</code> is a card. <strong>Review</strong> asks the ones that are due; Again, Hard, Good and Easy (keys 1 to 4) decide when each comes back. <strong>File → Export Cards for Anki</strong> writes a file Anki imports.</dd></div>
+        <div><dt>Pictures, sketches and code.</dt><dd>Paste a screenshot or a photo with <kbd>⌘V</kbd>; draw with <strong>Insert Sketch</strong> (<kbd>⌥⌘D</kbd>), and double-click a sketch to draw on it again. Fenced code is highlighted in its language.</dd></div>
+        <div><dt>Into LaTeX.</dt><dd><strong>Export Note as PDF</strong> typesets the note; <strong>Edit → Copy Note as LaTeX</strong> copies it, or the selection, ready to paste into a paper.</dd></div>
+      </dl>
+    </section>
+
+    <section id="references">
+      <h2>References and reading</h2>
+      <p>The References panel lists the entries of your <code>.bib</code> files. Add one by its DOI or arXiv number with <kbd>⇧⌘C</kbd>, or from Zotero: with Zotero&nbsp;7 open and <em>Allow other applications on this computer to communicate with Zotero</em> turned on in its Advanced settings, <code>\cite{</code> completes from your library and adds the entry it needs.</p>
+      <p>Each reference can have a PDF, <code>papers/&lt;key&gt;.pdf</code>, and a note, <code>notes/&lt;key&gt;.md</code>. Read the PDF in Scribe, select a sentence and press <strong>Highlight</strong>: the quote goes into the note under <em>Highlights</em>, with a link that opens the PDF at its page.</p>
+    </section>
+
+    <section id="keys">
+      <h2>Keyboard shortcuts</h2>
+      <div class="table-wrap">
+        <table class="keys">
+          <caption><span class="label">Table 2:</span> Every shortcut.</caption>
+          <thead><tr><th>Keys</th><th>Does</th><th>Keys</th><th>Does</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>⌘↵</kbd></td><td>Compile</td><td><kbd>⇧⌘↵</kbd></td><td>Run the notebooks</td></tr>
+            <tr><td><kbd>⇧↵</kbd></td><td>Run a cell</td><td><kbd>⌘R</kbd></td><td>Run a Python file</td></tr>
+            <tr><td><kbd>⇧⌘J</kbd></td><td>Show in PDF</td><td><kbd>⇧⌘G</kbd></td><td>Find in the PDF</td></tr>
+            <tr><td><kbd>⇧⌘P</kbd></td><td>Command palette</td><td><kbd>⌘P</kbd></td><td>Go to a file</td></tr>
+            <tr><td><kbd>⌘F</kbd></td><td>Find</td><td><kbd>⇧⌘F</kbd></td><td>Search the project</td></tr>
+            <tr><td><kbd>⌘S</kbd></td><td>Save</td><td><kbd>⌘W</kbd></td><td>Close the tab</td></tr>
+            <tr><td><kbd>⌘/</kbd></td><td>Comment a line</td><td><kbd>⇧⌘C</kbd></td><td>Add a reference by DOI or arXiv ID</td></tr>
+            <tr><td><kbd>⌥⌘N</kbd></td><td>Quick note</td><td><kbd>⌥⌘T</kbd></td><td>Today's note</td></tr>
+            <tr><td><kbd>⌥⌘D</kbd></td><td>Insert a sketch</td><td><kbd>⌘B</kbd></td><td>Show or hide the sidebar</td></tr>
+            <tr><td><kbd>⌘J</kbd></td><td>Show or hide the log</td><td><kbd>⌘O</kbd></td><td>Open a project</td></tr>
+            <tr><td><kbd>⌘=</kbd></td><td>Zoom in</td><td><kbd>⌘−</kbd></td><td>Zoom out</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <p>© 2026 Georgios Kiritsis · <a href="index.html">Back to Scribe</a> · <a href="changelog.html">Changelog</a></p>
+  </footer>
+</body>
+</html>

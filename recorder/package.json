@@ -9,6 +9,7 @@
     "shots": "node shots.mjs"
   },
   "devDependencies": {
+    "esbuild": "^0.28.2",
     "ffmpeg-static": "^5.3.0",
     "katex": "^0.16.47",
     "lenis": "^1.3.27",
