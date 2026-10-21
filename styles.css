@@ -249,12 +249,9 @@ section[id], .appendix, #download { scroll-margin-top: calc(var(--bar-h) + 1.5re
 .packages .tex-arg { padding-bottom: 2px; border-bottom: 1.5px solid transparent; transition: color 150ms ease, border-color 150ms ease; }
 .packages .tex-arg:hover { color: var(--ink); border-bottom-color: var(--gutter); }
 .packages .tex-arg[aria-current="true"] { color: var(--syn-math); border-bottom-color: var(--syn-math); }
-/* \download{macOS} is the one filled box, like \colorbox */
-.download-cmd { padding: 0.5rem 0.8rem; color: var(--button-fg) !important; background: var(--button-bg); transition: background 150ms ease; }
-.download-cmd .tex-cmd { color: var(--button-cmd); }
-.download-cmd .tex-brace { color: var(--button-brace); }
-.download-cmd .tex-arg { color: var(--button-fg); }
-.download-cmd:hover { background: var(--button-hover); }
+/* \download{macOS} is the one framed box, like \fbox */
+.download-cmd { padding: 0.5rem 0.8rem; border: 1px solid var(--hairline); transition: border-color 150ms ease; }
+.download-cmd:hover { border-color: var(--gutter); }
 .hero-stage { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 0; }
 .source { display: flex; flex-direction: column; min-height: 0; background: var(--code-bg); border-right: 1px solid var(--hairline); }
 .source-tab { padding: 0.5rem 1.6rem; font: 13px var(--mono); color: var(--ink-soft); border-bottom: 1px solid var(--hairline); }
