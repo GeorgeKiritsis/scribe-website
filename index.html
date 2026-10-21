@@ -8,28 +8,36 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
   <link rel="preload" href="assets/fonts/LM-regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="styles.css" />
+  <!-- the colour chosen in the menu, applied before the page paints so it doesn't flash -->
+  <script>try { const t = localStorage.getItem("scribe.theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
   <script src="assets/vendor/lenis.min.js" defer></script>
   <script src="main.js" defer></script>
   <script src="motion.js" defer></script>
+  <script src="interactive.js" defer></script>
 </head>
 <body>
   <!-- the menu, written as the first lines of a LaTeX file -->
   <nav class="topbar" aria-label="Scribe">
-    <a class="brand" href="#top" aria-label="Scribe, back to the top"><span><span class="tex-cmd">\documentclass</span><span class="tex-brace">{</span><span class="tex-arg">scribe</span><span class="tex-brace">}</span></span></a>
+    <a class="brand" href="#top" aria-label="Scribe, back to the top"><span><span class="tex-cmd brand-cmd">\documentclass</span><span class="tex-brace brand-brace">{</span><span class="tex-arg">scribe</span><span class="tex-brace brand-brace">}</span></span></a>
     <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="#tables">tables</a><span class="tex-comma">,</span> <a class="tex-arg" href="#internals">internals</a><span class="tex-brace">}</span></span>
     <span class="tex-comment">% offline, and free for everyone, forever</span>
+    <a class="babel" href="el/" hreflang="el" lang="el" title="Ελληνικά"><span class="tex-cmd">\usepackage</span><span class="tex-brace">[</span><span class="tex-arg">greek</span><span class="tex-brace">]</span><span class="babel-pkg"><span class="tex-brace">{</span><span class="tex-arg">babel</span><span class="tex-brace">}</span></span></a>
+    <button class="pagecolor" type="button" aria-label="Dark or light page"><span class="tex-cmd">\pagecolor</span><span class="pagecolor-arg"><span class="tex-brace">{</span><span class="tex-arg pagecolor-name">white</span><span class="tex-brace">}</span></span></button>
     <a class="download-cmd" href="#download"><span class="tex-cmd">\download</span></a>
   </nav>
 
   <header class="hero" id="top">
     <h1 class="visually-hidden">Scribe: papers that run their own figures. An offline LaTeX and Python editor.</h1>
-    <div class="hero-stage" aria-hidden="true">
-      <div class="source">
-        <div class="source-tab">main.tex</div>
-        <pre id="typewriter" class="typewriter"></pre>
-      </div>
-      <div class="desk">
-        <div class="sheet"><div id="sheet" class="sheet-body"></div></div>
+    <div class="hero-window">
+      <div class="window-bar" aria-hidden="true"><span></span><span></span><span></span><b class="window-title">Scribe</b></div>
+      <div class="hero-stage">
+        <div class="source">
+          <div class="source-tab">main.tex</div>
+          <pre id="typewriter" class="typewriter" aria-hidden="true"></pre>
+        </div>
+        <div class="desk" aria-hidden="true">
+          <div class="sheet"><div id="sheet" class="sheet-body"></div></div>
+        </div>
       </div>
     </div>
     <a class="hero-more" href="#abstract-title">LaTeX on the left becomes the page on the right, as it is written. What Scribe does <span class="arrow" aria-hidden="true">↓</span></a>
@@ -38,17 +46,17 @@
   <main class="article">
     <section class="abstract" aria-labelledby="abstract-title">
       <h2 id="abstract-title">Abstract</h2>
-      <p>Scribe is an offline editor for LaTeX and Python, for whatever you are writing: a paper, a thesis, notes for a course, a lab report or a talk. Run the notebook and its figures and numbers land in the PDF, already up to date. It takes notes with mathematics during a lecture, reads and highlights the papers you cite, and checks your work before you hand it in. It runs on your own computer, with or without an internet connection, and it costs nothing.</p>
+      <p>Scribe is an offline editor for LaTeX and Python, for whatever you are writing: a paper, a thesis, notes for a course, a lab report or a talk. Run the notebook and its figures and numbers land in the PDF, already up to date. It takes notes with mathematics during a lecture, reads and highlights the papers you cite, and checks your work before you hand it in. It runs on your own computer, with or without an internet connection, and it costs nothing.<span class="sidenote-ref" aria-hidden="true">1</span><span class="sidenote" role="note"><span class="sidenote-num">1</span> No paid tier, no trial, and no account to make.</span></p>
     </section>
 
     <aside class="theorem" aria-label="The price">
       <p class="statement"><span class="label">Theorem 1</span> <span class="note">(Price).</span> <em>Scribe is free for everyone, forever.</em></p>
-      <p class="proof"><span class="label">Proof.</span> There is nothing to buy: no account, no subscription, no plan with more compile time or more collaborators. Everything runs on your own computer, so nobody pays to keep a server running.<span class="qed" aria-hidden="true">∎</span></p>
+      <p class="proof"><span class="label">Proof.</span> There is nothing to buy: no account, no subscription, no plan with more compile time or more collaborators. Everything runs on your own computer, so nobody pays to keep a server running.<span class="sidenote-ref" aria-hidden="true">2</span><span class="sidenote" role="note"><span class="sidenote-num">2</span> The ∎ that ends a proof is the “tombstone”, brought into mathematics by Paul Halmos.</span><span class="qed" aria-hidden="true">∎</span></p>
     </aside>
 
     <section>
       <h2>Introduction</h2>
-      <p>Scientific writing is rarely just text. A thesis chapter, a paper or a report has figures that come out of a script and numbers that come out of an experiment, and the two drift apart the moment one of them changes. Scribe keeps them together: the notebook and the document live in one project, and a compile brings every figure and every number up to date.</p>
+      <p>Scientific writing is rarely just text. A thesis chapter, a paper or a report has figures that come out of a script and numbers that come out of an experiment, and the two drift apart the moment one of them changes. Scribe keeps them together: the notebook and the document live in one project, and a compile brings every figure and every number up to date.<span class="sidenote-ref" aria-hidden="true">3</span><span class="sidenote" role="note"><span class="sidenote-num">3</span> Only notebooks that changed since they last ran are run again; everything else is reused, so a compile stays quick.</span></p>
       <p>Everything happens on your computer. There is no account, no upload and no compile queue, and it works the same on a train with no signal. Start from a template for an article, a thesis, an IEEE or ACM paper, slides or lecture notes, or bring a project over from Overleaf.</p>
       <p>The sections below show what that looks like, recorded from the app itself.</p>
     </section>
@@ -73,6 +81,30 @@
         <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/notes.jpg" data-demo="notes"></video></div>
         <figcaption><span class="label">Figure 2:</span> Typing a limit during a lecture. Each formula is typeset as soon as the cursor leaves it.</figcaption>
       </figure>
+    </section>
+
+    <section id="try" class="playground">
+      <h2>Try it</h2>
+      <p>The note on the left takes the same shortcuts as Scribe's notes. Type <kbd>$</kbd> for a formula and <kbd>$</kbd> again straight away for a displayed one; inside a formula, <kbd>//</kbd> makes a fraction, <kbd>;a</kbd> an α, <kbd>-&gt;</kbd> an arrow, and <kbd>Tab</kbd> moves on to the next blank and out.</p>
+      <div class="pg">
+        <div class="pg-pane">
+          <div class="pg-tab">Lecture 3.md</div>
+          <textarea class="pg-input" spellcheck="false" aria-label="A note to type in" wrap="soft"># Lecture 3: Derivatives
+
+The derivative of $f$ at $x$ is
+
+$$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
+
+- For every $\varepsilon > 0$ there is a $\delta > 0$.
+- **Your turn:** type below.
+
+</textarea>
+        </div>
+        <div class="pg-pane">
+          <div class="pg-tab">As Scribe shows it</div>
+          <div class="pg-output" aria-live="polite"></div>
+        </div>
+      </div>
     </section>
 
     <section id="papers" class="feature">
@@ -121,7 +153,7 @@
 
     <section>
       <h2>Everything else</h2>
-      <p>The rest of Scribe, briefly, in Table 1.</p>
+      <p>The rest of Scribe, briefly, in Table 1.<span class="sidenote-ref" aria-hidden="true">4</span><span class="sidenote" role="note"><span class="sidenote-num">4</span> Tables here are set the way the booktabs package sets them: three horizontal rules and no vertical ones.</span></p>
       <div class="table-wrap">
         <table>
           <caption><span class="label">Table 1:</span> Further features.</caption>
@@ -144,6 +176,28 @@
       </div>
     </section>
 
+    <section id="compared">
+      <h2>Compared with Overleaf</h2>
+      <p>Overleaf is very good at what it is for: writing together, in a browser, from anywhere. Scribe is for writing on your own computer, with your code next to your text and nothing in between. Table 2 puts them side by side, with Overleaf's free plan as it stood in October 2026.</p>
+      <div class="table-wrap">
+        <table class="compare">
+          <caption><span class="label">Table 2:</span> Scribe and Overleaf's free plan. Overleaf's figures are from its <a href="https://www.overleaf.com/user/subscription/plans">plans page</a> and its <a href="https://www.overleaf.com/blog/changes-to-free-compile-timeout">note on compile times</a>.</caption>
+          <thead><tr><th></th><th>Scribe</th><th>Overleaf, free plan</th></tr></thead>
+          <tbody>
+            <tr><td>Price</td><td>Free, every feature</td><td>Free; paid plans from $98 a year (students) or $199 (Standard)</td></tr>
+            <tr><td>Time allowed per compile</td><td>No limit: it runs on your computer</td><td>10 seconds</td></tr>
+            <tr><td>Without an internet connection</td><td>Works</td><td>Doesn't: it runs in the browser</td></tr>
+            <tr><td>History</td><td>A version at every save, kept</td><td>The last 24 hours</td></tr>
+            <tr><td>Collaborators</td><td>Through git</td><td>One per project, editing live</td></tr>
+            <tr><td>Git</td><td>Built in</td><td>Paid plans</td></tr>
+            <tr><td>Python figures and numbers in the text</td><td>Yes</td><td>No</td></tr>
+            <tr><td>Notes with maths, revision cards</td><td>Yes</td><td>No</td></tr>
+            <tr><td>Nothing to install</td><td>No, it's an app</td><td>Yes</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <section id="internals" class="tech">
       <h2>Under the hood</h2>
       <p>Scribe is a native desktop app: a Rust core with a TypeScript interface, built on Tauri&nbsp;2. The whole app is about 13&nbsp;MB. Nothing runs on a server, and your work stays plain files in a folder you choose.</p>
@@ -158,6 +212,8 @@
         <div><dt>Git and a terminal.</dt><dd>Commit, push and diff from a panel, and a real terminal running your own shell on a pseudo-terminal.</dd></div>
         <div><dt>Offline and private.</dt><dd>Everything works without a connection. No account, no telemetry; the network is used only when you ask: looking up a DOI or arXiv ID, installing Tectonic, or fetching a TeX package for the first time.</dd></div>
       </dl>
+
+      <p class="remark"><span class="label">Remark 1.</span> On an Apple M5 Mac with TeX Live, the four-page example paper in these demos, with two figures, a table and a bibliography, compiles in 1.4 seconds from scratch and in half a second after an edit.</p>
 
       <figure class="listing">
         <figcaption><span class="label">Listing 1:</span> A notebook cell and the line of LaTeX that uses it.</figcaption>
@@ -174,7 +230,7 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
 
       <div class="table-wrap">
         <table class="keys">
-          <caption><span class="label">Table 2:</span> A few shortcuts.</caption>
+          <caption><span class="label">Table 3:</span> A few shortcuts.</caption>
           <thead><tr><th>Keys</th><th>Does</th><th>Keys</th><th>Does</th></tr></thead>
           <tbody>
             <tr><td><kbd>⌘↵</kbd></td><td>Compile</td><td><kbd>⇧⌘P</kbd></td><td>Every command, by name</td></tr>
@@ -183,6 +239,21 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
             <tr><td><kbd>⌥⌘N</kbd></td><td>Quick note</td><td><kbd>⌥⌘T</kbd></td><td>Today's note</td></tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <h2>Questions</h2>
+      <p>Set out the way Scribe sets revision cards.</p>
+      <div class="cards">
+        <div class="card"><p><span class="chip q">Q:</span> Is it really free? What's the catch?</p><p><span class="chip a">A:</span> There isn't one. Scribe runs on your computer, so it costs nothing to keep going, and it will stay free for everyone.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Does it work without internet?</p><p><span class="chip a">A:</span> Yes. Writing, compiling, notebooks and notes all work offline. Only looking up a reference by DOI, and fetching a TeX package the first time it's used, need a connection.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Do I need to install LaTeX first?</p><p><span class="chip a">A:</span> No. If none is found, one click installs Tectonic, about 20&nbsp;MB. If you already have TeX Live, Scribe uses it.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Do I need Python?</p><p><span class="chip a">A:</span> Only for notebooks. Papers, a thesis, notes and slides need nothing but LaTeX.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Can I bring my Overleaf projects?</p><p><span class="chip a">A:</span> Yes: open the zip from Overleaf's Download menu, or paste the project's git link.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Can I write with other people?</p><p><span class="chip a">A:</span> Through git, with commit, pull and push in a panel. There's no live co-editing; for that, Overleaf is the better tool.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Where do my files live?</p><p><span class="chip a">A:</span> In a folder you choose, as plain <code>.tex</code>, <code>.bib</code>, <code>.py</code> and <code>.md</code> files. Nothing is locked inside Scribe.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Which systems does it run on?</p><p><span class="chip a">A:</span> macOS today. Windows and Linux are coming; see <a href="#download">Getting Scribe</a>.</p></div>
       </div>
     </section>
 

@@ -165,7 +165,8 @@ function startTypewriter() {
       setTimeout(tick, 320);
     } else {
       el.innerHTML = numbered(highlightTex(typed.trimEnd()) + cursor);
-      setTimeout(() => { reset(); setTimeout(tick, 600); }, 9000);
+      // The page is written: from here on the source is the visitor's to edit (interactive.js).
+      dispatchEvent(new CustomEvent("scribe:typed", { detail: { source: typed.trimEnd() } }));
     }
   }
   reset();
@@ -242,6 +243,51 @@ for (const box of document.querySelectorAll(".platform[data-os]")) {
   soon.textContent = "Coming soon";
   button.replaceWith(soon);
 }
+// Section numbers, as \section would set them (the abstract and the appendix aren't numbered)
+document.querySelectorAll(".article > section:not(.abstract):not(.appendix) > h2, .article > section:not(.abstract):not(.appendix) > .feature-text > h2")
+  .forEach((h, i) => { h.dataset.n = String(i + 1); });
+
+// LaTeX and TeX in running text set as their logos (code, menus and the demos keep plain text)
+(() => {
+  const SKIP = "code, pre, kbd, .topbar, .typewriter, .sheet, .listing, title, script, style, video";
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: (n) => (/\b(?:La)?TeX\b/.test(n.data) && !n.parentElement.closest(SKIP) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT),
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  for (const node of nodes) {
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    for (const m of node.data.matchAll(/\b(La)?TeX\b/g)) {
+      frag.append(node.data.slice(last, m.index));
+      const logo = document.createElement("span");
+      logo.className = m[1] ? "latex" : "tex";
+      logo.setAttribute("aria-label", m[0]);
+      logo.innerHTML = m[1] ? 'L<span class="a" aria-hidden="true">a</span>T<span class="e" aria-hidden="true">e</span>X' : 'T<span class="e" aria-hidden="true">e</span>X';
+      frag.append(logo);
+      last = m.index + m[0].length;
+    }
+    frag.append(node.data.slice(last));
+    node.replaceWith(frag);
+  }
+})();
+
+// \pagecolor{white|black}: says the page's colour; a click turns it over and remembers it
+const pagecolor = document.querySelector(".pagecolor");
+if (pagecolor) {
+  const dark = () => document.documentElement.dataset.theme === "dark" ||
+    (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+  const show = () => { pagecolor.querySelector(".pagecolor-name").textContent = dark() ? "black" : "white"; };
+  pagecolor.addEventListener("click", () => {
+    const next = dark() ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem("scribe.theme", next); } catch {}
+    show();
+  });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", show);
+  show();
+}
+
 // the visitor's own platform comes first and is marked
 const os = /Mac/i.test(navigator.platform) ? "mac" : /Win/i.test(navigator.platform) ? "windows" : /Linux/i.test(navigator.platform) ? "linux" : null;
 document.querySelector(`.platform[data-os="${os}"]`)?.classList.add("yours");

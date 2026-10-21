@@ -6,6 +6,12 @@
 @font-face { font-family: "Latin Modern"; src: url("assets/fonts/LM-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
 @font-face { font-family: "Latin Modern"; src: url("assets/fonts/LM-bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: "Latin Modern"; src: url("assets/fonts/LM-bold-italic.woff2") format("woff2"); font-weight: 700; font-style: italic; font-display: swap; }
+/* Latin Modern has no Greek: Greek letters come from Computer Modern Unicode, the same design.
+   unicode-range means these files load only on a page with Greek on it. */
+@font-face { font-family: "Latin Modern"; src: url("assets/fonts/cmu-serif-500-roman.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0370-03FF, U+1F00-1FFF; }
+@font-face { font-family: "Latin Modern"; src: url("assets/fonts/cmu-serif-500-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; unicode-range: U+0370-03FF, U+1F00-1FFF; }
+@font-face { font-family: "Latin Modern"; src: url("assets/fonts/cmu-serif-700-roman.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; unicode-range: U+0370-03FF, U+1F00-1FFF; }
+@font-face { font-family: "Latin Modern"; src: url("assets/fonts/cmu-serif-700-italic.woff2") format("woff2"); font-weight: 700; font-style: italic; font-display: swap; unicode-range: U+0370-03FF, U+1F00-1FFF; }
 
 :root {
   --paper: #fffefb;
@@ -18,10 +24,94 @@
   --app-panel: #171716;
   --app-border: #2b2a28;
   --app-accent: #d4a556;
+  /* code: gruvbox light here, gruvbox dark in the dark theme */
+  --code-bg: #fcfbf8;
+  --code-fg: #3c3836;
+  --syn-cmd: #af3a03;
+  --syn-brace: #7c6f64;
+  --syn-cmt: #928374;
+  --syn-math: #076678;
+  --syn-num: #8f3f71;
+  --syn-str: #79740e;
+  --gutter: #bdae93;
+  --caret: #b5832c;
+  --desk: #efece5;          /* behind the page on the first screen */
+  --sheet-edge: #d9d4c8;
+  --dashed: #b8b2a6;
+  --button-bg: var(--ink);
+  --button-fg: var(--paper);
+  --button-hover: #3c3836;
+  --button-cmd: #fabd2f;
+  --button-brace: #a89984;
+  --window-bar: #ece9e3;
+  --window-edge: #cbc5b8;
+  color-scheme: light;
   --serif: "Latin Modern", "CMU Serif", "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --measure: 36rem;
   --wide: 76rem;
+}
+
+/* \pagecolor{black}: the system's dark mode, unless the visitor picked a colour in the menu */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #141312;
+    --ink: #ebe7de;
+    --ink-soft: #b5afa3;
+    --rule: #ebe7de;
+    --hairline: #34312c;
+    --link: #e3a072;
+    --code-bg: #1a1917;
+    --code-fg: #ebdbb2;
+    --syn-cmd: #fe8019;
+    --syn-brace: #a89984;
+    --syn-cmt: #928374;
+    --syn-math: #83a598;
+    --syn-num: #d3869b;
+    --syn-str: #b8bb26;
+    --gutter: #665c54;
+    --caret: #d4a556;
+    --desk: #0e0d0c;
+    --sheet-edge: #3a3732;
+    --dashed: #5a554d;
+    --button-bg: #ebe7de;
+    --button-fg: #141312;
+    --button-hover: #d5d0c5;
+    --button-cmd: #af3a03;
+    --button-brace: #7c6f64;
+    --window-bar: #1f1e1c;
+    --window-edge: #3a3732;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #141312;
+  --ink: #ebe7de;
+  --ink-soft: #b5afa3;
+  --rule: #ebe7de;
+  --hairline: #34312c;
+  --link: #e3a072;
+  --code-bg: #1a1917;
+  --code-fg: #ebdbb2;
+  --syn-cmd: #fe8019;
+  --syn-brace: #a89984;
+  --syn-cmt: #928374;
+  --syn-math: #83a598;
+  --syn-num: #d3869b;
+  --syn-str: #b8bb26;
+  --gutter: #665c54;
+  --caret: #d4a556;
+  --desk: #0e0d0c;
+  --sheet-edge: #3a3732;
+  --dashed: #5a554d;
+  --button-bg: #ebe7de;
+  --button-fg: #141312;
+  --button-hover: #d5d0c5;
+  --button-cmd: #af3a03;
+  --button-brace: #7c6f64;
+  --window-bar: #1f1e1c;
+  --window-edge: #3a3732;
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,7 +122,6 @@ body {
   font: 1.125rem/1.55 var(--serif);
   font-kerning: normal;
   font-variant-ligatures: common-ligatures;
-  counter-reset: section figure;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -69,9 +158,9 @@ code { font: 0.86em var(--mono); }
 .button {
   display: inline-block;
   padding: 0.5rem 1.15rem 0.55rem;
-  color: var(--paper);
-  background: var(--ink);
-  border: 1px solid var(--ink);
+  color: var(--button-fg);
+  background: var(--button-bg);
+  border: 1px solid var(--button-bg);
   font-size: 1.05rem;
   transition: background 150ms ease, color 150ms ease;
 }
@@ -80,20 +169,19 @@ code { font: 0.86em var(--mono); }
 
 /* ── sections, numbered like \section ── */
 section { margin-top: 3.2rem; }
-section h2 { counter-increment: section; margin-bottom: 0.8rem; font-size: 1.44rem; font-weight: 700; line-height: 1.25; }
-section h2::before { content: counter(section); display: inline-block; min-width: 2.1rem; }
+section h2 { margin-bottom: 0.8rem; font-size: 1.44rem; font-weight: 700; line-height: 1.25; }
+/* numbered by main.js (data-n): WebKit miscounts CSS counters once the first screen re-renders its page */
+section h2[data-n]::before { content: attr(data-n); display: inline-block; min-width: 2.1rem; }
 section > p, .feature-text > p { text-align: justify; hyphens: auto; }
 section > p + p, .feature-text > p + p { text-indent: 1.5em; }
 section.abstract > h2::before, section.appendix > h2::before { content: none; }
-section.abstract > h2 { counter-increment: none; }
-.appendix > h2 { counter-increment: none; }
 .appendix-label { display: inline-block; min-width: 2.1rem; }
 .appendix ol { margin: 0.4rem 0 0 1.6rem; }
 .appendix li + li { margin-top: 0.3rem; }
 .signature { margin-top: 0.8rem; text-align: right; font-style: italic; text-indent: 0 !important; }
 
 /* ── figures ── */
-figure { counter-increment: figure; margin: 1.8rem 0 0.4rem; }
+figure { margin: 1.8rem 0 0.4rem; }
 figcaption { max-width: var(--measure); margin: 0.75rem auto 0; font-size: 0.95rem; line-height: 1.45; text-align: center; }
 .label { font-weight: 700; }
 
@@ -124,7 +212,11 @@ figcaption { max-width: var(--measure); margin: 0.75rem auto 0; font-size: 0.95r
 
 /* ── the hero: the whole first screen. LaTeX typed on the left, the page it makes on the right ── */
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.hero { display: grid; grid-template-rows: minmax(0, 1fr) auto; height: calc(100vh - var(--bar-h)); height: calc(100svh - var(--bar-h)); min-height: 30rem; border-bottom: 1px solid var(--hairline); }
+.hero { display: grid; grid-template-rows: minmax(0, 1fr) auto; height: calc(100vh - var(--bar-h)); height: calc(100svh - var(--bar-h)); min-height: 30rem; padding: 1.4rem 1.6rem 0; border-bottom: 1px solid var(--hairline); }
+/* the first screen is an app window: a title bar with its three buttons, the editor and the page inside */
+.hero-window { display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--code-bg); border: 1px solid var(--window-edge); border-radius: 12px; transform-origin: 50% 0; }
+.hero-window .window-bar { position: relative; flex-shrink: 0; height: 34px; background: var(--window-bar); border-bottom: 1px solid var(--hairline); }
+.window-title { position: absolute; left: 50%; translate: -50% 0; font: 500 12.5px var(--mono); color: var(--ink-soft); white-space: nowrap; }
 
 /* ── the menu bar, written as LaTeX: \documentclass{scribe} \usepackage{…} % … \download{macOS} ── */
 :root { --bar-h: 3.1rem; }
@@ -140,29 +232,32 @@ section[id], .appendix, #download { scroll-margin-top: calc(var(--bar-h) + 1.5re
   padding: 0 1.6rem;
   font: 14.5px/1 var(--mono);
   white-space: nowrap;
-  color: #3c3836;
-  background: #fcfbf8;
+  color: var(--code-fg);
+  background: var(--code-bg);
   border-bottom: 1px solid var(--hairline);
 }
 .topbar a { color: inherit; }
 .topbar a:hover { text-decoration: none; }
-.tex-cmd { color: #af3a03; }
-.tex-brace, .tex-comma { color: #7c6f64; }
-.tex-comment { margin-left: auto; font-style: italic; color: #928374; }
+.tex-cmd { color: var(--syn-cmd); }
+.tex-brace, .tex-comma { color: var(--syn-brace); }
+.tex-comment { margin-left: auto; font-style: italic; color: var(--syn-cmt); }
 .brand { display: flex; align-items: center; gap: 0.7rem; }
+.pagecolor { padding: 0; font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+.babel .tex-arg, .pagecolor .tex-arg { border-bottom: 1.5px solid transparent; transition: border-color 150ms ease; }
+.babel:hover .tex-arg, .pagecolor:hover .tex-arg { border-bottom-color: var(--gutter); }
 .brand .tex-arg { font-weight: 600; color: var(--ink); }
 /* each package is a link to its section; the one being read is marked */
 .packages .tex-arg { padding-bottom: 2px; border-bottom: 1.5px solid transparent; transition: color 150ms ease, border-color 150ms ease; }
-.packages .tex-arg:hover { color: var(--ink); border-bottom-color: #bdae93; }
-.packages .tex-arg[aria-current="true"] { color: #076678; border-bottom-color: #076678; }
+.packages .tex-arg:hover { color: var(--ink); border-bottom-color: var(--gutter); }
+.packages .tex-arg[aria-current="true"] { color: var(--syn-math); border-bottom-color: var(--syn-math); }
 /* \download{macOS} is the one filled box, like \colorbox */
-.download-cmd { padding: 0.5rem 0.8rem; color: var(--paper) !important; background: var(--ink); transition: background 150ms ease; }
-.download-cmd .tex-cmd { color: #fabd2f; }
-.download-cmd .tex-brace { color: #a89984; }
-.download-cmd .tex-arg { color: var(--paper); }
-.download-cmd:hover { background: #3c3836; }
-.hero-stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 0; }
-.source { display: flex; flex-direction: column; min-height: 0; background: #fcfbf8; border-right: 1px solid var(--hairline); }
+.download-cmd { padding: 0.5rem 0.8rem; color: var(--button-fg) !important; background: var(--button-bg); transition: background 150ms ease; }
+.download-cmd .tex-cmd { color: var(--button-cmd); }
+.download-cmd .tex-brace { color: var(--button-brace); }
+.download-cmd .tex-arg { color: var(--button-fg); }
+.download-cmd:hover { background: var(--button-hover); }
+.hero-stage { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 0; }
+.source { display: flex; flex-direction: column; min-height: 0; background: var(--code-bg); border-right: 1px solid var(--hairline); }
 .source-tab { padding: 0.5rem 1.6rem; font: 13px var(--mono); color: var(--ink-soft); border-bottom: 1px solid var(--hairline); }
 .typewriter {
   flex: 1;
@@ -170,21 +265,21 @@ section[id], .appendix, #download { scroll-margin-top: calc(var(--bar-h) + 1.5re
   padding: 1.6rem 1.6rem 2rem 0.4rem;
   overflow: hidden;
   font: clamp(13px, 1.05vw, 16px)/1.75 var(--mono);
-  color: #3c3836;
+  color: var(--code-fg);
   white-space: pre;
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 40px);
   mask-image: linear-gradient(to bottom, transparent 0, #000 40px);
 }
-.typewriter .ln { display: inline-block; width: 3.4em; padding-right: 1.4em; text-align: right; color: #bdae93; user-select: none; }
+.typewriter .ln { display: inline-block; width: 3.4em; padding-right: 1.4em; text-align: right; color: var(--gutter); user-select: none; }
 /* gruvbox light, as in the app's light theme */
-.typewriter .tw-cmd { color: #af3a03; }
-.typewriter .tw-num { color: #8f3f71; }
-.typewriter .tw-cmt { color: #928374; font-style: italic; }
-.typewriter .tw-math { color: #076678; }
-.typewriter .tw-cursor { display: inline-block; width: 2px; height: 1.2em; margin-left: 1px; background: #b5832c; vertical-align: text-bottom; animation: blink 1.1s step-end infinite; }
+.typewriter .tw-cmd { color: var(--syn-cmd); }
+.typewriter .tw-num { color: var(--syn-num); }
+.typewriter .tw-cmt { color: var(--syn-cmt); font-style: italic; }
+.typewriter .tw-math { color: var(--syn-math); }
+.typewriter .tw-cursor { display: inline-block; width: 2px; height: 1.2em; margin-left: 1px; background: var(--caret); vertical-align: text-bottom; animation: blink 1.1s step-end infinite; }
 @keyframes blink { 50% { opacity: 0; } }
-.desk { display: grid; place-items: center; min-height: 0; padding: 2rem; background: #efece5; }
-.hero-more { padding: 0.65rem 1.6rem; font-size: 0.95rem; text-align: center; color: var(--ink-soft); border-top: 1px solid var(--hairline); }
+.desk { display: grid; place-items: center; min-height: 0; padding: 2rem; background: var(--desk); }
+.hero-more { padding: 0.8rem 1.6rem; font-size: 0.95rem; text-align: center; color: var(--ink-soft); }
 
 .sheet {
   container-type: size;
@@ -194,7 +289,7 @@ section[id], .appendix, #download { scroll-margin-top: calc(var(--bar-h) + 1.5re
   max-width: 100%;
   overflow: hidden;
   background: #fff;
-  border: 1px solid #d9d4c8;
+  border: 1px solid var(--sheet-edge);
 }
 .sheet-body { padding: 9cqh 11cqw 0; font: 1.62cqh/1.5 var(--serif); color: #26231f; }
 .sheet-body .pending { visibility: hidden; }
@@ -208,7 +303,7 @@ section[id], .appendix, #download { scroll-margin-top: calc(var(--bar-h) + 1.5re
 .sheet-body code { font: 0.9em var(--mono); }
 .sheet-body .paper-eq { margin-top: 1.2cqh; text-align: center; font-size: 1.8cqh; }
 .sheet-body .paper-eq sup { font-size: 0.7em; }
-.sheet-body figure { counter-increment: none; margin: 1.6cqh 0 0; text-align: center; }
+.sheet-body figure { margin: 1.6cqh 0 0; text-align: center; }
 .sheet-body figure svg { display: block; width: 68%; margin: 0 auto; }
 .sheet-body figure .axis { stroke: #26231f; stroke-width: 0.8; opacity: 0; transition: opacity 300ms ease-out; }
 .sheet-body figure .zero { stroke: #b9b4aa; stroke-width: 0.6; stroke-dasharray: 2 2; opacity: 0; transition: opacity 300ms ease-out; }
@@ -252,14 +347,14 @@ section[id], .appendix, #download { scroll-margin-top: calc(var(--bar-h) + 1.5re
 .tech-list dd { display: inline; margin: 0; }
 .listing { margin: 2.4rem 0 0; }
 .listing figcaption { margin: 0 0 0.6rem; text-align: left; }
-.listing pre { padding: 1rem 1.2rem; overflow-x: auto; font: 0.86rem/1.65 var(--mono); color: #3c3836; background: #fcfbf8; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-.listing .c { color: #928374; font-style: italic; }
-.listing .s { color: #79740e; }
-.listing .n { color: #8f3f71; }
-.listing .k { color: #af3a03; }
+.listing pre { padding: 1rem 1.2rem; overflow-x: auto; font: 0.86rem/1.65 var(--mono); color: var(--code-fg); background: var(--code-bg); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.listing .c { color: var(--syn-cmt); font-style: italic; }
+.listing .s { color: var(--syn-str); }
+.listing .n { color: var(--syn-num); }
+.listing .k { color: var(--syn-cmd); }
 .keys { margin-top: 2rem; }
 .keys td:nth-child(odd) { width: 7rem; }
-kbd { font: 0.85em var(--mono); padding: 0.05em 0.35em; border: 1px solid var(--hairline); border-radius: 3px; background: #fcfbf8; }
+kbd { font: 0.85em var(--mono); padding: 0.05em 0.35em; border: 1px solid var(--hairline); border-radius: 3px; background: var(--code-bg); }
 
 /* ── Appendix A: one box per platform, framed like \fbox ── */
 .article > section.appendix { grid-column: wide; display: block; }
@@ -271,9 +366,92 @@ kbd { font: 0.85em var(--mono); padding: 0.05em 0.35em; border: 1px solid var(--
 .platform.yours h3::after { content: " · yours"; font-weight: 400; font-style: italic; font-size: 0.85em; color: var(--ink-soft); }
 .platform p { flex: 1; font-size: 0.97rem; line-height: 1.45; }
 .platform .button { align-self: flex-start; }
-.button.soon { color: var(--ink-soft); background: transparent; border: 1px dashed #b8b2a6; cursor: default; }
+.button.soon { color: var(--ink-soft); background: transparent; border: 1px dashed var(--dashed); cursor: default; }
 .button.soon:hover { color: var(--ink-soft); }
 .appendix .download-note { margin-top: 1.2rem; }
+
+/* ── the first screen's editor, once it is the visitor's: a transparent textarea over the
+   highlighted source, which shows through it ── */
+.source { position: relative; }
+.source-edit {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.6rem 1.6rem 2rem calc(0.4rem + 3.4em);
+  font: clamp(13px, 1.05vw, 16px)/1.75 var(--mono);
+  white-space: pre;
+  color: transparent;
+  caret-color: var(--caret);
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: auto;
+}
+.source-edit::selection { color: transparent; background: color-mix(in srgb, var(--caret) 30%, transparent); }
+.source-edit:focus-visible { outline: none; box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--caret) 45%, transparent); }
+.source.live .typewriter { -webkit-mask-image: none; mask-image: none; }
+.source-hint { color: var(--caret); font-style: italic; }
+
+/* ── Try it: a note and how Scribe shows it ── */
+.article > section.playground { grid-column: wide; display: block; }
+.playground > p { max-width: var(--measure); }
+.pg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 1.4rem; border: 1px solid var(--hairline); }
+.pg-pane { display: flex; flex-direction: column; min-width: 0; }
+.pg-pane + .pg-pane { border-left: 1px solid var(--hairline); }
+.pg-tab { padding: 0.45rem 1rem; font: 13px var(--mono); color: var(--ink-soft); background: var(--code-bg); border-bottom: 1px solid var(--hairline); }
+.pg-input {
+  flex: 1;
+  min-height: 22rem;
+  padding: 1rem 1.1rem;
+  font: 14.5px/1.7 var(--mono);
+  color: var(--code-fg);
+  background: var(--code-bg);
+  caret-color: var(--caret);
+  border: none;
+  outline: none;
+  resize: vertical;
+}
+.pg-input:focus-visible { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--caret) 45%, transparent); }
+.pg-output { flex: 1; padding: 1rem 1.4rem 1.4rem; overflow-x: auto; font-size: 1.05rem; line-height: 1.6; }
+.pg-output h3 { font-size: 1.35rem; margin: 0.2rem 0 0.6rem; }
+.pg-output h4, .pg-output h5 { font-size: 1.1rem; margin: 0.8rem 0 0.4rem; }
+.pg-output p + p, .pg-output ul + p { margin-top: 0.6rem; }
+.pg-output ul { margin: 0.5rem 0 0.5rem 1.3rem; }
+.pg-display { margin: 0.8rem 0; overflow-x: auto; }
+
+/* ── margin notes: in the margin beside their line on a wide screen, under the paragraph otherwise ── */
+.sidenote-ref { font-size: 0.7em; vertical-align: 0.45em; line-height: 0; margin-left: 0.08em; color: var(--link); }
+.sidenote { display: block; margin: 0.5rem 0 0.2rem; font-size: 0.85rem; line-height: 1.4; text-align: left; text-indent: 0; color: var(--ink-soft); }
+.sidenote-num { font-size: 0.8em; vertical-align: 0.35em; color: var(--link); }
+@media (min-width: 1240px) {
+  section > p, .abstract > p, .theorem .proof { position: relative; }
+  .sidenote { position: absolute; left: calc(100% + 2.6rem); width: 13.5rem; margin: 0; }
+}
+
+/* ── Remark 1 ── */
+.remark { max-width: var(--measure); margin-top: 1.8rem; text-align: justify; }
+.remark .label { font-style: italic; font-weight: 700; margin-right: 0.3em; }
+
+/* ── Table 2, Scribe and Overleaf ── */
+.compare td:first-child { font-style: italic; }
+.compare td:nth-child(2) { font-weight: 700; }
+
+/* ── Questions, as revision cards ── */
+.article > section.faq { grid-column: wide; display: block; }
+.faq > p { max-width: var(--measure); }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem 2.6rem; margin-top: 1.4rem; }
+.card { padding: 1rem 0 0.2rem; border-top: 1px solid var(--hairline); }
+.card p + p { margin-top: 0.45rem; color: var(--ink-soft); }
+.chip { display: inline-block; margin-right: 0.35rem; padding: 0.08rem 0.36rem 0.12rem; font: 700 0.72rem var(--mono); letter-spacing: 0.04em; vertical-align: 0.12em; border-radius: 3px; }
+.chip.q { color: var(--paper); background: var(--caret); }
+.chip.a { color: var(--ink); background: var(--hairline); }
+
+/* ── the LaTeX logo, set the way \LaTeX sets it ── */
+.latex, .tex { white-space: nowrap; }
+.latex .a { font-size: 0.72em; vertical-align: 0.24em; margin-left: -0.33em; margin-right: -0.14em; }
+.latex .e, .tex .e { vertical-align: -0.22em; margin-left: -0.14em; margin-right: -0.11em; text-transform: uppercase; }
 
 /* ── Table 1, booktabs: thick top and bottom rules, a thin one under the head, no verticals ── */
 .table-wrap { margin-top: 1.4rem; overflow-x: auto; }
@@ -292,17 +470,28 @@ tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
   .article > section.feature, .article > section.feature.flip { grid-column: text; grid-template-columns: minmax(0, 1fr); margin-top: 3.2rem; }
   .feature.flip .feature-text { order: 0; }
   .hero-stage { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1.1fr); }
+  .hero { padding: 0.8rem 0.8rem 0; }
+  .window-title { display: none; }
   .source { border-right: none; border-bottom: 1px solid var(--hairline); }
   .desk { padding: 1rem; }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1560px) {
   .tex-comment { display: none; }
-  .download-cmd { margin-left: auto; }
+  .babel { margin-left: auto; }
+}
+
+@media (max-width: 1240px) {
+  .packages { display: none; }
 }
 
 @media (max-width: 900px) {
   .platforms { grid-template-columns: minmax(0, 1fr); }
+  .pg { grid-template-columns: minmax(0, 1fr); }
+  .pg-pane + .pg-pane { border-left: none; border-top: 1px solid var(--hairline); }
+  .article > section.playground { grid-column: text; }
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  .article > section.faq { grid-column: text; }
   .article > section.appendix { grid-column: text; }
   .tech-list { grid-template-columns: minmax(0, 1fr); }
   .article > section.tech { grid-column: text; }
@@ -310,8 +499,9 @@ tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
 
 @media (max-width: 760px) {
   body { font-size: 1.06rem; }
-  .packages { display: none; }
-  .topbar { gap: 1rem; padding: 0 1rem; font-size: 13px; }
+  /* a phone shows scribe  [greek]  \pagecolor  \download */
+  .brand-cmd, .brand-brace, .babel .tex-cmd, .babel-pkg, .pagecolor-arg { display: none; }
+  .topbar { gap: 0.9rem; padding: 0 1rem; font-size: 13px; }
   .article { padding-top: 3rem; }
   .maketitle h1 { font-size: 2.7rem; }
   .subtitle { font-size: 1.3rem; }
@@ -377,14 +567,14 @@ html.lenis, html.lenis body { height: auto; }
 @keyframes from-right { from { opacity: 0; transform: translateX(36px); } }
 @keyframes fade { from { opacity: 0; } }
 .motion-full .topbar { animation: from-above 800ms var(--ease-out) backwards; }
-.motion-full .source { animation: from-left 1000ms var(--ease-out) 100ms backwards; }
-.motion-full .desk .sheet { animation: from-right 1100ms var(--ease-out) 220ms backwards; }
+@keyframes window-in { from { opacity: 0; transform: translateY(28px) scale(0.97); } }
+.motion-full .hero-window { animation: window-in 1100ms var(--ease-out) 80ms backwards; }
+.motion-full .desk .sheet { animation: from-right 1100ms var(--ease-out) 380ms backwards; }
 .motion-full .hero-more { animation: fade 900ms ease 900ms backwards; }
-.motion-reduced .hero-stage { animation: fade 700ms ease backwards; }
+.motion-reduced .hero-window { animation: fade 700ms ease backwards; }
 
 /* ...and as you scroll away from it, the editor and the page drift apart and step back */
-.motion-full .source { translate: calc(var(--out, 0) * -64px) 0; opacity: calc(1 - var(--out, 0) * 0.7); }
-.motion-full .desk .sheet { translate: calc(var(--out, 0) * 64px) calc(var(--out, 0) * 24px); scale: calc(1 - var(--out, 0) * 0.08); }
+.motion-full .hero-window { scale: calc(1 - var(--out, 0) * 0.07); opacity: calc(1 - var(--out, 0) * 0.55); }
 .motion-full .hero-more .arrow { display: inline-block; animation: nudge 2.4s ease-in-out 2s infinite; }
 @keyframes nudge { 0%, 70%, 100% { translate: 0 0; } 82% { translate: 0 4px; } }
 
