@@ -14,6 +14,7 @@ Before publishing, fill in `DOWNLOADS` at the top of `main.js` with each platfor
 
 ## What's where
 
+- `changelog.html`: what changed in Scribe, linked from the menu as `\include{changelog}`. Add new entries at the top.
 - `index.html`: the page, an article with numbered sections, captioned figures and a booktabs table.
 - `main.js`: Figure 1, the app's welcome animation ported from `papyrus/src/welcome.ts`. It also starts each demo when it scrolls into view and pauses it when it leaves; with Reduce Motion on, a demo waits for a click.
 - `assets/fonts`: Latin Modern (GUST Font License), from the latex.css package.

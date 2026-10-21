@@ -11,10 +11,10 @@
     katexLoading ??= new Promise((resolve, reject) => {
       const css = document.createElement("link");
       css.rel = "stylesheet";
-      css.href = "assets/vendor/katex/katex.min.css";
+      css.href = `${ROOT}assets/vendor/katex/katex.min.css`;
       document.head.appendChild(css);
       const js = document.createElement("script");
-      js.src = "assets/vendor/katex/katex.min.js";
+      js.src = `${ROOT}assets/vendor/katex/katex.min.js`;
       js.onload = () => resolve(window.katex);
       js.onerror = reject;
       document.head.appendChild(js);
@@ -27,7 +27,7 @@
     : `<code>${esc(src)}</code>`);
 
   // ---------- Scribe's maths shortcuts, for a textarea ----------
-  const GREEK = {
+  const LETTERS = {
     a: "alpha", b: "beta", g: "gamma", d: "delta", e: "varepsilon", z: "zeta", h: "eta", t: "theta", i: "iota",
     k: "kappa", l: "lambda", m: "mu", n: "nu", x: "xi", p: "pi", r: "rho", s: "sigma", u: "upsilon", f: "varphi",
     c: "chi", y: "psi", w: "omega", G: "Gamma", D: "Delta", T: "Theta", L: "Lambda", X: "Xi", P: "Pi", S: "Sigma",
@@ -37,7 +37,7 @@
     ["//", "\\frac{|}{}"], ["->", "\\to "], ["=>", "\\implies "], ["<=", "\\leq "], [">=", "\\geq "], ["!=", "\\neq "],
     ["~=", "\\approx "], ["**", "\\cdot "], ["...", "\\dots "], ["RR", "\\mathbb{R}"], ["NN", "\\mathbb{N}"],
     ["ZZ", "\\mathbb{Z}"], ["QQ", "\\mathbb{Q}"], ["CC", "\\mathbb{C}"],
-    ...Object.entries(GREEK).map(([k, v]) => [`;${k}`, `\\${v}`]),
+    ...Object.entries(LETTERS).map(([k, v]) => [`;${k}`, `\\${v}`]),
   ]);
   const LOOSE = /(?<!\\)\$\$([\s\S]*?)\$\$|(?<![\\$])\$((?:\\.|[^$\\\n])*?)\$/g;
 

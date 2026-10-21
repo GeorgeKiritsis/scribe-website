@@ -2,6 +2,9 @@
 // the left becomes the page on the right), and the recorded demos, which play while in view.
 "use strict";
 
+// The site's root, so assets load the same from any page.
+const ROOT = new URL(".", document.currentScript.src).href;
+
 // Where each platform's download is. A platform without a link yet says "Coming soon"
 // instead of offering a download that doesn't exist.
 const DOWNLOADS = {
@@ -185,7 +188,7 @@ function load(video) {
   const name = video.dataset.demo;
   for (const [ext, type] of [["webm", "video/webm"], ["mp4", "video/mp4"]]) {
     const source = document.createElement("source");
-    source.src = `assets/demos/${name}.${ext}`;
+    source.src = `${ROOT}assets/demos/${name}.${ext}`;
     source.type = type;
     video.appendChild(source);
   }

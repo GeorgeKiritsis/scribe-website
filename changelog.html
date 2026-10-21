@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Changelog · Scribe</title>
+  <meta name="description" content="What changed in Scribe, the free offline LaTeX and Python editor." />
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="preload" href="assets/fonts/LM-regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- the colour chosen in the menu, applied before the page paints so it doesn't flash -->
+  <script>try { const t = localStorage.getItem("scribe.theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
+  <script src="assets/vendor/lenis.min.js" defer></script>
+  <script src="main.js" defer></script>
+  <script src="motion.js" defer></script>
+</head>
+<body class="changelog-page">
+  <!-- the menu, written as the first lines of a LaTeX file -->
+  <nav class="topbar" aria-label="Scribe">
+    <a class="brand" href="index.html" aria-label="Scribe, back to the top"><span><span class="tex-cmd brand-cmd">\documentclass</span><span class="tex-brace brand-brace">{</span><span class="tex-arg">scribe</span><span class="tex-brace brand-brace">}</span></span></a>
+    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="index.html#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#tables">tables</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#internals">internals</a><span class="tex-brace">}</span></span>
+    <span class="tex-comment">% offline, and free for everyone, forever</span>
+    <a class="include" href="changelog.html" aria-current="page"><span class="tex-cmd">\include</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">changelog</span><span class="tex-brace">}</span></span></a>
+    <button class="pagecolor" type="button" aria-label="Dark or light page"><span class="tex-cmd">\pagecolor</span><span class="pagecolor-arg"><span class="tex-brace">{</span><span class="tex-arg pagecolor-name">white</span><span class="tex-brace">}</span></span></button>
+    <a class="download-cmd" href="index.html#download"><span class="tex-cmd">\download</span></a>
+  </nav>
+
+  <main class="article">
+    <header class="maketitle">
+      <h1>Changelog</h1>
+      <p class="subtitle">What changed in Scribe, newest first</p>
+    </header>
+
+    <section>
+      <h2>Version 0.1 <span class="release-note">not released yet</span></h2>
+      <p>Everything below is in the first version, which is being finished now. Release notes will start here once it's out.</p>
+
+      <div class="entry">
+        <h3>14 October 2026</h3>
+        <ul>
+          <li><strong>Notes with mathematics.</strong> Markdown notes where formulas render as you type, with shortcuts for maths, <code>[[links]]</code>, <code>#tags</code>, and every definition and theorem gathered in one list.</li>
+          <li><strong>Revision cards.</strong> <code>Q:</code> and <code>A:</code> lines in notes become cards, reviewed with spaced repetition, and exported to Anki.</li>
+          <li><strong>Reading papers.</strong> Attach a reference's PDF, highlight it, and the quote lands in your note on it with its page.</li>
+          <li><strong>Sketches</strong> drawn straight into a note, with pen pressure.</li>
+          <li><strong>Code in notes</strong>, highlighted in its language, with a copy button.</li>
+          <li><strong>Tables as a grid.</strong> Edit a <code>tabular</code> like a spreadsheet, or paste one in from a spreadsheet.</li>
+          <li><strong>Errors in plain words</strong>, and an option to compile as you type.</li>
+          <li><strong>Version history</strong> of every file, kept at each save, without git.</li>
+          <li><strong>Check before submitting</strong>: missing citations and labels, unreferenced figures, stale results, what arXiv would reject.</li>
+          <li><strong>Zotero</strong>: cite straight from your library.</li>
+          <li><strong>Install LaTeX</strong> from inside the app, and <strong>import</strong> projects from Overleaf or git.</li>
+          <li>Data files open as tables and a quick plot; notebooks can sit beside the paper.</li>
+          <li>Sessions are restored, and a project exports as one plain-LaTeX zip for a journal.</li>
+          <li>Scientific values with units and uncertainties, a live maths preview, symbols, references by DOI or arXiv ID.</li>
+          <li>Highlighted text in the PDF can be found in the source.</li>
+          <li>A short tour on first use, a new About window, and a copy of the PDF in one click.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <h3>13 October 2026</h3>
+        <ul>
+          <li>The first build: an editor for LaTeX and Python notebooks, compiling to a PDF beside the source.</li>
+          <li>Notebook figures and values flow into the paper with <code>\nbfig</code> and <code>\nbval</code>.</li>
+          <li>Tabs, a command palette, quick open, an outline, a git panel and a side pane.</li>
+          <li>Vim keys, relative line numbers, spell check, a word count and a status bar.</li>
+          <li>A real terminal, project templates, and its own icon.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <p>© 2026 Georgios Kiritsis · <a href="index.html">Back to Scribe</a></p>
+  </footer>
+</body>
+</html>
