@@ -83,6 +83,11 @@ function highlightTex(text) {
 }
 
 
+// The source with a line number before each line, like an editor's gutter.
+function numbered(html) {
+  return html.split("\n").map((line, i) => `<span class="ln">${i + 1}</span>${line}`).join("\n");
+}
+
 // Puts a block's rendered nodes on the page with their text reserved but hidden, and returns
 // a setter that shows the first `progress` (0-1) of it. Layout never shifts as words arrive.
 function mountPaperBlock(paper, html) {
@@ -139,7 +144,7 @@ function startTypewriter() {
   function tick() {
     const src = WELCOME_DOC[block].src;
     if (char <= src.length) {
-      el.innerHTML = highlightTex(typed + src.slice(0, char)) + cursor;
+      el.innerHTML = numbered(highlightTex(typed + src.slice(0, char)) + cursor);
       el.scrollTop = el.scrollHeight;
       setProgress(char / src.length);
       const pause = src[char - 1] === "\n" ? 110 : 14 + Math.random() * 22;
@@ -154,7 +159,7 @@ function startTypewriter() {
       setProgress = mountPaperBlock(paper, WELCOME_DOC[block].html);
       setTimeout(tick, 320);
     } else {
-      el.innerHTML = highlightTex(typed.trimEnd()) + cursor;
+      el.innerHTML = numbered(highlightTex(typed.trimEnd()) + cursor);
       setTimeout(() => { reset(); setTimeout(tick, 600); }, 9000);
     }
   }
