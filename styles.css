@@ -247,6 +247,80 @@ tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
   tbody td:first-child { white-space: normal; }
 }
 
+/* ────────────────────────────── motion ──────────────────────────────
+   motion.js adds .motion to <html> (plus .motion-full, or .motion-reduced when the visitor
+   asks for less movement) and marks what should appear. Without it, nothing here applies. */
+
+html:not(.lenis) { scroll-behavior: smooth; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-stopped { overflow: clip; }
+
+:root { --ease-out: cubic-bezier(.2, .7, .2, 1); --ease-spring: cubic-bezier(.34, 1.4, .64, 1); }
+
+/* things that appear as they scroll into view */
+.motion .reveal {
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out) var(--d, 0ms), translate 1000ms var(--ease-out) var(--d, 0ms);
+}
+.motion-full .reveal-rise { translate: 0 28px; }
+.motion-full .reveal-left { translate: -56px 0; }
+.motion-full .reveal-right { translate: 56px 0; }
+.motion .reveal.in { opacity: 1; translate: 0 0; }
+
+/* headings and the theorem arrive a word at a time: the block stays, its words rise and sharpen */
+.motion .reveal.split { opacity: 1; translate: none; }
+.motion .split .w {
+  display: inline-block;
+  opacity: 0;
+  transition:
+    opacity 650ms var(--ease-out) calc(var(--d, 0ms) + var(--i) * 55ms),
+    translate 800ms var(--ease-out) calc(var(--d, 0ms) + var(--i) * 55ms),
+    filter 700ms var(--ease-out) calc(var(--d, 0ms) + var(--i) * 55ms);
+}
+.motion-full .split .w { translate: 0 0.45em; filter: blur(6px); }
+.motion .split.in .w, .motion .in .split .w { opacity: 1; translate: 0 0; filter: none; }
+
+/* Theorem 1: the frame draws itself, then the words, the proof and the ∎ */
+.motion .theorem { position: relative; border-color: transparent; }
+.motion .theorem::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border: 1.5px solid var(--rule);
+  clip-path: inset(0 100% 100% 0);
+  transition: clip-path 1100ms cubic-bezier(.65, 0, .35, 1);
+  pointer-events: none;
+}
+.motion .theorem.reveal-frame { opacity: 1; }
+.motion .theorem.in::before { clip-path: inset(0 0 0 0); }
+.motion .theorem .qed { display: inline-block; opacity: 0; scale: 0.2; transition: opacity 300ms ease 2100ms, scale 600ms var(--ease-spring) 2100ms; }
+.motion .theorem.in .qed { opacity: 1; scale: 1; }
+
+/* the first screen arrives: the bar from above, the editor and the page from their sides */
+@keyframes from-above { from { opacity: 0; transform: translateY(-14px); } }
+@keyframes from-left { from { opacity: 0; transform: translateX(-36px); } }
+@keyframes from-right { from { opacity: 0; transform: translateX(36px); } }
+@keyframes fade { from { opacity: 0; } }
+.motion-full .topbar { animation: from-above 800ms var(--ease-out) backwards; }
+.motion-full .source { animation: from-left 1000ms var(--ease-out) 100ms backwards; }
+.motion-full .desk .sheet { animation: from-right 1100ms var(--ease-out) 220ms backwards; }
+.motion-full .hero-more { animation: fade 900ms ease 900ms backwards; }
+.motion-reduced .hero-stage { animation: fade 700ms ease backwards; }
+
+/* ...and as you scroll away from it, the editor and the page drift apart and step back */
+.motion-full .source { translate: calc(var(--out, 0) * -64px) 0; opacity: calc(1 - var(--out, 0) * 0.7); }
+.motion-full .desk .sheet { translate: calc(var(--out, 0) * 64px) calc(var(--out, 0) * 24px); scale: calc(1 - var(--out, 0) * 0.08); }
+.motion-full .hero-more .arrow { display: inline-block; animation: nudge 2.4s ease-in-out 2s infinite; }
+@keyframes nudge { 0%, 70%, 100% { translate: 0 0; } 82% { translate: 0 4px; } }
+
+/* a demo window rises and grows into place as it comes up the screen */
+.motion-full .demo .window {
+  transform-origin: 50% 100%;
+  translate: 0 calc((1 - var(--in, 1)) * 90px);
+  scale: calc(0.88 + var(--in, 1) * 0.12);
+  opacity: calc(0.15 + var(--in, 1) * 0.85);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .button { transition: none; }
   .typewriter .tw-cursor { animation: none; }

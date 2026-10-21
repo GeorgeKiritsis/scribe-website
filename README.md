@@ -38,3 +38,5 @@ node shots.mjs                    # screenshots, and a check that every demo loa
 - `record.mjs` scripts each scene at a human pace, with a camera that zooms and pans to follow the action and a drawn pointer.
 - `encode.mjs` trims each recording to its loop and writes MP4, WebM, a poster and a GIF.
 - To change a demo, edit its scene in `SCENES`, then record and encode that scene alone.
+
+- `motion.js`: smooth scrolling (Lenis, MIT, in `assets/vendor`), text that appears as it scrolls into view, the first screen drifting apart as you leave it, demo windows rising into place. With Reduce Motion on, only gentle fades remain. `recorder/motion-check.mjs` records a scroll through the page to check it.
