@@ -2,8 +2,13 @@
 // the left becomes the page on the right), and the recorded demos, which play while in view.
 "use strict";
 
-// Where the Download buttons go. Set this once the app has a public releases page.
-const DOWNLOAD_URL = "#get";
+// Where each platform's download is. A platform without a link yet says "Coming soon"
+// instead of offering a download that doesn't exist.
+const DOWNLOADS = {
+  mac: null,     // e.g. "https://github.com/…/releases/latest/download/Scribe.dmg"
+  windows: null,
+  linux: null,
+};
 
 // ---------- Figure 1: ported from papyrus/src/welcome.ts ----------
 const CURVE = Array.from({ length: 81 }, (_, i) => {
@@ -225,7 +230,21 @@ function setupDemos() {
   }
 }
 
-for (const a of document.querySelectorAll(".js-download")) a.href = DOWNLOAD_URL;
+for (const box of document.querySelectorAll(".platform[data-os]")) {
+  const url = DOWNLOADS[box.dataset.os];
+  const button = box.querySelector(".button");
+  if (url) {
+    button.href = url;
+    continue;
+  }
+  const soon = document.createElement("span");
+  soon.className = "button soon";
+  soon.textContent = "Coming soon";
+  button.replaceWith(soon);
+}
+// the visitor's own platform comes first and is marked
+const os = /Mac/i.test(navigator.platform) ? "mac" : /Win/i.test(navigator.platform) ? "windows" : /Linux/i.test(navigator.platform) ? "linux" : null;
+document.querySelector(`.platform[data-os="${os}"]`)?.classList.add("yours");
 // The typewriter plays under Reduce Motion too: text appearing in place is not the movement
 // that setting guards against, and it is the point of the figure (as in the app).
 startTypewriter();

@@ -18,7 +18,7 @@
     <a class="brand" href="#top" aria-label="Scribe, back to the top"><span><span class="tex-cmd">\documentclass</span><span class="tex-brace">{</span><span class="tex-arg">scribe</span><span class="tex-brace">}</span></span></a>
     <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="#tables">tables</a><span class="tex-comma">,</span> <a class="tex-arg" href="#internals">internals</a><span class="tex-brace">}</span></span>
     <span class="tex-comment">% offline, and free for everyone, forever</span>
-    <a class="download-cmd js-download" href="#get"><span class="tex-cmd">\download</span><span class="dl-os"><span class="tex-brace">{</span><span class="tex-arg">macOS</span><span class="tex-brace">}</span></span></a>
+    <a class="download-cmd" href="#download"><span class="tex-cmd">\download</span></a>
   </nav>
 
   <header class="hero" id="top">
@@ -192,17 +192,31 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
       <p class="signature">Georgios Kiritsis</p>
     </section>
 
-    <section class="appendix" id="get">
+    <section class="appendix" id="download">
       <h2><span class="appendix-label">A</span>Getting Scribe</h2>
+      <p>Scribe is free on every platform. Pick yours:</p>
+      <div class="platforms">
+        <div class="platform" data-os="mac">
+          <h3>macOS</h3>
+          <p>Apple silicon and Intel. A <code>.dmg</code>: open it and drag Scribe to Applications.</p>
+          <a class="button" href="#download">Download for macOS</a>
+        </div>
+        <div class="platform" data-os="windows">
+          <h3>Windows</h3>
+          <p>Windows 10 and 11. An installer that sets Scribe up for you.</p>
+          <a class="button" href="#download">Download for Windows</a>
+        </div>
+        <div class="platform" data-os="linux">
+          <h3>Linux</h3>
+          <p>An <code>.AppImage</code> that runs anywhere, and a <code>.deb</code> for Debian and Ubuntu.</p>
+          <a class="button" href="#download">Download for Linux</a>
+        </div>
+      </div>
       <ol>
-        <li>Download Scribe for macOS and drag it to Applications.</li>
-        <li>Open it and start a project, or import one from Overleaf.</li>
+        <li>Install Scribe, open it, and start a project from a template, or import one from Overleaf.</li>
         <li>If there is no LaTeX on your computer, press Install LaTeX. Python is only needed for notebooks.</li>
       </ol>
-      <p class="download">
-        <a class="button js-download" href="#get">Download for macOS</a>
-        <span class="download-note">Free for everyone, forever.</span>
-      </p>
+      <p class="download-note">Free for everyone, forever.</p>
     </section>
   </main>
 

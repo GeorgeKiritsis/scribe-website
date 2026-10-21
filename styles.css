@@ -128,7 +128,7 @@ figcaption { max-width: var(--measure); margin: 0.75rem auto 0; font-size: 0.95r
 
 /* ── the menu bar, written as LaTeX: \documentclass{scribe} \usepackage{…} % … \download{macOS} ── */
 :root { --bar-h: 3.1rem; }
-section[id], .appendix { scroll-margin-top: calc(var(--bar-h) + 1.5rem); }
+section[id], .appendix, #download { scroll-margin-top: calc(var(--bar-h) + 1.5rem); }
 .topbar {
   position: sticky;
   top: 0;
@@ -261,6 +261,20 @@ section[id], .appendix { scroll-margin-top: calc(var(--bar-h) + 1.5rem); }
 .keys td:nth-child(odd) { width: 7rem; }
 kbd { font: 0.85em var(--mono); padding: 0.05em 0.35em; border: 1px solid var(--hairline); border-radius: 3px; background: #fcfbf8; }
 
+/* ── Appendix A: one box per platform, framed like \fbox ── */
+.article > section.appendix { grid-column: wide; display: block; }
+.appendix > p, .appendix > ol { max-width: var(--measure); }
+.platforms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; margin: 1.6rem 0 1.8rem; }
+.platform { display: flex; flex-direction: column; gap: 0.6rem; padding: 1.3rem 1.4rem 1.4rem; border: 1px solid var(--hairline); }
+.platform.yours { border: 1.5px solid var(--rule); }
+.platform h3 { font-size: 1.25rem; font-weight: 700; }
+.platform.yours h3::after { content: " · yours"; font-weight: 400; font-style: italic; font-size: 0.85em; color: var(--ink-soft); }
+.platform p { flex: 1; font-size: 0.97rem; line-height: 1.45; }
+.platform .button { align-self: flex-start; }
+.button.soon { color: var(--ink-soft); background: transparent; border: 1px dashed #b8b2a6; cursor: default; }
+.button.soon:hover { color: var(--ink-soft); }
+.appendix .download-note { margin-top: 1.2rem; }
+
 /* ── Table 1, booktabs: thick top and bottom rules, a thin one under the head, no verticals ── */
 .table-wrap { margin-top: 1.4rem; overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 0.97rem; }
@@ -288,13 +302,15 @@ tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
 }
 
 @media (max-width: 900px) {
+  .platforms { grid-template-columns: minmax(0, 1fr); }
+  .article > section.appendix { grid-column: text; }
   .tech-list { grid-template-columns: minmax(0, 1fr); }
   .article > section.tech { grid-column: text; }
 }
 
 @media (max-width: 760px) {
   body { font-size: 1.06rem; }
-  .packages, .dl-os { display: none; }
+  .packages { display: none; }
   .topbar { gap: 1rem; padding: 0 1rem; font-size: 13px; }
   .article { padding-top: 3rem; }
   .maketitle h1 { font-size: 2.7rem; }

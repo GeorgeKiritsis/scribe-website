@@ -10,7 +10,7 @@ python3 -m http.server 8000     # then open http://localhost:8000
 
 No build step: `index.html`, `styles.css` and `main.js` are the whole site. Deploy the folder as it is, for example with GitHub Pages. The `recorder/` folder isn't needed on the server.
 
-Before publishing, set `DOWNLOAD_URL` at the top of `main.js` to the app's releases page.
+Before publishing, fill in `DOWNLOADS` at the top of `main.js` with each platform's download link. A platform without a link shows "Coming soon".
 
 ## What's where
 
