@@ -18,13 +18,13 @@ const WELCOME_DOC = [
 \\usepackage{scribe-figures}`,
   },
   {
-    src: `\\title{Scribe: LaTeX and Python,\\\\
-  Offline}
+    src: `\\title{Scribe: Papers That\\\\
+  Run Their Own Figures}
 \\author{You}
 
 \\begin{document}
 \\maketitle`,
-    html: `<h1>Scribe: LaTeX and Python,<br>Offline</h1><p class="paper-author">You</p>`,
+    html: `<h1>Scribe: Papers That<br>Run Their Own Figures</h1><p class="paper-author">You</p>`,
   },
   {
     src: `\\begin{abstract}
