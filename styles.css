@@ -150,7 +150,6 @@ section[id], .appendix { scroll-margin-top: calc(var(--bar-h) + 1.5rem); }
 .tex-brace, .tex-comma { color: #7c6f64; }
 .tex-comment { margin-left: auto; font-style: italic; color: #928374; }
 .brand { display: flex; align-items: center; gap: 0.7rem; }
-.brand img { border-radius: 5px; }
 .brand .tex-arg { font-weight: 600; color: var(--ink); }
 /* each package is a link to its section; the one being read is marked */
 .packages .tex-arg { padding-bottom: 2px; border-bottom: 1.5px solid transparent; transition: color 150ms ease, border-color 150ms ease; }

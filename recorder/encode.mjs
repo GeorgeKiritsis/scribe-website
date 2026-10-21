@@ -15,6 +15,10 @@ const raw = `${here}/raw`;
 const out = path.resolve(here, "../assets/demos");
 fs.mkdirSync(out, { recursive: true });
 
+// Demos play faster than they were recorded: the scenes are scripted at a human pace, which
+// is slow to watch.
+const SPEED = 1.5;
+
 // The poster is the frame this far into the loop: a moment where the feature is visible.
 const POSTER_AT = { notebook: 0.86, notes: 0.8, reader: 0.55, cards: 0.45, table: 0.62, errors: 0.55 };
 
@@ -32,12 +36,13 @@ for (const file of fs.readdirSync(raw).filter((f) => f.endsWith(".webm"))) {
   }
   const start = Math.max(0, marks.start - 0.15);
   const length = marks.end - start;
-  const fade = `fade=t=in:st=0:d=0.35,fade=t=out:st=${(length - 0.4).toFixed(2)}:d=0.4`;
+  const shown = length / SPEED;
+  const fade = `setpts=PTS/${SPEED},fade=t=in:st=0:d=0.3,fade=t=out:st=${(shown - 0.35).toFixed(2)}:d=0.35`;
   const input = ["-ss", start.toFixed(2), "-t", length.toFixed(2), "-i", `${raw}/${file}`];
 
   run([...input, "-vf", `${fade},format=yuv420p`, "-r", "30", "-c:v", "libx264", "-preset", "slow", "-crf", "27", "-movflags", "+faststart", "-an", `${out}/${name}.mp4`]);
   run([...input, "-vf", fade, "-r", "30", "-c:v", "libvpx-vp9", "-crf", "44", "-b:v", "0", "-row-mt", "1", "-deadline", "good", "-cpu-used", "2", "-an", `${out}/${name}.webm`]);
   run(["-ss", (start + length * (POSTER_AT[name] ?? 0.5)).toFixed(2), "-i", `${raw}/${file}`, "-frames:v", "1", "-vf", "scale=1280:-1:flags=lanczos", "-q:v", "6", `${out}/${name}.jpg`]);
-  run([...input, "-filter_complex", "fps=12,scale=800:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128[p];[b][p]paletteuse=dither=bayer:bayer_scale=4", `${out}/${name}.gif`]);
-  console.log(`${name}: ${length.toFixed(1)} s · mp4 ${kb(`${out}/${name}.mp4`)} · webm ${kb(`${out}/${name}.webm`)} · jpg ${kb(`${out}/${name}.jpg`)} · gif ${kb(`${out}/${name}.gif`)}`);
+  run([...input, "-filter_complex", `setpts=PTS/${SPEED},fps=12,scale=800:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128[p];[b][p]paletteuse=dither=bayer:bayer_scale=4`, `${out}/${name}.gif`]);
+  console.log(`${name}: ${shown.toFixed(1)} s · mp4 ${kb(`${out}/${name}.mp4`)} · webm ${kb(`${out}/${name}.webm`)} · jpg ${kb(`${out}/${name}.jpg`)} · gif ${kb(`${out}/${name}.gif`)}`);
 }
