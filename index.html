@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Scribe: papers that run their own figures</title>
-  <meta name="description" content="Scribe is a free desktop editor for LaTeX and Python. Write the paper, run the notebook, and the figures and numbers land in the PDF, already up to date." />
+  <title>Scribe: an offline LaTeX and Python editor</title>
+  <meta name="description" content="Scribe is a free, offline editor for LaTeX and Python, for papers, theses, lecture notes and reports. Run the notebook and its figures and numbers land in the PDF, already up to date." />
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
   <link rel="preload" href="assets/fonts/LM-regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="styles.css" />
@@ -16,13 +16,13 @@
   <!-- the menu, written as the first lines of a LaTeX file -->
   <nav class="topbar" aria-label="Scribe">
     <a class="brand" href="#top" aria-label="Scribe, back to the top"><span><span class="tex-cmd">\documentclass</span><span class="tex-brace">{</span><span class="tex-arg">scribe</span><span class="tex-brace">}</span></span></a>
-    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="#tables">tables</a><span class="tex-brace">}</span></span>
-    <span class="tex-comment">% free for everyone, forever</span>
+    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="#tables">tables</a><span class="tex-comma">,</span> <a class="tex-arg" href="#internals">internals</a><span class="tex-brace">}</span></span>
+    <span class="tex-comment">% offline, and free for everyone, forever</span>
     <a class="download-cmd js-download" href="#get"><span class="tex-cmd">\download</span><span class="dl-os"><span class="tex-brace">{</span><span class="tex-arg">macOS</span><span class="tex-brace">}</span></span></a>
   </nav>
 
   <header class="hero" id="top">
-    <h1 class="visually-hidden">Scribe: papers that run their own figures</h1>
+    <h1 class="visually-hidden">Scribe: an offline LaTeX and Python editor</h1>
     <div class="hero-stage" aria-hidden="true">
       <div class="source">
         <div class="source-tab">main.tex</div>
@@ -38,7 +38,7 @@
   <main class="article">
     <section class="abstract" aria-labelledby="abstract-title">
       <h2 id="abstract-title">Abstract</h2>
-      <p>Scribe is a desktop editor for LaTeX and Python. Write the paper, run the notebook, and the figures and numbers land in the PDF, already up to date. It takes notes with mathematics during a lecture, reads and highlights the papers you cite, and checks the paper before you submit it. It runs on your own computer, and it costs nothing.</p>
+      <p>Scribe is an offline editor for LaTeX and Python, for whatever you are writing: a paper, a thesis, notes for a course, a lab report or a talk. Run the notebook and its figures and numbers land in the PDF, already up to date. It takes notes with mathematics during a lecture, reads and highlights the papers you cite, and checks your work before you hand it in. It runs on your own computer, with or without an internet connection, and it costs nothing.</p>
     </section>
 
     <aside class="theorem" aria-label="The price">
@@ -48,14 +48,15 @@
 
     <section>
       <h2>Introduction</h2>
-      <p>A paper is rarely just text. Its figures come out of a script, its numbers out of an experiment, and the two drift apart the moment one of them changes. Scribe keeps them together: the notebook and the paper live in one project, and a compile brings every figure and every number up to date.</p>
+      <p>Scientific writing is rarely just text. A thesis chapter, a paper or a report has figures that come out of a script and numbers that come out of an experiment, and the two drift apart the moment one of them changes. Scribe keeps them together: the notebook and the document live in one project, and a compile brings every figure and every number up to date.</p>
+      <p>Everything happens on your computer. There is no account, no upload and no compile queue, and it works the same on a train with no signal. Start from a template for an article, a thesis, an IEEE or ACM paper, slides or lecture notes, or bring a project over from Overleaf.</p>
       <p>The sections below show what that looks like, recorded from the app itself.</p>
     </section>
 
     <section id="notebooks" class="feature">
       <div class="feature-text">
-        <h2>Notebooks feed the paper</h2>
-        <p>Figures are notebook cells marked <code>[figure: loss]</code>; numbers leave the notebook with <code>nbval("acc", 0.96, err=0.003)</code>. In the paper, <code>\nbfig{loss}</code> and <code>\nbval{acc}</code> bring them in, typeset with their uncertainty. Change the code, and the next compile reruns only what went stale.</p>
+        <h2>Notebooks feed the document</h2>
+        <p>Figures are notebook cells marked <code>[figure: loss]</code>; numbers leave the notebook with <code>nbval("acc", 0.96, err=0.003)</code>. In the LaTeX, <code>\nbfig{loss}</code> and <code>\nbval{acc}</code> bring them in, typeset with their uncertainty. Change the code, and the next compile reruns only what went stale.</p>
       </div>
       <figure class="demo">
         <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/notebook.jpg" data-demo="notebook"></video></div>
@@ -130,6 +131,7 @@
             <tr><td>Check before submitting</td><td>Missing citations and labels, unreferenced figures, stale results, what arXiv would reject.</td></tr>
             <tr><td>Zotero</td><td><code>\cite{</code> completes from your library and adds the entry to the bibliography.</td></tr>
             <tr><td>Import from Overleaf</td><td>Open a project from its zip download or git link.</td></tr>
+            <tr><td>Templates</td><td>An article with a notebook, a thesis, IEEE and ACM papers, slides, lecture notes.</td></tr>
             <tr><td>LaTeX in one click</td><td>No TeX installed? Scribe fetches Tectonic, about 20 MB.</td></tr>
             <tr><td>DOI and arXiv</td><td>Add a reference by its DOI or arXiv number.</td></tr>
             <tr><td>Sketches</td><td>Draw a diagram into a note, with pen pressure on a tablet.</td></tr>
@@ -137,6 +139,48 @@
             <tr><td>SyncTeX</td><td>Double-click the PDF to reach its source, or highlight text there to find it.</td></tr>
             <tr><td>Export for submission</td><td>One plain-LaTeX zip a journal can compile, with every value written in.</td></tr>
             <tr><td>Git, terminal, Vim</td><td>A git panel, a real terminal, and Vim keys if you want them.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="internals" class="tech">
+      <h2>Under the hood</h2>
+      <p>Scribe is a native desktop app: a Rust core with a TypeScript interface, built on Tauri&nbsp;2. The whole app is about 13&nbsp;MB. Nothing runs on a server, and your work stays plain files in a folder you choose.</p>
+
+      <dl class="tech-list">
+        <div><dt>Rust core.</dt><dd>Files, compiling, notebooks, git and the terminal run in Rust. Every path is checked to stay inside the project, and saves are atomic, so a crash never leaves half a file.</dd></div>
+        <div><dt>Vim keys.</dt><dd>Normal, insert and visual modes in the editor and in notebook cells, with <code>:w</code>, <code>:q</code> and <code>:wq</code>. Absolute or relative line numbers, multiple cursors, rectangular selection.</dd></div>
+        <div><dt>The editor.</dt><dd>CodeMirror&nbsp;6, with completion that knows your labels, citations, figures and notebook values, project-wide search, and the macOS spell checker.</dd></div>
+        <div><dt>TeX.</dt><dd>Tectonic, or TeX Live through <code>latexmk</code>. SyncTeX works both ways between source and PDF; the build goes to <code>build/</code>, out of your way.</dd></div>
+        <div><dt>PDF and maths.</dt><dd>pdf.js with a selectable text layer, so text in the PDF can be found in the source. KaTeX typesets formulas in notes and in the live preview.</dd></div>
+        <div><dt>Python.</dt><dd>Notebooks are plain <code>.py</code> files with <code># %%</code> cells, or <code>.ipynb</code>. A kernel per project keeps state between cells; figures are saved as vector PDF.</dd></div>
+        <div><dt>Git and a terminal.</dt><dd>Commit, push and diff from a panel, and a real terminal running your own shell on a pseudo-terminal.</dd></div>
+        <div><dt>Offline and private.</dt><dd>Everything works without a connection. No account, no telemetry; the network is used only when you ask: looking up a DOI or arXiv ID, installing Tectonic, or fetching a TeX package for the first time.</dd></div>
+      </dl>
+
+      <figure class="listing">
+        <figcaption><span class="label">Listing 1:</span> A notebook cell and the line of LaTeX that uses it.</figcaption>
+<pre><code><span class="c"># notebooks/experiment.py</span>
+<span class="c"># %% [figure: loss]</span>
+fig, ax = plt.subplots()
+ax.plot(epochs, loss)
+nbval(<span class="s">"acc"</span>, <span class="n">0.960</span>, err=<span class="n">0.003</span>, unit=<span class="s">r"\percent"</span>)
+
+<span class="c">% main.tex</span>
+<span class="k">\nbfig</span>{loss}
+Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.0 ± 0.3 %</span></code></pre>
+      </figure>
+
+      <div class="table-wrap">
+        <table class="keys">
+          <caption><span class="label">Table 2:</span> A few shortcuts.</caption>
+          <thead><tr><th>Keys</th><th>Does</th><th>Keys</th><th>Does</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>⌘↵</kbd></td><td>Compile</td><td><kbd>⇧⌘P</kbd></td><td>Every command, by name</td></tr>
+            <tr><td><kbd>⇧⌘↵</kbd></td><td>Run the notebooks</td><td><kbd>⌘P</kbd></td><td>Go to a file</td></tr>
+            <tr><td><kbd>⇧↵</kbd></td><td>Run a cell</td><td><kbd>⇧⌘F</kbd></td><td>Search the project</td></tr>
+            <tr><td><kbd>⌥⌘N</kbd></td><td>Quick note</td><td><kbd>⌥⌘T</kbd></td><td>Today's note</td></tr>
           </tbody>
         </table>
       </div>
@@ -163,7 +207,7 @@
   </main>
 
   <footer class="colophon">
-    <p>© 2026 Georgios Kiritsis · Set in Latin Modern, like the papers it writes.</p>
+    <p>© 2026 Georgios Kiritsis · Set in Latin Modern, like everything it writes.</p>
   </footer>
 </body>
 </html>

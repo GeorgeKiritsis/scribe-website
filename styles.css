@@ -242,6 +242,25 @@ section[id], .appendix { scroll-margin-top: calc(var(--bar-h) + 1.5rem); }
 .theorem .proof .label { font-weight: 400; font-style: italic; color: var(--ink); margin-right: 0.3em; }
 .qed { float: right; margin-left: 1rem; color: var(--ink); }
 
+/* ── Under the hood: a description list in two columns, a listing, the shortcuts ── */
+.article > section.tech { grid-column: wide; display: block; }
+.article > section.tech > * { max-width: none; }
+.tech > p { max-width: var(--measure); }
+.tech-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem 3rem; margin-top: 1.6rem; }
+.tech-list div { text-align: justify; hyphens: auto; }
+.tech-list dt { display: inline; font-weight: 700; margin-right: 0.35em; }
+.tech-list dd { display: inline; margin: 0; }
+.listing { margin: 2.4rem 0 0; }
+.listing figcaption { margin: 0 0 0.6rem; text-align: left; }
+.listing pre { padding: 1rem 1.2rem; overflow-x: auto; font: 0.86rem/1.65 var(--mono); color: #3c3836; background: #fcfbf8; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.listing .c { color: #928374; font-style: italic; }
+.listing .s { color: #79740e; }
+.listing .n { color: #8f3f71; }
+.listing .k { color: #af3a03; }
+.keys { margin-top: 2rem; }
+.keys td:nth-child(odd) { width: 7rem; }
+kbd { font: 0.85em var(--mono); padding: 0.05em 0.35em; border: 1px solid var(--hairline); border-radius: 3px; background: #fcfbf8; }
+
 /* ── Table 1, booktabs: thick top and bottom rules, a thin one under the head, no verticals ── */
 .table-wrap { margin-top: 1.4rem; overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 0.97rem; }
@@ -266,6 +285,11 @@ tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
 @media (max-width: 1100px) {
   .tex-comment { display: none; }
   .download-cmd { margin-left: auto; }
+}
+
+@media (max-width: 900px) {
+  .tech-list { grid-template-columns: minmax(0, 1fr); }
+  .article > section.tech { grid-column: text; }
 }
 
 @media (max-width: 760px) {

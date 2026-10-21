@@ -18,22 +18,22 @@ const WELCOME_DOC = [
 \\usepackage{scribe-figures}`,
   },
   {
-    src: `\\title{Scribe: Papers That\\\\
-  Run Their Own Figures}
+    src: `\\title{Scribe: LaTeX and Python,\\\\
+  Offline}
 \\author{You}
 
 \\begin{document}
 \\maketitle`,
-    html: `<h1>Scribe: Papers That<br>Run Their Own Figures</h1><p class="paper-author">You</p>`,
+    html: `<h1>Scribe: LaTeX and Python,<br>Offline</h1><p class="paper-author">You</p>`,
   },
   {
     src: `\\begin{abstract}
-Scribe is a desktop editor for LaTeX
-and Python. Write the paper, run the
-notebook, and the figures land in the
-PDF, already up to date.
+Scribe is an editor for LaTeX and
+Python, for papers, theses and notes.
+Run the notebook, and the figures land
+in the PDF, already up to date.
 \\end{abstract}`,
-    html: `<div class="paper-abstract"><strong>Abstract</strong><p>Scribe is a desktop editor for LaTeX and Python. Write the paper, run the notebook, and the figures land in the PDF, already up to date.</p></div>`,
+    html: `<div class="paper-abstract"><strong>Abstract</strong><p>Scribe is an editor for LaTeX and Python, for papers, theses and notes. Run the notebook, and the figures land in the PDF, already up to date.</p></div>`,
   },
   {
     src: `\\section{Write}
@@ -57,10 +57,10 @@ only what went stale:
   {
     src: `\\section{Compile}
 Press \\texttt{Cmd+Enter}. The PDF builds
-on your machine. No upload, no queue.
+on your machine, online or not.
 
 \\end{document}`,
-    html: `<h2><span>3</span>Compile</h2><p>Press <code>Cmd+Enter</code>. The PDF builds on your machine. No upload, no queue.</p>`,
+    html: `<h2><span>3</span>Compile</h2><p>Press <code>Cmd+Enter</code>. The PDF builds on your machine, online or not.</p>`,
   },
 ];
 

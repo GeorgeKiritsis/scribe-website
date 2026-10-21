@@ -85,6 +85,8 @@
     }
     for (const [i, li] of [...section.querySelectorAll("ol > li")].entries()) reveal(li, "rise", 260 + i * 120);
     for (const [i, tr] of [...section.querySelectorAll("tbody tr")].entries()) reveal(tr, "fade", 120 + i * 60);
+    for (const [i, item] of [...section.querySelectorAll(".tech-list > div")].entries()) reveal(item, "rise", 120 + i * 70);
+    reveal(section.querySelector(".listing"), "rise", 150);
   }
 
   // Theorem 1 sets itself: the frame draws, the statement arrives word by word, then the
