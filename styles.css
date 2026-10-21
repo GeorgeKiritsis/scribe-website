@@ -458,10 +458,11 @@ kbd { font: 0.85em var(--mono); padding: 0.05em 0.35em; border: 1px solid var(--
 .article > section.gallery { grid-column: wide; display: block; }
 .gallery > p { max-width: var(--measure); }
 .templates { margin-top: 1.6rem; }
-.template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: 1.6rem 1.4rem; align-items: end; }
+.template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: 1.6rem 1.4rem; align-items: start; }
 .template { display: flex; flex-direction: column; gap: 0.55rem; color: var(--ink); }
 .template:hover { text-decoration: none; }
-.template img { display: block; width: 100%; height: auto; background: #fff; border: 1px solid var(--sheet-edge); transition: translate 200ms var(--ease-out, ease), border-color 200ms ease; }
+/* every thumbnail the same size, an A4 page: Letter pages fit inside it, the slides sit in its middle */
+.template img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1.414; object-fit: contain; object-position: center; background: #fff; border: 1px solid var(--sheet-edge); transition: translate 200ms var(--ease-out, ease), border-color 200ms ease; }
 .template:hover img { translate: 0 -4px; border-color: var(--ink-soft); }
 .subcaption { font-size: 0.92rem; text-align: center; }
 .templates figcaption { margin-top: 1.4rem; }
