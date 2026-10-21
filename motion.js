@@ -12,7 +12,9 @@
   // ---------- smooth scrolling (a mouse wheel glides as a trackpad does) ----------
   let lenis = null;
   if (!reduce && window.Lenis) {
-    lenis = new window.Lenis({ duration: 1.15, easing: (t) => 1 - Math.pow(1 - t, 4), anchors: true });
+    // links in the page land below the menu bar
+    const bar = document.querySelector(".topbar")?.offsetHeight ?? 0;
+    lenis = new window.Lenis({ duration: 1.15, easing: (t) => 1 - Math.pow(1 - t, 4), anchors: { offset: -(bar + 24) } });
     const tick = (time) => {
       lenis.raf(time);
       requestAnimationFrame(tick);
@@ -104,6 +106,25 @@
     }
   }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
   for (const el of pending) seen.observe(el);
+
+  // ---------- the menu marks the package (section) being read ----------
+  const links = new Map([...document.querySelectorAll(".packages a[href^='#']")].map((a) => [a.getAttribute("href").slice(1), a]));
+  const current = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      const link = links.get(e.target.id);
+      if (!link) continue;
+      if (e.isIntersecting) {
+        for (const other of links.values()) other.removeAttribute("aria-current");
+        link.setAttribute("aria-current", "true");
+      } else if (link.getAttribute("aria-current")) {
+        link.removeAttribute("aria-current");
+      }
+    }
+  }, { rootMargin: "-45% 0px -45% 0px" });
+  for (const id of links.keys()) {
+    const section = document.getElementById(id);
+    if (section) current.observe(section);
+  }
 
   // ---------- movement tied to scrolling ----------
   if (reduce) return;

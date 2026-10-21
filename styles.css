@@ -124,13 +124,44 @@ figcaption { max-width: var(--measure); margin: 0.75rem auto 0; font-size: 0.95r
 
 /* ── the hero: the whole first screen. LaTeX typed on the left, the page it makes on the right ── */
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.hero { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 100vh; height: 100svh; min-height: 34rem; border-bottom: 1px solid var(--hairline); }
-.topbar { display: flex; align-items: center; gap: 1.4rem; padding: 0.75rem 1.6rem; border-bottom: 1px solid var(--hairline); }
-.brand { display: flex; align-items: center; gap: 0.6rem; font-size: 1.45rem; color: var(--ink); }
-.brand:hover { text-decoration: none; }
-.brand img { border-radius: 6px; }
-.topbar-note { margin-left: auto; font-style: italic; color: var(--ink-soft); }
-.topbar .button { padding: 0.38rem 1rem 0.42rem; font-size: 1rem; }
+.hero { display: grid; grid-template-rows: minmax(0, 1fr) auto; height: calc(100vh - var(--bar-h)); height: calc(100svh - var(--bar-h)); min-height: 30rem; border-bottom: 1px solid var(--hairline); }
+
+/* ── the menu bar, written as LaTeX: \documentclass{scribe} \usepackage{…} % … \download{macOS} ── */
+:root { --bar-h: 3.1rem; }
+section[id], .appendix { scroll-margin-top: calc(var(--bar-h) + 1.5rem); }
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+  height: var(--bar-h);
+  padding: 0 1.6rem;
+  font: 14.5px/1 var(--mono);
+  white-space: nowrap;
+  color: #3c3836;
+  background: #fcfbf8;
+  border-bottom: 1px solid var(--hairline);
+}
+.topbar a { color: inherit; }
+.topbar a:hover { text-decoration: none; }
+.tex-cmd { color: #af3a03; }
+.tex-brace, .tex-comma { color: #7c6f64; }
+.tex-comment { margin-left: auto; font-style: italic; color: #928374; }
+.brand { display: flex; align-items: center; gap: 0.7rem; }
+.brand img { border-radius: 5px; }
+.brand .tex-arg { font-weight: 600; color: var(--ink); }
+/* each package is a link to its section; the one being read is marked */
+.packages .tex-arg { padding-bottom: 2px; border-bottom: 1.5px solid transparent; transition: color 150ms ease, border-color 150ms ease; }
+.packages .tex-arg:hover { color: var(--ink); border-bottom-color: #bdae93; }
+.packages .tex-arg[aria-current="true"] { color: #076678; border-bottom-color: #076678; }
+/* \download{macOS} is the one filled box, like \colorbox */
+.download-cmd { padding: 0.5rem 0.8rem; color: var(--paper) !important; background: var(--ink); transition: background 150ms ease; }
+.download-cmd .tex-cmd { color: #fabd2f; }
+.download-cmd .tex-brace { color: #a89984; }
+.download-cmd .tex-arg { color: var(--paper); }
+.download-cmd:hover { background: #3c3836; }
 .hero-stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 0; }
 .source { display: flex; flex-direction: column; min-height: 0; background: #fcfbf8; border-right: 1px solid var(--hairline); }
 .source-tab { padding: 0.5rem 1.6rem; font: 13px var(--mono); color: var(--ink-soft); border-bottom: 1px solid var(--hairline); }
@@ -233,10 +264,15 @@ tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
   .desk { padding: 1rem; }
 }
 
+@media (max-width: 1100px) {
+  .tex-comment { display: none; }
+  .download-cmd { margin-left: auto; }
+}
+
 @media (max-width: 760px) {
   body { font-size: 1.06rem; }
-  .topbar-note { display: none; }
-  .topbar .button { margin-left: auto; }
+  .packages, .dl-os { display: none; }
+  .topbar { gap: 1rem; padding: 0 1rem; font-size: 13px; }
   .article { padding-top: 3rem; }
   .maketitle h1 { font-size: 2.7rem; }
   .subtitle { font-size: 1.3rem; }
