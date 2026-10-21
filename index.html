@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scribe: papers that run their own figures</title>
+  <meta name="description" content="Scribe is a free desktop editor for LaTeX and Python. Write the paper, run the notebook, and the figures and numbers land in the PDF, already up to date." />
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="preload" href="assets/fonts/LM-regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <main class="article">
+    <header class="maketitle">
+      <img class="logo" src="assets/icon.svg" alt="" width="64" height="64" />
+      <h1>Scribe</h1>
+      <p class="subtitle">Papers that run their own figures</p>
+      <p class="author">Georgios Kiritsis</p>
+      <p class="date">October 2026</p>
+    </header>
+
+    <section class="abstract" aria-labelledby="abstract-title">
+      <h2 id="abstract-title">Abstract</h2>
+      <p>Scribe is a desktop editor for LaTeX and Python. Write the paper, run the notebook, and the figures and numbers land in the PDF, already up to date. It takes notes with mathematics during a lecture, reads and highlights the papers you cite, and checks the paper before you submit it. It runs on your own computer, and it costs nothing.</p>
+    </section>
+
+    <p class="download">
+      <a class="button js-download" href="#get">Download for macOS</a>
+      <span class="download-note">Version 0.1 · Apple silicon and Intel</span>
+    </p>
+
+    <figure class="wide hero" aria-label="The welcome screen: LaTeX typed on the left becomes the page on the right">
+      <div class="window">
+        <div class="window-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="stage" aria-hidden="true">
+          <pre id="typewriter" class="typewriter"></pre>
+          <div class="sheet"><div id="sheet" class="sheet-body"></div></div>
+        </div>
+      </div>
+      <figcaption><span class="label">Figure 1:</span> What Scribe shows when it opens. The LaTeX on the left becomes the page on the right as it is written.</figcaption>
+    </figure>
+
+    <aside class="theorem" aria-label="The price">
+      <p class="statement"><span class="label">Theorem 1</span> <span class="note">(Price).</span> <em>Scribe is free for everyone, forever.</em></p>
+      <p class="proof"><span class="label">Proof.</span> There is nothing to buy: no account, no subscription, no plan with more compile time or more collaborators. Everything runs on your own computer, so nobody pays to keep a server running.<span class="qed" aria-hidden="true">∎</span></p>
+    </aside>
+
+    <section>
+      <h2>Introduction</h2>
+      <p>A paper is rarely just text. Its figures come out of a script, its numbers out of an experiment, and the two drift apart the moment one of them changes. Scribe keeps them together: the notebook and the paper live in one project, and a compile brings every figure and every number up to date.</p>
+      <p>The sections below show what that looks like, recorded from the app itself.</p>
+    </section>
+
+    <section>
+      <h2>Notebooks feed the paper</h2>
+      <p>Figures are notebook cells marked <code>[figure: loss]</code>; numbers leave the notebook with <code>nbval("acc", 0.96, err=0.003)</code>. In the paper, <code>\nbfig{loss}</code> and <code>\nbval{acc}</code> bring them in, typeset with their uncertainty. Change the code, and the next compile reruns only what went stale.</p>
+      <figure class="wide demo">
+        <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/notebook.jpg" data-demo="notebook"></video></div>
+        <figcaption><span class="label">Figure 2:</span> Running a figure cell, then compiling: the plot and the measured values appear in the PDF.</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>Notes with mathematics</h2>
+      <p>Notes are Markdown files whose maths renders as you write, fast enough for a lecture. Inside a formula, <code>//</code> becomes a fraction, <code>;a</code> becomes α and <code>-&gt;</code> an arrow; Tab steps through the blanks and out again. Notes link to each other with <code>[[name]]</code>, collect <code>#tags</code>, and gather every definition and theorem for revision.</p>
+      <figure class="wide demo">
+        <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/notes.jpg" data-demo="notes"></video></div>
+        <figcaption><span class="label">Figure 3:</span> Typing a limit during a lecture. Each formula is typeset as soon as the cursor leaves it.</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>Reading the papers you cite</h2>
+      <p>Attach a reference's PDF and read it in Scribe. Select a sentence and press Highlight: the quote goes into your note on that paper, with a link that opens the PDF at its page.</p>
+      <figure class="wide demo">
+        <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/reader.jpg" data-demo="reader"></video></div>
+        <figcaption><span class="label">Figure 4:</span> Highlighting a sentence in a cited paper.</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>Revision</h2>
+      <p>A line starting <code>Q:</code> with its answer on a line starting <code>A:</code> is a card. Review asks the cards that are due and spaces them out by how well you knew them; they also export to Anki.</p>
+      <figure class="wide demo">
+        <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/cards.jpg" data-demo="cards"></video></div>
+        <figcaption><span class="label">Figure 5:</span> Reviewing the cards from a lecture's notes.</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>Tables without the ampersands</h2>
+      <p>Put the cursor in a table and edit it as a grid: set each column's alignment, add rows and columns, or paste a block straight from a spreadsheet. Scribe writes back aligned LaTeX, keeping booktabs rules and <code>\multicolumn</code>.</p>
+      <figure class="wide demo">
+        <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/table.jpg" data-demo="table"></video></div>
+        <figcaption><span class="label">Figure 6:</span> Pasting results from a spreadsheet into a table.</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>When it doesn't compile</h2>
+      <p>Errors come with a line in plain words: which package a command needs, where the unclosed brace is, which citation has no entry. Turn on Compile as you type and the PDF follows your writing.</p>
+      <figure class="wide demo">
+        <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/errors.jpg" data-demo="errors"></video></div>
+        <figcaption><span class="label">Figure 7:</span> A misspelt command, explained, then fixed.</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>Everything else</h2>
+      <p>The rest of Scribe, briefly, in Table 1.</p>
+      <div class="table-wrap">
+        <table>
+          <caption><span class="label">Table 1:</span> Further features.</caption>
+          <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>Version history</td><td>Every save keeps a version; see what changed and restore it, no git needed.</td></tr>
+            <tr><td>Check before submitting</td><td>Missing citations and labels, unreferenced figures, stale results, what arXiv would reject.</td></tr>
+            <tr><td>Zotero</td><td><code>\cite{</code> completes from your library and adds the entry to the bibliography.</td></tr>
+            <tr><td>Import from Overleaf</td><td>Open a project from its zip download or git link.</td></tr>
+            <tr><td>LaTeX in one click</td><td>No TeX installed? Scribe fetches Tectonic, about 20 MB.</td></tr>
+            <tr><td>DOI and arXiv</td><td>Add a reference by its DOI or arXiv number.</td></tr>
+            <tr><td>Sketches</td><td>Draw a diagram into a note, with pen pressure on a tablet.</td></tr>
+            <tr><td>Code in notes</td><td>Fenced code highlighted in its language, with a copy button.</td></tr>
+            <tr><td>SyncTeX</td><td>Double-click the PDF to reach its source, or highlight text there to find it.</td></tr>
+            <tr><td>Export for submission</td><td>One plain-LaTeX zip a journal can compile, with every value written in.</td></tr>
+            <tr><td>Git, terminal, Vim</td><td>A git panel, a real terminal, and Vim keys if you want them.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why it exists</h2>
+      <p>I wrote Scribe after finishing my thesis. While writing the papers that followed, I found that the tools available didn't suit the way I work, so I decided to build my own, and to give it away.</p>
+      <p class="signature">Georgios Kiritsis</p>
+    </section>
+
+    <section class="appendix" id="get">
+      <h2><span class="appendix-label">A</span>Getting Scribe</h2>
+      <ol>
+        <li>Download Scribe for macOS and drag it to Applications.</li>
+        <li>Open it and start a project, or import one from Overleaf.</li>
+        <li>If there is no LaTeX on your computer, press Install LaTeX. Python is only needed for notebooks.</li>
+      </ol>
+      <p class="download">
+        <a class="button js-download" href="#get">Download for macOS</a>
+        <span class="download-note">Free for everyone, forever.</span>
+      </p>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <p>© 2026 Georgios Kiritsis · Set in Latin Modern, like the papers it writes.</p>
+  </footer>
+</body>
+</html>

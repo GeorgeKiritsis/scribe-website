@@ -1,0 +1,217 @@
+/* Scribe's website is set like the papers Scribe writes: an article in Latin Modern, with
+   numbered sections, captioned figures and a booktabs table. The app windows inside it keep
+   the app's own dark, warm palette. */
+
+@font-face { font-family: "Latin Modern"; src: url("assets/fonts/LM-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Latin Modern"; src: url("assets/fonts/LM-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Latin Modern"; src: url("assets/fonts/LM-bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Latin Modern"; src: url("assets/fonts/LM-bold-italic.woff2") format("woff2"); font-weight: 700; font-style: italic; font-display: swap; }
+
+:root {
+  --paper: #fffefb;
+  --ink: #111;
+  --ink-soft: #3a3a3a;
+  --rule: #111;
+  --hairline: #d8d4cb;
+  --link: #8c1d18;          /* hyperref's dark red */
+  --app-bg: #111110;        /* the app's own colours, inside the windows */
+  --app-panel: #171716;
+  --app-border: #2b2a28;
+  --app-accent: #d4a556;
+  --serif: "Latin Modern", "CMU Serif", "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --measure: 36rem;
+  --wide: 62rem;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; }
+
+body {
+  font: 1.125rem/1.55 var(--serif);
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+  counter-reset: section figure;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+code { font: 0.86em var(--mono); }
+
+/* the text column, with figures allowed to run wider */
+.article {
+  display: grid;
+  grid-template-columns: [full-start] minmax(1.25rem, 1fr) [wide-start] minmax(0, calc((var(--wide) - var(--measure)) / 2)) [text-start] min(var(--measure), calc(100% - 2.5rem)) [text-end] minmax(0, calc((var(--wide) - var(--measure)) / 2)) [wide-end] minmax(1.25rem, 1fr) [full-end];
+  padding: 4.5rem 0 3rem;
+}
+.article > *, .article section > * { grid-column: text; }
+.article > .wide, .article section > .wide { grid-column: wide; }
+/* sections share the article's columns, so their figures can run wide too */
+.article > section { grid-column: full; display: grid; grid-template-columns: subgrid; align-content: start; }
+
+/* ── \maketitle ── */
+.maketitle { text-align: center; }
+.logo { display: block; margin: 0 auto 1.4rem; border-radius: 14px; }
+.maketitle h1 { font-size: 3.4rem; font-weight: 400; line-height: 1.05; letter-spacing: -0.005em; }
+.subtitle { margin-top: 0.5rem; font-size: 1.55rem; font-style: italic; }
+.author { margin-top: 1.6rem; font-size: 1.2rem; }
+.date { margin-top: 0.3rem; font-size: 1.05rem; }
+
+.abstract { margin: 2.6rem auto 0; padding: 0 2.2rem; font-size: 0.97rem; }
+.abstract h2 { margin-bottom: 0.4rem; font-size: 1rem; text-align: center; }
+.abstract p { text-align: justify; hyphens: auto; }
+
+.download { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.6rem 1.2rem; margin-top: 2rem; }
+/* a framed box, the way \fbox draws one, filled */
+.button {
+  display: inline-block;
+  padding: 0.5rem 1.15rem 0.55rem;
+  color: var(--paper);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  font-size: 1.05rem;
+  transition: background 150ms ease, color 150ms ease;
+}
+.button:hover { color: var(--ink); background: transparent; text-decoration: none; }
+.download-note { font-size: 0.95rem; font-style: italic; color: var(--ink-soft); }
+
+/* ── sections, numbered like \section ── */
+section { margin-top: 3.2rem; }
+section > h2 { counter-increment: section; margin-bottom: 0.8rem; font-size: 1.44rem; font-weight: 700; line-height: 1.25; }
+section > h2::before { content: counter(section); display: inline-block; min-width: 2.1rem; }
+section > p { text-align: justify; hyphens: auto; }
+section > p + p { text-indent: 1.5em; }
+section.abstract > h2::before, section.appendix > h2::before { content: none; }
+section.abstract > h2 { counter-increment: none; }
+.appendix > h2 { counter-increment: none; }
+.appendix-label { display: inline-block; min-width: 2.1rem; }
+.appendix ol { margin: 0.4rem 0 0 1.6rem; }
+.appendix li + li { margin-top: 0.3rem; }
+.signature { margin-top: 0.8rem; text-align: right; font-style: italic; text-indent: 0 !important; }
+
+/* ── figures ── */
+figure { counter-increment: figure; margin: 1.8rem 0 0.4rem; }
+figcaption { max-width: var(--measure); margin: 0.75rem auto 0; font-size: 0.95rem; line-height: 1.45; text-align: center; }
+.label { font-weight: 700; }
+.hero { margin-top: 3rem; }
+
+/* an app window: the app's dark chrome on the white page, flat, with a hairline edge */
+.window { overflow: hidden; background: var(--app-bg); border: 1px solid #000; border-radius: 10px; }
+.window video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; background: var(--app-bg); cursor: pointer; }
+.window-bar { display: flex; gap: 8px; height: 30px; align-items: center; padding: 0 12px; background: var(--app-panel); border-bottom: 1px solid var(--app-border); }
+.window-bar span { width: 11px; height: 11px; border-radius: 50%; background: #3a3936; }
+.window-bar span:nth-child(1) { background: #ec6a5e; }
+.window-bar span:nth-child(2) { background: #f4bf4f; }
+.window-bar span:nth-child(3) { background: #61c554; }
+.demo .window { position: relative; }
+.demo .window[data-paused]::after {
+  content: "▶";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  translate: -50% -50%;
+  color: #fff;
+  font-size: 1.1rem;
+  background: rgba(17, 17, 16, .72);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ── Figure 1: the welcome screen, ported from the app ── */
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); height: clamp(22rem, 52vw, 34rem); }
+.typewriter {
+  min-height: 0;
+  padding: 2.2rem 1rem 1.6rem 2rem;
+  overflow: hidden;
+  font: 12.5px/1.8 var(--mono);
+  color: #a89984;
+  white-space: pre;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 48px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 48px);
+}
+.typewriter .tw-cmd { color: #fe8019; }
+.typewriter .tw-num { color: #d3869b; }
+.typewriter .tw-cmt { color: #928374; }
+.typewriter .tw-math { color: #83a598; }
+.typewriter .tw-cursor { display: inline-block; width: 2px; height: 1.2em; margin-left: 1px; background: var(--app-accent); vertical-align: text-bottom; animation: blink 1.1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.sheet {
+  container-type: size;
+  align-self: center;
+  justify-self: center;
+  height: calc(100% - 3rem);
+  aspect-ratio: 1 / 1.414;
+  max-width: calc(100% - 2rem);
+  overflow: hidden;
+  background: #fbfaf6;
+  border-radius: 2px;
+}
+.sheet-body { padding: 9cqh 11cqw 0; font: 1.62cqh/1.5 var(--serif); color: #26231f; }
+.sheet-body .pending { visibility: hidden; }
+.sheet-body h1 { font-size: 2.7cqh; font-weight: 400; line-height: 1.25; text-align: center; }
+.sheet-body .paper-author { margin-top: 1.4cqh; text-align: center; font-size: 1.8cqh; }
+.sheet-body .paper-abstract { margin: 2.6cqh 8cqw 0; font-size: 1.5cqh; text-align: justify; }
+.sheet-body .paper-abstract strong { display: block; margin-bottom: 0.5cqh; text-align: center; font-size: 1.5cqh; }
+.sheet-body h2 { margin: 2.6cqh 0 0.8cqh; font-size: 2.05cqh; font-weight: 700; }
+.sheet-body h2 span { margin-right: 1.6cqh; }
+.sheet-body p { text-align: justify; hyphens: auto; }
+.sheet-body code { font: 0.9em var(--mono); }
+.sheet-body .paper-eq { margin-top: 1.2cqh; text-align: center; font-size: 1.8cqh; }
+.sheet-body .paper-eq sup { font-size: 0.7em; }
+.sheet-body figure { counter-increment: none; margin: 1.6cqh 0 0; text-align: center; }
+.sheet-body figure svg { display: block; width: 68%; margin: 0 auto; }
+.sheet-body figure .axis { stroke: #26231f; stroke-width: 0.8; opacity: 0; transition: opacity 300ms ease-out; }
+.sheet-body figure .zero { stroke: #b9b4aa; stroke-width: 0.6; stroke-dasharray: 2 2; opacity: 0; transition: opacity 300ms ease-out; }
+.sheet-body figure.in .axis, .sheet-body figure.in .zero { opacity: 1; }
+.sheet-body figure .curve { stroke: #b0791f; stroke-width: 1.4; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 80ms linear; }
+.sheet-body figcaption { margin-top: 0.8cqh; font-size: 1.45cqh; }
+
+/* ── Theorem 1: the price, the one thing on the page set larger than a heading ── */
+.article > .theorem { grid-column: wide; justify-self: center; width: min(100%, 46rem); }
+.theorem { margin: 3.6rem 0 0.4rem; padding: 2rem 2.4rem 1.8rem; border: 1.5px solid var(--rule); }
+.theorem .statement { font-size: 2.35rem; line-height: 1.25; }
+.theorem .statement .label { font-size: 0.62em; vertical-align: 0.18em; }
+.theorem .statement .note { font-size: 0.62em; vertical-align: 0.18em; margin-right: 0.15em; }
+.theorem .statement em { display: block; margin-top: 0.3rem; }
+.theorem .proof { margin-top: 1rem; font-size: 1rem; text-align: justify; hyphens: auto; color: var(--ink-soft); }
+.theorem .proof .label { font-weight: 400; font-style: italic; color: var(--ink); margin-right: 0.3em; }
+.qed { float: right; margin-left: 1rem; color: var(--ink); }
+
+/* ── Table 1, booktabs: thick top and bottom rules, a thin one under the head, no verticals ── */
+.table-wrap { margin-top: 1.4rem; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.97rem; }
+caption { margin-bottom: 0.6rem; font-size: 0.95rem; text-align: center; }
+thead th { padding: 0.45rem 0.6rem 0.4rem; text-align: left; font-weight: 700; border-top: 1.4px solid var(--rule); border-bottom: 0.8px solid var(--rule); }
+tbody td { padding: 0.3rem 0.6rem; vertical-align: top; line-height: 1.4; }
+tbody tr:first-child td { padding-top: 0.55rem; }
+tbody tr:last-child td { padding-bottom: 0.55rem; border-bottom: 1.4px solid var(--rule); }
+tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
+
+.colophon { padding: 2rem 1.25rem 3rem; font-size: 0.95rem; text-align: center; color: var(--ink-soft); }
+
+/* phones: one column; the welcome window shows the source only, as the app does when narrow */
+@media (max-width: 760px) {
+  body { font-size: 1.06rem; }
+  .article { padding-top: 3rem; }
+  .maketitle h1 { font-size: 2.7rem; }
+  .subtitle { font-size: 1.3rem; }
+  .abstract { padding: 0; }
+  .stage { grid-template-columns: 1fr; height: 22rem; }
+  .sheet { display: none; }
+  .theorem { padding: 1.2rem 1.2rem 1.1rem; }
+  .theorem .statement { font-size: 1.55rem; }
+  section > p { text-align: left; }
+  tbody td:first-child { white-space: normal; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button { transition: none; }
+  .typewriter .tw-cursor { animation: none; }
+}

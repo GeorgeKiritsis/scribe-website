@@ -1,0 +1,4 @@
+node_modules/
+recorder/raw/
+.DS_Store
+recorder/shots/
