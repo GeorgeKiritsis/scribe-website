@@ -42,7 +42,7 @@ for (const file of fs.readdirSync(raw).filter((f) => f.endsWith(".webm"))) {
 
   run([...input, "-vf", `${fade},format=yuv420p`, "-r", "30", "-c:v", "libx264", "-preset", "slow", "-crf", "27", "-movflags", "+faststart", "-an", `${out}/${name}.mp4`]);
   run([...input, "-vf", fade, "-r", "30", "-c:v", "libvpx-vp9", "-crf", "44", "-b:v", "0", "-row-mt", "1", "-deadline", "good", "-cpu-used", "2", "-an", `${out}/${name}.webm`]);
-  run(["-ss", (start + length * (POSTER_AT[name] ?? 0.5)).toFixed(2), "-i", `${raw}/${file}`, "-frames:v", "1", "-vf", "scale=1280:-1:flags=lanczos", "-q:v", "6", `${out}/${name}.jpg`]);
+  run(["-ss", (start + length * (POSTER_AT[name.replace(/-light$/, "")] ?? 0.5)).toFixed(2), "-i", `${raw}/${file}`, "-frames:v", "1", "-vf", "scale=1280:-1:flags=lanczos", "-q:v", "6", `${out}/${name}.jpg`]);
   run([...input, "-filter_complex", `setpts=PTS/${SPEED},fps=12,scale=800:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128[p];[b][p]paletteuse=dither=bayer:bayer_scale=4`, `${out}/${name}.gif`]);
   console.log(`${name}: ${shown.toFixed(1)} s · mp4 ${kb(`${out}/${name}.mp4`)} · webm ${kb(`${out}/${name}.webm`)} · jpg ${kb(`${out}/${name}.jpg`)} · gif ${kb(`${out}/${name}.gif`)}`);
 }

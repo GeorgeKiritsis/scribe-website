@@ -520,6 +520,9 @@ const SCENES = {
 };
 
 const SETTINGS = { errors: { compileOnType: true } };
+// THEME=light records the app in its light theme, as <scene>-light, for the site's white page.
+const THEME = process.env.THEME === "light" ? "light" : "dark";
+const SUFFIX = THEME === "light" ? "-light" : "";
 
 const browser = await webkit.launch();
 const wanted = process.argv.slice(2);
@@ -535,7 +538,7 @@ for (const [name, run] of Object.entries(SCENES)) {
   const page = await ctx.newPage();
   page.on("pageerror", (e) => console.log(`[${name}] page error:`, e.message));
   const scene = new Scene(page, name);
-  await page.goto(`${base}/?settings=${encodeURIComponent(JSON.stringify(SETTINGS[name] ?? {}))}`);
+  await page.goto(`${base}/?settings=${encodeURIComponent(JSON.stringify({ ...(SETTINGS[name] ?? {}), theme: THEME }))}`);
   try {
     await run(scene);
   } catch (e) {
@@ -545,8 +548,8 @@ for (const [name, run] of Object.entries(SCENES)) {
   await wait(300);
   const video = page.video();
   await ctx.close();
-  fs.renameSync(await video.path(), `${raw}/${name}.webm`);
-  fs.writeFileSync(`${raw}/${name}.json`, JSON.stringify(scene.marks));
+  fs.renameSync(await video.path(), `${raw}/${name}${SUFFIX}.webm`);
+  fs.writeFileSync(`${raw}/${name}${SUFFIX}.json`, JSON.stringify(scene.marks));
   console.log(`[${name}] recorded`, JSON.stringify(scene.marks));
 }
 await browser.close();
