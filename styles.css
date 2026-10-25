@@ -517,7 +517,7 @@ tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
 @media (max-width: 760px) {
   body { font-size: 1.06rem; }
   /* a phone shows scribe  manual  changelog  \download; its colours follow the phone */
-  .brand-cmd, .brand-brace, .pagecolor, .include .tex-cmd, .include-arg .tex-brace { display: none; }
+  .brand-cmd, .brand-brace, .pagecolor, .include .tex-cmd, .include-arg .tex-brace, .download-arg { display: none; }
   .topbar { gap: 0.9rem; padding: 0 1rem; font-size: 13px; }
   .article { padding-top: 3rem; }
   .maketitle h1 { font-size: 2.7rem; }

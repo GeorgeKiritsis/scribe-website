@@ -303,9 +303,32 @@ if (pagecolor) {
   show();
 }
 
-// the visitor's own platform comes first and is marked
-const os = /Mac/i.test(navigator.platform) ? "mac" : /Win/i.test(navigator.platform) ? "windows" : /Linux/i.test(navigator.platform) ? "linux" : null;
+// the visitor's own platform comes first and is marked (a phone or tablet has none)
+const os = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ? null
+  : /Mac/i.test(navigator.platform) ? "mac" : /Win/i.test(navigator.platform) ? "windows" : /Linux/i.test(navigator.platform) ? "linux" : null;
 document.querySelector(`.platform[data-os="${os}"]`)?.classList.add("yours");
+
+// \download{macOS} in the menu bar names the visitor's platform and goes straight to its download
+const OS_NAMES = { mac: "macOS", windows: "Windows", linux: "Linux" };
+const downloadCmd = document.querySelector(".download-cmd");
+if (downloadCmd && os) {
+  downloadCmd.insertAdjacentHTML("beforeend",
+    `<span class="download-arg"><span class="tex-brace">{</span><span class="tex-arg">${OS_NAMES[os]}</span><span class="tex-brace">}</span></span>`);
+  if (DOWNLOADS[os]) downloadCmd.href = DOWNLOADS[os];
+}
+
+// Shortcuts are written for the Mac (⇧⌘P); elsewhere they read as Windows and Linux write them (Ctrl+Shift+P)
+if (os !== "mac") {
+  const MODS = [["⌃", "Ctrl"], ["⌘", "Ctrl"], ["⌥", "Alt"], ["⇧", "Shift"]];
+  for (const kbd of document.querySelectorAll("kbd")) {
+    const text = kbd.textContent;
+    if (!/[⌃⌘⌥⇧↵]/.test(text)) continue;
+    const mods = [];
+    for (const [sym, name] of MODS) if (text.includes(sym) && !mods.includes(name)) mods.push(name);
+    const key = text.replace(/[⌃⌘⌥⇧]/g, "").replace("↵", "Enter");
+    kbd.textContent = [...mods, ...(key ? [key] : [])].join("+");
+  }
+}
 // The typewriter plays under Reduce Motion too: text appearing in place is not the movement
 // that setting guards against, and it is the point of the figure (as in the app).
 startTypewriter();
