@@ -257,6 +257,7 @@ section[id], .appendix, #download { scroll-margin-top: calc(var(--bar-h) + 1.5re
 .github-cmd .tex-arg { border-bottom: 1.5px solid transparent; transition: border-color 150ms ease; }
 .github-cmd:hover .tex-arg { border-bottom-color: var(--gutter); }
 .stars { display: inline-flex; align-items: center; }
+.stars[hidden] { display: none; }
 .stars .star { margin: 0 0.3em 0 0.1em; fill: var(--caret); }
 .star-count { color: var(--syn-num); }
 .hero-stage { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 0; }
@@ -369,12 +370,13 @@ kbd { font: 0.85em var(--mono); padding: 0.05em 0.35em; border: 1px solid var(--
 .platform.yours h3::after { content: " · yours"; font-weight: 400; font-style: italic; font-size: 0.85em; color: var(--ink-soft); }
 .platform p { flex: 1; font-size: 0.97rem; line-height: 1.45; }
 .platform .button { align-self: flex-start; }
-.button.soon { color: var(--ink-soft); background: transparent; border: 1px dashed var(--dashed); cursor: default; }
-.button.soon:hover { color: var(--ink-soft); }
 .appendix .download-note { margin-top: 1.2rem; }
 .platform .also { flex: none; font-size: 0.88rem; color: var(--ink-soft); }
 .platform .also[hidden] { display: none; }
 .source-note { margin-top: 0.6rem; font-size: 0.97rem; }
+.contribute-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.2rem; }
+.button.outline { color: var(--ink); background: transparent; border: 1px solid var(--rule); }
+.button.outline:hover { border-color: var(--ink); }
 
 /* ── the first screen's editor, once it is the visitor's: a transparent textarea over the
    highlighted source, which shows through it ── */
@@ -453,7 +455,6 @@ kbd { font: 0.85em var(--mono); padding: 0.05em 0.35em; border: 1px solid var(--
 .chip { display: inline-block; margin-right: 0.35rem; padding: 0.08rem 0.36rem 0.12rem; font: 700 0.72rem var(--mono); letter-spacing: 0.04em; vertical-align: 0.12em; border-radius: 3px; }
 .chip.q { color: var(--paper); background: var(--caret); }
 .chip.a { color: var(--ink); background: var(--hairline); }
-.soon-tag { display: inline-block; margin-left: 0.3rem; padding: 0.04rem 0.4rem 0.08rem; font: italic 0.82rem var(--serif); color: var(--syn-math); border: 1px dashed currentColor; border-radius: 3px; vertical-align: 0.06em; white-space: nowrap; }
 
 /* ── the LaTeX logo, set the way \LaTeX sets it ── */
 .latex, .tex { white-space: nowrap; }
@@ -479,6 +480,7 @@ kbd { font: 0.85em var(--mono); padding: 0.05em 0.35em; border: 1px solid var(--
 .copy-bib { margin-left: auto; padding: 0.15rem 0.6rem; font: 0.85rem var(--mono); color: var(--ink); background: none; border: 1px solid var(--hairline); border-radius: 3px; cursor: pointer; }
 .copy-bib:hover { border-color: var(--ink-soft); }
 .appendix .listing { max-width: var(--measure); }
+.appendix .listing + p { margin-top: 1.4rem; }
 
 /* ── Table 1, booktabs: thick top and bottom rules, a thin one under the head, no verticals ── */
 .table-wrap { margin-top: 1.4rem; overflow-x: auto; }

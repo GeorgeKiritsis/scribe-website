@@ -338,7 +338,7 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
         <div class="card"><p><span class="chip q">Q:</span> Do I need to install LaTeX first?</p><p><span class="chip a">A:</span> No. If none is found, one click installs Tectonic, about 20&nbsp;MB. If you already have TeX Live, Scribe uses it.</p></div>
         <div class="card"><p><span class="chip q">Q:</span> Do I need Python?</p><p><span class="chip a">A:</span> Only for notebooks. Papers, a thesis, notes and slides need nothing but LaTeX.</p></div>
         <div class="card"><p><span class="chip q">Q:</span> Can I bring my Overleaf projects?</p><p><span class="chip a">A:</span> Yes: open the zip from Overleaf's Download menu, or paste the project's git link.</p></div>
-        <div class="card"><p><span class="chip q">Q:</span> Can I write with other people?</p><p><span class="chip a">A:</span> Through git, with commit, pull and push in a panel. Writing together live, in the same document at the same time, is on its way. <span class="soon-tag">coming soon</span></p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Can I write with other people?</p><p><span class="chip a">A:</span> Through git, with commit, pull and push in a panel, and with tracked changes and comments that travel with the files. For writing together live, in the same document at the same time, Overleaf is the better tool, and Scribe opens its projects whenever you want to carry on offline.</p></div>
         <div class="card"><p><span class="chip q">Q:</span> Where do my files live?</p><p><span class="chip a">A:</span> In a folder you choose, as plain <code>.tex</code>, <code>.bib</code>, <code>.py</code> and <code>.md</code> files. Nothing is locked inside Scribe.</p></div>
         <div class="card"><p><span class="chip q">Q:</span> Which systems does it run on?</p><p><span class="chip a">A:</span> macOS, Windows and Linux; see <a href="#download">Getting Scribe</a>. Each release has installers for all three, and Scribe updates itself.</p></div>
         <div class="card"><p><span class="chip q">Q:</span> Does the assistant send my paper anywhere?</p><p><span class="chip a">A:</span> Only if you set one up, and only to the provider you pick, with your own key. Each request sends what it needs, and the panel says what that is. With Ollama the model runs on your computer and nothing leaves it.</p></div>
@@ -396,10 +396,29 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
 }</code></pre>
       </figure>
     </section>
+
+    <section class="appendix" id="contribute">
+      <h2><span class="appendix-label">C</span>Contributing</h2>
+      <p>Scribe is open source, under the MIT licence, and made better by the people who use it. If something is missing, broken or awkward, say so in an <a href="https://github.com/Scribe-IDE/Scribe/issues">issue</a>; if you can fix it, fork the repository and send a pull request. Listing 3 gets the source running on your computer; the <a href="https://github.com/Scribe-IDE/Scribe#building-from-source">README</a> lists what macOS, Windows and Linux need first.</p>
+      <figure class="listing">
+        <figcaption><span class="label">Listing 3:</span> Scribe from source, with hot reload.</figcaption>
+<pre><code>git clone https://github.com/Scribe-IDE/Scribe.git
+cd Scribe
+npm install
+npm run tauri dev       <span class="c"># the app, reloading as you edit</span>
+cd src-tauri &amp;&amp; cargo test  <span class="c"># the back end's tests</span></code></pre>
+      </figure>
+      <p>Good places to start, each a self-contained file: a new project template (<code>src/templates.ts</code>), a theme, which is only a list of colours (<code>src/themes.ts</code>), a writing check with its fix (<code>src/lint.ts</code>), or a snippet (<code>src/snippets.ts</code>). The front end is TypeScript without a framework and the back end is Rust, so a first change is usually small and easy to read.</p>
+      <div class="contribute-actions">
+        <a class="button" href="https://github.com/Scribe-IDE/Scribe/fork">Fork on GitHub</a>
+        <a class="button outline" href="https://github.com/Scribe-IDE/Scribe/issues/new">Open an issue</a>
+        <a class="button outline" href="https://github.com/Scribe-IDE/Scribe">Star the repository</a>
+      </div>
+    </section>
   </main>
 
   <footer class="colophon">
-    <p>© 2026 Georgios Kiritsis · <a href="https://github.com/Scribe-IDE/Scribe">Source on GitHub</a> · MIT licence</p>
+    <p>© 2026 Georgios Kiritsis · <a href="https://github.com/Scribe-IDE/Scribe">Source on GitHub</a> · <a href="#contribute">Contributing</a> · MIT licence</p>
   </footer>
 </body>
 </html>
