@@ -6,7 +6,16 @@
   <title>Scribe: papers that run their own figures</title>
   <meta name="description" content="Scribe is a free, offline editor for LaTeX and Python, for papers, theses, lecture notes and reports. Run the notebook and its figures and numbers land in the PDF, already up to date." />
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <link rel="canonical" href="https://georgekiritsis.github.io/scribe-website/" />
+  <link rel="canonical" href="https://scribe.georgekiritsis.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Scribe" />
+  <meta property="og:title" content="Scribe: papers that run their own figures" />
+  <meta property="og:description" content="Scribe is a free, offline editor for LaTeX and Python, for papers, theses, lecture notes and reports. Run the notebook and its figures and numbers land in the PDF, already up to date." />
+  <meta property="og:url" content="https://scribe.georgekiritsis.com/" />
+  <meta property="og:image" content="https://scribe.georgekiritsis.com/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#fffefb" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#141312" media="(prefers-color-scheme: dark)" />
   <link rel="preload" href="assets/fonts/LM-regular.woff2" as="font" type="font/woff2" crossorigin />
@@ -22,11 +31,12 @@
   <!-- the menu, written as the first lines of a LaTeX file -->
   <nav class="topbar" aria-label="Scribe">
     <a class="brand" href="#top" aria-label="Scribe, back to the top"><span><span class="tex-cmd brand-cmd">\documentclass</span><span class="tex-brace brand-brace">{</span><span class="tex-arg">scribe</span><span class="tex-brace brand-brace">}</span></span></a>
-    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="#tables">tables</a><span class="tex-brace">}</span></span>
+    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="#tikz">tikz</a><span class="tex-comma">,</span> <a class="tex-arg" href="#review">review</a><span class="tex-comma">,</span> <a class="tex-arg" href="#notes">notes</a><span class="tex-brace">}</span></span>
     <span class="tex-comment">% offline, and free for everyone, forever</span>
     <a class="include" href="manual.html"><span class="tex-cmd">\input</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">manual</span><span class="tex-brace">}</span></span></a>
     <a class="include" href="changelog.html"><span class="tex-cmd">\include</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">changelog</span><span class="tex-brace">}</span></span></a>
     <button class="pagecolor" type="button" aria-label="Dark or light page"><span class="tex-cmd">\pagecolor</span><span class="pagecolor-arg"><span class="tex-brace">{</span><span class="tex-arg pagecolor-name">white</span><span class="tex-brace">}</span></span></button>
+    <a class="github-cmd" href="https://github.com/Scribe-IDE/Scribe" aria-label="Scribe on GitHub"><span class="tex-cmd">\href</span><span class="tex-brace">{</span><span class="tex-arg">github</span><span class="tex-brace">}</span><span class="stars" hidden><span class="tex-brace">{</span><svg class="star" width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.95 4.1 4.5.55-3.3 3.1.85 4.45L8 11.6l-4 2.2.85-4.45-3.3-3.1 4.5-.55z"/></svg><span class="star-count"></span><span class="tex-brace">}</span></span></a>
     <a class="download-cmd" href="#download"><span class="tex-cmd">\download</span></a>
   </nav>
 
@@ -50,12 +60,12 @@
   <main class="article">
     <section class="abstract" aria-labelledby="abstract-title">
       <h2 id="abstract-title">Abstract</h2>
-      <p>Scribe is an offline editor for LaTeX and Python, for whatever you are writing: a paper, a thesis, notes for a course, a lab report or a talk. Run the notebook and its figures and numbers land in the PDF, already up to date. It takes notes with mathematics during a lecture, reads and highlights the papers you cite, and checks your work before you hand it in. It runs on your own computer, with or without an internet connection, and it costs nothing.<span class="sidenote-ref" aria-hidden="true">1</span><span class="sidenote" role="note"><span class="sidenote-num">1</span> No paid tier, no trial, and no account to make.</span></p>
+      <p>Scribe is an offline editor for LaTeX and Python, for whatever you are writing: a paper, a thesis, notes for a course, a lab report or a talk. Run the notebook and its figures and numbers land in the PDF, already up to date. It takes notes with mathematics during a lecture, reads and highlights the papers you cite, and checks your work before you hand it in. It draws TikZ pictures with the mouse, tracks changes for your co-authors, and, if you want one, brings an assistant that runs on the model of your choice. It runs on your own computer, with or without an internet connection, and it costs nothing.<span class="sidenote-ref" aria-hidden="true">1</span><span class="sidenote" role="note"><span class="sidenote-num">1</span> No paid tier, no trial, and no account to make.</span></p>
     </section>
 
     <aside class="theorem" aria-label="The price">
       <p class="statement"><span class="label">Theorem 1</span> <span class="note">(Price).</span> <em>Scribe is free for everyone, forever.</em></p>
-      <p class="proof"><span class="label">Proof.</span> There is nothing to buy: no account, no subscription, no plan with more compile time or more collaborators. Everything runs on your own computer, so nobody pays to keep a server running.<span class="sidenote-ref" aria-hidden="true">2</span><span class="sidenote" role="note"><span class="sidenote-num">2</span> The ∎ that ends a proof is the “tombstone”, brought into mathematics by Paul Halmos.</span><span class="qed" aria-hidden="true">∎</span></p>
+      <p class="proof"><span class="label">Proof.</span> There is nothing to buy: no account, no subscription, no plan with more compile time or more collaborators. Everything runs on your own computer, so nobody pays to keep a server running, and the code is open, under the MIT licence.<span class="sidenote-ref" aria-hidden="true">2</span><span class="sidenote" role="note"><span class="sidenote-num">2</span> The ∎ that ends a proof is the “tombstone”, brought into mathematics by Paul Halmos.</span><span class="qed" aria-hidden="true">∎</span></p>
     </aside>
 
     <section>
@@ -155,9 +165,56 @@ $$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
       </figure>
     </section>
 
+    <section id="tikz" class="feature">
+      <div class="feature-text">
+        <h2>TikZ, drawn and written</h2>
+        <p>Put the cursor in a <code>tikzpicture</code> and press <kbd>⌥⌘K</kbd>: the picture is compiled on its own, with your preamble, and drawn beside the source in about half a second, again after every edit. Drag a node or a point and its coordinates change in the source. Draw lines, arrows, curves, rectangles, circles, nodes and text on a grid; a line between two nodes is written <code>(a) -- (b)</code>. A style bar sets colour, fill, line, arrow tips and font. Export as PDF, SVG or PNG.</p>
+        <p>The source stays the one truth: every change is a plain edit to the TikZ, and ⌘Z undoes it.</p>
+      </div>
+      <figure class="demo">
+        <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/tikz.jpg" data-demo="tikz"></video></div>
+        <figcaption><span class="label">Figure 7:</span> Previewing a picture, moving a node and drawing an arrow between two nodes. The source follows each move.</figcaption>
+      </figure>
+    </section>
+
+    <section id="assistant" class="feature flip">
+      <div class="feature-text">
+        <h2>An assistant, with your own model</h2>
+        <p>Claude, GPT, Gemini, any OpenAI-compatible service, or a model running on your own computer with Ollama: you choose, with your own key, kept in the system keychain. Ask about the paper in a side panel; it knows the outline, the section you are in and your bibliography. Select a paragraph and have it improved, shortened, corrected or made more formal, and see the change word by word before it goes in. A compile error can be fixed from the Problems list, and grey suggestions as you type are there if you turn them on.</p>
+        <p>Nothing is sent until you set a provider, and each request sends only what it needs.</p>
+      </div>
+      <figure class="demo">
+        <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/assistant.jpg" data-demo="assistant"></video></div>
+        <figcaption><span class="label">Figure 8:</span> Asking about the paper, then shortening a paragraph and accepting the change.</figcaption>
+      </figure>
+    </section>
+
+    <section id="review" class="feature">
+      <div class="feature-text">
+        <h2>Track changes, comments and revisions</h2>
+        <p>With Track Changes on, what you type and delete is marked with your initials, as the standard <code>changes</code> package writes it. The marks live in the source, so they show in colour in the PDF, travel with git, and work for co-authors in any editor, Overleaf included. Comments sit in the margin. The Review panel lists every change with Accept and Reject.</p>
+        <p>For a revision, compare the paper with an earlier commit or saved version and latexdiff marks what changed, in the PDF; a letter to the reviewers starts from a template, with changed text quoted from that PDF.</p>
+      </div>
+      <figure class="demo">
+        <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/review.jpg" data-demo="review"></video></div>
+        <figcaption><span class="label">Figure 9:</span> Editing with Track Changes on, adding a comment, and accepting a change from the Review panel.</figcaption>
+      </figure>
+    </section>
+
+    <section id="looks" class="feature flip">
+      <div class="feature-text">
+        <h2>Made to be looked at all day</h2>
+        <p>Eleven themes, among them Gruvbox, Solarized, Nord, Catppuccin, GitHub and Tokyo Night, or follow the system's light and dark. Make your own in a theme editor, any accent colour on any theme. Editor fonts with or without ligatures, line height, interface size. The PDF can be shown light on dark with its figures kept in colour, and focus mode leaves only the text, centred, with today's word count.</p>
+      </div>
+      <figure class="demo">
+        <div class="window"><video muted loop playsinline preload="none" poster="assets/demos/looks.jpg" data-demo="looks"></video></div>
+        <figcaption><span class="label">Figure 10:</span> Changing the theme, the PDF in the dark, and focus mode.</figcaption>
+      </figure>
+    </section>
+
     <section id="templates" class="gallery">
       <h2>Start from a template</h2>
-      <p>New Project offers these, each a complete project that compiles as it is. Figure 7 shows their first pages, compiled by Scribe; open one to see the whole PDF.</p>
+      <p>New Project offers these, each a complete project that compiles as it is. Figure 11 shows their first pages, compiled by Scribe; open one to see the whole PDF.</p>
       <figure class="templates">
         <div class="template-grid">
           <a class="template" href="assets/templates/lecture-notes.pdf" target="_blank" rel="noopener"><img src="assets/templates/lecture-notes.jpg" alt="The first page of the lecture notes template" loading="lazy" width="560" height="792" /><span class="subcaption">(a) Lecture notes</span></a>
@@ -168,7 +225,7 @@ $$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
           <a class="template" href="assets/templates/acm-conference-paper.pdf" target="_blank" rel="noopener"><img src="assets/templates/acm-conference-paper.jpg" alt="The first page of the acm conference paper template" loading="lazy" width="560" height="792" /><span class="subcaption">(f) ACM conference paper</span></a>
           <a class="template" href="assets/templates/slides.pdf" target="_blank" rel="noopener"><img src="assets/templates/slides.jpg" alt="The first page of the slides template" loading="lazy" width="560" height="315" /><span class="subcaption">(g) Slides</span></a>
         </div>
-        <figcaption><span class="label">Figure 7:</span> The templates in New Project. The article with a notebook is the example paper from the demos above, its figures and numbers made by its notebook.</figcaption>
+        <figcaption><span class="label">Figure 11:</span> The templates in New Project. The article with a notebook is the example paper from the demos above, its figures and numbers made by its notebook.</figcaption>
       </figure>
     </section>
 
@@ -180,6 +237,10 @@ $$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
           <caption><span class="label">Table 1:</span> Further features.</caption>
           <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
           <tbody>
+            <tr><td>Writing checks</td><td>Eleven common slips underlined, each with a fix: <code>~</code> before <code>\ref</code>, straight quotes, <code>$$</code>, a repeated word.</td></tr>
+            <tr><td>Hover previews</td><td>Over <code>\ref</code>, the equation typeset or the figure drawn; over <code>\cite</code>, the paper.</td></tr>
+            <tr><td>Snippets</td><td><code>fig</code>, <code>tab</code>, <code>eq</code> and Tab; your own too, or imported from VS Code.</td></tr>
+            <tr><td>Equation editor</td><td>Type maths as it looks, with a keyboard of symbols; it writes back LaTeX.</td></tr>
             <tr><td>Version history</td><td>Every save keeps a version; see what changed and restore it, no git needed.</td></tr>
             <tr><td>Check before submitting</td><td>Missing citations and labels, unreferenced figures, stale results, what arXiv would reject.</td></tr>
             <tr><td>Zotero</td><td><code>\cite{</code> completes from your library and adds the entry to the bibliography.</td></tr>
@@ -191,6 +252,7 @@ $$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
             <tr><td>Code in notes</td><td>Fenced code highlighted in its language, with a copy button.</td></tr>
             <tr><td>SyncTeX</td><td>Double-click the PDF to reach its source, or highlight text there to find it.</td></tr>
             <tr><td>Export for submission</td><td>One plain-LaTeX zip a journal can compile, with every value written in.</td></tr>
+            <tr><td>Updates</td><td>A new version is offered when it's out, and installs itself.</td></tr>
             <tr><td>Git, terminal, Vim</td><td>A git panel, a real terminal, and Vim keys if you want them.</td></tr>
           </tbody>
         </table>
@@ -231,7 +293,7 @@ $$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
         <div><dt>PDF and maths.</dt><dd>pdf.js with a selectable text layer, so text in the PDF can be found in the source. KaTeX typesets formulas in notes and in the live preview.</dd></div>
         <div><dt>Python.</dt><dd>Notebooks are plain <code>.py</code> files with <code># %%</code> cells, or <code>.ipynb</code>. A kernel per project keeps state between cells; figures are saved as vector PDF.</dd></div>
         <div><dt>Git and a terminal.</dt><dd>Commit, push and diff from a panel, and a real terminal running your own shell on a pseudo-terminal.</dd></div>
-        <div><dt>Offline and private.</dt><dd>Everything works without a connection. No account, no telemetry; the network is used only when you ask: looking up a DOI or arXiv ID, installing Tectonic, or fetching a TeX package for the first time.</dd></div>
+        <div><dt>Offline and private.</dt><dd>Everything works without a connection. No account, no telemetry; the network is used only when you ask: looking up a DOI or arXiv ID, installing Tectonic, fetching a TeX package for the first time, or talking to the AI provider you set up.</dd></div>
       </dl>
 
       <p class="remark"><span class="label">Remark 1.</span> On an Apple M5 Mac with TeX Live, the four-page example paper in these demos, with two figures, a table and a bibliography, compiles in 1.4 seconds from scratch and in half a second after an edit.</p>
@@ -257,6 +319,10 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
             <tr><td><kbd>⌘↵</kbd></td><td>Compile</td><td><kbd>⇧⌘P</kbd></td><td>Every command, by name</td></tr>
             <tr><td><kbd>⇧⌘↵</kbd></td><td>Run the notebooks</td><td><kbd>⌘P</kbd></td><td>Go to a file</td></tr>
             <tr><td><kbd>⇧↵</kbd></td><td>Run a cell</td><td><kbd>⇧⌘F</kbd></td><td>Search the project</td></tr>
+            <tr><td><kbd>⌥⌘K</kbd></td><td>Preview TikZ</td><td><kbd>⌥⌘E</kbd></td><td>Equation editor</td></tr>
+            <tr><td><kbd>⌥⌘A</kbd></td><td>The assistant</td><td><kbd>⌥⌘I</kbd></td><td>Edit with AI</td></tr>
+            <tr><td><kbd>⇧⌘E</kbd></td><td>Track changes</td><td><kbd>⌥⌘M</kbd></td><td>Add a comment</td></tr>
+            <tr><td><kbd>⌥⌘F</kbd></td><td>Focus mode</td><td><kbd>⌥⌘D</kbd></td><td>Sketch</td></tr>
             <tr><td><kbd>⌥⌘N</kbd></td><td>Quick note</td><td><kbd>⌥⌘T</kbd></td><td>Today's note</td></tr>
           </tbody>
         </table>
@@ -274,7 +340,10 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
         <div class="card"><p><span class="chip q">Q:</span> Can I bring my Overleaf projects?</p><p><span class="chip a">A:</span> Yes: open the zip from Overleaf's Download menu, or paste the project's git link.</p></div>
         <div class="card"><p><span class="chip q">Q:</span> Can I write with other people?</p><p><span class="chip a">A:</span> Through git, with commit, pull and push in a panel. Writing together live, in the same document at the same time, is on its way. <span class="soon-tag">coming soon</span></p></div>
         <div class="card"><p><span class="chip q">Q:</span> Where do my files live?</p><p><span class="chip a">A:</span> In a folder you choose, as plain <code>.tex</code>, <code>.bib</code>, <code>.py</code> and <code>.md</code> files. Nothing is locked inside Scribe.</p></div>
-        <div class="card"><p><span class="chip q">Q:</span> Which systems does it run on?</p><p><span class="chip a">A:</span> macOS today. Windows and Linux are coming; see <a href="#download">Getting Scribe</a>.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Which systems does it run on?</p><p><span class="chip a">A:</span> macOS, Windows and Linux; see <a href="#download">Getting Scribe</a>. Each release has installers for all three, and Scribe updates itself.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Does the assistant send my paper anywhere?</p><p><span class="chip a">A:</span> Only if you set one up, and only to the provider you pick, with your own key. Each request sends what it needs, and the panel says what that is. With Ollama the model runs on your computer and nothing leaves it.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Will my co-authors see my tracked changes?</p><p><span class="chip a">A:</span> Yes. The marks are the <code>changes</code> package's commands in the <code>.tex</code>, so they compile in colour on Overleaf or any TeX installation, and travel with git.</p></div>
+        <div class="card"><p><span class="chip q">Q:</span> Is it open source?</p><p><span class="chip a">A:</span> Yes, under the MIT licence. The code, the releases and the issues are <a href="https://github.com/Scribe-IDE/Scribe">on GitHub</a>.</p></div>
       </div>
     </section>
 
@@ -290,7 +359,7 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
       <div class="platforms">
         <div class="platform" data-os="mac">
           <h3>macOS</h3>
-          <p>Apple silicon and Intel. A <code>.dmg</code>: open it and drag Scribe to Applications.</p>
+          <p>Apple silicon and Intel. A <code>.dmg</code>: open it and drag Scribe to Applications. The first time, open it with right-click &gt; Open, as Apple hasn't notarized it yet.</p>
           <a class="button" href="#download">Download for macOS</a>
         </div>
         <div class="platform" data-os="windows">
@@ -300,15 +369,17 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
         </div>
         <div class="platform" data-os="linux">
           <h3>Linux</h3>
-          <p>An <code>.AppImage</code> that runs anywhere, and a <code>.deb</code> for Debian and Ubuntu.</p>
+          <p>An <code>.AppImage</code> that runs anywhere, and packages for Debian, Ubuntu and Fedora.</p>
           <a class="button" href="#download">Download for Linux</a>
+          <p class="also" hidden></p>
         </div>
       </div>
       <ol>
         <li>Install Scribe, open it, and start a project from a template, or import one from Overleaf.</li>
         <li>If there is no LaTeX on your computer, press Install LaTeX. Python is only needed for notebooks.</li>
       </ol>
-      <p class="download-note">Free for everyone, forever.</p>
+      <p class="download-note"><span class="release-version" hidden></span>Free for everyone, forever. When a new version is out, Scribe offers to install it.</p>
+      <p class="source-note">Scribe is open source, under the MIT licence. The code, every release and the issue tracker are on <a class="github-link" href="https://github.com/Scribe-IDE/Scribe">GitHub</a>; a star there helps other people find it.</p>
     </section>
 
     <section class="appendix" id="cite">
@@ -320,15 +391,15 @@ Accuracy reaches <span class="k">\nbval</span>{acc}.   <span class="c">% → 96.
   author       = {Kiritsis, Georgios},
   title        = {Scribe: an offline editor for {LaTeX} and {Python}},
   year         = {2026},
-  note         = {Version 1.0.0},
-  howpublished = {\url{https://georgekiritsis.github.io/scribe-website/}}
+  note         = {Version 1.2.0},
+  howpublished = {\url{https://scribe.georgekiritsis.com/}}
 }</code></pre>
       </figure>
     </section>
   </main>
 
   <footer class="colophon">
-    <p>© 2026 Georgios Kiritsis</p>
+    <p>© 2026 Georgios Kiritsis · <a href="https://github.com/Scribe-IDE/Scribe">Source on GitHub</a> · MIT licence</p>
   </footer>
 </body>
 </html>

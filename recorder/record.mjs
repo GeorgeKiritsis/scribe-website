@@ -10,6 +10,7 @@ import { webkit } from "playwright";
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
+import { execFile } from "node:child_process";
 
 const here = path.dirname(new URL(import.meta.url).pathname);
 const app = process.env.SCRIBE_APP ?? path.resolve(here, "../../papyrus");
@@ -63,6 +64,7 @@ const files = {
     "notebooks/experiment.py": read("notebooks/experiment.py"),
     "data/curves.csv": read("data/curves.csv"),
     "README.md": read("README.md"),
+    "pipeline.tikz": fs.readFileSync(`${here}/fixtures/tikz/pipeline.tikz`, "utf8"),
     ".scribe/values.json": read(".scribe/values.json"),
     ".scribe/runs.json": read(".scribe/runs.json"),
     ...NOTES,
@@ -72,14 +74,33 @@ const files = {
 };
 files.files = [
   "main.tex", "README.md", "refs.bib", "scribe-figures.sty", "data/curves.csv", "notebooks/experiment.py",
-  "notes/Lecture 1.md", "notes/Lecture 2.md", "papers/kingma2015.pdf", "sections/method.tex", "sections/results.tex",
+  "notes/Lecture 1.md", "notes/Lecture 2.md", "papers/kingma2015.pdf", "pipeline.tikz", "sections/method.tex", "sections/results.tex",
 ];
 const figure = `data:image/png;base64,${fs.readFileSync(`${here}/fixtures/fig-curves.png`).toString("base64")}`.split(",")[1];
 
 // ---------- a server for the app ----------
 const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".pdf": "application/pdf", ".woff2": "font/woff2", ".woff": "font/woff", ".ttf": "font/ttf", ".png": "image/png", ".svg": "image/svg+xml", ".mjs": "text/javascript" };
+const tikzDir = `${raw}/tikz`;
+function compileSnippet(req, res) {
+  let source = "";
+  req.on("data", (c) => { source += c; });
+  req.on("end", () => {
+    fs.mkdirSync(tikzDir, { recursive: true });
+    fs.writeFileSync(`${tikzDir}/preview.tex`, source);
+    // the example project's folder too, for scribe-figures.sty in the paper's preamble
+    const env = { ...process.env, TEXINPUTS: `${example}:` };
+    execFile("latexmk", ["-pdf", "-interaction=nonstopmode", "-halt-on-error", "preview.tex"], { cwd: tikzDir, env }, (err) => {
+      let log = "";
+      try { log = fs.readFileSync(`${tikzDir}/preview.log`, "utf8"); } catch {}
+      res.writeHead(200, { "content-type": "application/json" });
+      res.end(JSON.stringify({ ok: !err, engine: "latexmk", pdf: err ? null : "build/tikz/preview.pdf", log }));
+    });
+  });
+}
+
 const server = http.createServer((req, res) => {
   const url = decodeURIComponent(req.url.split("?")[0]);
+  if (url === "/compile-snippet") return compileSnippet(req, res);
   const settings = new URLSearchParams(req.url.split("?")[1] ?? "").get("settings") ?? "{}";
   let file;
   if (url === "/") {
@@ -91,6 +112,7 @@ const server = http.createServer((req, res) => {
   }
   if (url === "/mock.js") file = `${here}/mock.js`;
   else if (url === "/files/main.pdf") file = `${example}/build/main.pdf`;
+  else if (url.startsWith("/files/tikz/")) file = `${tikzDir}/${path.basename(url)}`;
   else file = `${dist}${url}`;
   fs.readFile(file, (err, data) => {
     if (err) { res.writeHead(404); res.end(); return; }
@@ -277,6 +299,27 @@ async function open(scene) {
   await wait(1400);
 }
 
+/** Double-click the word that ends `needle`'s first occurrence in the editor (selecting it). */
+async function selectWord(s, needle, word) {
+  const end = await s.textEnd(needle);
+  const at = { x: end.x - word.length * 4.5, y: end.y };
+  await s.moveTo(at.x, at.y, 600);
+  await wait(150);
+  await s.p.mouse.dblclick(at.x, at.y);
+  await wait(250);
+}
+
+/** Drag with the drawn pointer, at a human pace. */
+async function drag(s, from, to, ms = 900) {
+  await s.moveTo(from.x, from.y, 600);
+  await wait(150);
+  await s.p.mouse.down();
+  await wait(120);
+  await s.moveTo(to.x, to.y, ms);
+  await wait(150);
+  await s.p.mouse.up();
+}
+
 const SCENES = {
   // Not a demo: the screenshot at the top of the app's README (papyrus/docs/screenshot*.png).
   // Run with SCALE=2 for a sharp image.
@@ -296,6 +339,173 @@ const SCENES = {
     await wait(800);
     fs.mkdirSync(`${app}/docs`, { recursive: true });
     await s.p.screenshot({ path: `${app}/docs/screenshot${SUFFIX}.png` });
+  },
+
+  // Figure 7: preview a TikZ picture, move a node, draw an arrow between two nodes, colour it.
+  async tikz(s) {
+    await open(s);
+    await hidePreview(s);
+    await s.click('#files .item[data-rel="pipeline.tikz"]', 1);
+    await wait(800);
+    const line = await s.textEnd("(model) at (4,3)");
+    await s.p.mouse.click(line.x, line.y);
+    await s.p.keyboard.press("Meta+Alt+k");
+    await s.p.waitForSelector(".tikz-handle", { state: "attached", timeout: 20000 });
+    await wait(800);
+    await s.p.click('[title*="Zoom in"]').catch(() => {});
+    await wait(800);
+    s.mark("start");
+    await wait(600);
+    // the nodes placed with "at (x,y)" are dragged by that point: (0,0) and (8,4) come first
+    const node = async (i) => s.point(`.tikz-handle[data-kind="coord"][data-index="${i}"]`);
+    // Model goes up and to the right; the source follows
+    const model = await node(3);
+    await drag(s, model, { x: model.x + 70, y: model.y - 40 }, 1100);
+    await wait(2200);
+    // an arrow from Model down to Loss, written (model) -- (loss)
+    await s.click('.tikz-tools [data-tool="arrow"]');
+    await wait(300);
+    await drag(s, await node(3), await node(4), 1000);
+    await wait(2200);
+    // blue, from the style bar
+    await s.click(".tikz-style .tikz-swatch");
+    await wait(500);
+    await s.click('.tikz-colors [title="blue"]');
+    await wait(2400);
+    await s.click('.tikz-tools [data-tool="select"]');
+    await s.camera(null, 1, 600);
+    await wait(1600);
+    s.mark("end");
+  },
+
+  // Figure 8: ask about the paper, then shorten a paragraph and accept the change.
+  async assistant(s) {
+    await open(s);
+    await s.click('#files .item[data-rel="main.tex"]', 1);
+    await wait(700);
+    await s.click("#btn-compile", 1);
+    await wait(2200);
+    await showLine(s, "Choosing an optimiser");
+    s.mark("start");
+    await wait(500);
+    await s.click("#tab-assistant");
+    await wait(500);
+    await s.camera("#sidebar", 1.35, 1000);
+    await s.click(".ai-input");
+    await s.type("Which optimiser converges fastest, and how should I say it in the conclusion?", 35);
+    await s.p.keyboard.press("Enter");
+    await wait(4200);
+    await s.camera(null, 1, 900);
+    // the introduction's first paragraph, selected and shortened
+    const from = await s.textEnd("Choosing");
+    const to = await s.textEnd("rather than taken on trust.");
+    await s.moveTo(from.x - 60, from.y, 700);
+    await s.p.mouse.down();
+    await s.moveTo(to.x, to.y, 900);
+    await s.p.mouse.up();
+    await wait(400);
+    await s.p.keyboard.press("Meta+Alt+i");
+    await wait(500);
+    await s.type("Shorten", 60);
+    await wait(300);
+    await s.p.keyboard.press("Enter");
+    await wait(2600);
+    await s.camera("#work-side", 1.4, 1100);
+    await wait(2200);
+    await s.camera(null, 1, 900);
+    await s.click('#work-side button.btn-primary');
+    await wait(1600);
+    s.mark("end");
+  },
+
+  // Figure 9: track changes, a comment, and accepting a change in the Review panel.
+  async review(s) {
+    await open(s);
+    await s.click('#files .item[data-rel="main.tex"]', 1);
+    await wait(700);
+    await s.click("#btn-compile", 1);
+    await wait(2200);
+    await showLine(s, "Choosing an optimiser");
+    s.mark("start");
+    await wait(500);
+    await s.p.keyboard.press("Meta+Shift+e");
+    await wait(600);
+    await s.camera("#statusbar", 1.6, 800);
+    await wait(700);
+    await s.camera(null, 1, 700);
+    const at = await s.textEnd("Plain stochastic");
+    await s.camera({ x: at.x - 420, y: at.y - 170, w: 840, h: 340 }, 1.7, 1100);
+    await selectWord(s, "Plain", "Plain");
+    await parkPointer(s);
+    await s.type("Classic", 110);
+    await wait(500);
+    const end = await s.textEnd("is simple");
+    await s.click(end);
+    await s.type(" and robust", 95);
+    await wait(500);
+    await selectWord(s, "wrong by habit", "habit");
+    await s.p.keyboard.press("Meta+Alt+m");
+    await wait(400);
+    await s.type("Too informal?", 70);
+    await s.p.keyboard.press("Enter");
+    await wait(600);
+    await s.camera(null, 1, 900);
+    await s.click("#tab-review");
+    await wait(1000);
+    await s.camera("#sidebar", 1.4, 1000);
+    await wait(1200);
+    await s.click("#review-panel .review-card.review-added .btn-primary");
+    await wait(1400);
+    await s.camera(null, 1, 900);
+    await wait(800);
+    s.mark("end");
+  },
+
+  // Figure 10: themes from Settings, the PDF in the dark, and focus mode.
+  async looks(s) {
+    await open(s);
+    await s.click('#files .item[data-rel="main.tex"]', 1);
+    await wait(700);
+    await s.click("#btn-compile", 1);
+    await wait(2200);
+    s.mark("start");
+    await wait(600);
+    await s.click("#btn-settings");
+    await wait(500);
+    for (const theme of ["nord", "catppuccin-latte", "tokyo-night", "gruvbox-dark"]) {
+      await s.point("#setting-theme").then((at) => s.moveTo(at.x, at.y, 500));
+      await s.p.selectOption("#setting-theme", theme);
+      await wait(1500);
+    }
+    await s.p.keyboard.press("Escape");
+    await wait(400);
+    await s.click("#btn-settings");
+    await wait(300);
+    await s.p.keyboard.press("Escape");
+    // the PDF light on dark
+    await s.p.keyboard.press("Meta+Shift+P");
+    await s.type("Dark PDF", 50);
+    await s.p.keyboard.press("Enter");
+    await wait(900);
+    await s.camera("#pdf-pane", 1.3, 1100);
+    await wait(1800);
+    await s.camera(null, 1, 900);
+    // focus mode, for a moment
+    await s.click("#editor .cm-content");
+    await s.p.keyboard.press("Meta+Alt+f");
+    await wait(2600);
+    await s.p.keyboard.press("Escape");
+    await wait(700);
+    // back to how the loop began
+    await s.p.keyboard.press("Meta+Shift+P");
+    await s.type("Dark PDF", 30);
+    await s.p.keyboard.press("Enter");
+    await s.click("#btn-settings");
+    await s.p.selectOption("#setting-theme", "scribe-dark");
+    await wait(500);
+    await s.p.keyboard.press("Escape");
+    await wait(900);
+    s.mark("end");
   },
 
   // Figure 2: run the figure cell, then compile: the figure and numbers land in the PDF.
@@ -555,6 +765,9 @@ for (const [name, run] of Object.entries(SCENES)) {
     recordVideo: { dir: `${raw}/tmp`, size: { width: W, height: H } },
   });
   await ctx.addInitScript(STAGE);
+  await ctx.addInitScript(() => {
+    try { localStorage.setItem("scribe.ai", JSON.stringify({ kind: "anthropic", model: "claude-opus-5-5", baseUrl: "", inline: false })); } catch {}
+  });
   const page = await ctx.newPage();
   page.on("pageerror", (e) => console.log(`[${name}] page error:`, e.message));
   const scene = new Scene(page, name);

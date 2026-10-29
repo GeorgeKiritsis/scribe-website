@@ -20,7 +20,7 @@ fs.mkdirSync(out, { recursive: true });
 const SPEED = 1.5;
 
 // The poster is the frame this far into the loop: a moment where the feature is visible.
-const POSTER_AT = { notebook: 0.86, notes: 0.8, reader: 0.55, cards: 0.45, table: 0.62, errors: 0.55 };
+const POSTER_AT = { notebook: 0.86, notes: 0.8, reader: 0.55, cards: 0.45, table: 0.62, errors: 0.55, tikz: 0.7, assistant: 0.8, review: 0.6, looks: 0.3 };
 
 const run = (args) => execFileSync(ffmpeg, ["-loglevel", "error", "-y", ...args], { stdio: "inherit" });
 const kb = (file) => `${Math.round(fs.statSync(file).size / 1024)} KB`;

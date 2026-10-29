@@ -252,6 +252,13 @@ section[id], .appendix, #download { scroll-margin-top: calc(var(--bar-h) + 1.5re
 /* \download{macOS} is the one framed box, like \fbox */
 .download-cmd { padding: 0.5rem 0.8rem; border: 1px solid var(--hairline); transition: border-color 150ms ease; }
 .download-cmd:hover { border-color: var(--gutter); }
+/* \href{github}{★ 128}: the source, and how many people starred it */
+.github-cmd { display: inline-flex; align-items: center; }
+.github-cmd .tex-arg { border-bottom: 1.5px solid transparent; transition: border-color 150ms ease; }
+.github-cmd:hover .tex-arg { border-bottom-color: var(--gutter); }
+.stars { display: inline-flex; align-items: center; }
+.stars .star { margin: 0 0.3em 0 0.1em; fill: var(--caret); }
+.star-count { color: var(--syn-num); }
 .hero-stage { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 0; }
 .source { display: flex; flex-direction: column; min-height: 0; background: var(--code-bg); border-right: 1px solid var(--hairline); }
 .source-tab { padding: 0.5rem 1.6rem; font: 13px var(--mono); color: var(--ink-soft); border-bottom: 1px solid var(--hairline); }
@@ -365,6 +372,9 @@ kbd { font: 0.85em var(--mono); padding: 0.05em 0.35em; border: 1px solid var(--
 .button.soon { color: var(--ink-soft); background: transparent; border: 1px dashed var(--dashed); cursor: default; }
 .button.soon:hover { color: var(--ink-soft); }
 .appendix .download-note { margin-top: 1.2rem; }
+.platform .also { flex: none; font-size: 0.88rem; color: var(--ink-soft); }
+.platform .also[hidden] { display: none; }
+.source-note { margin-top: 0.6rem; font-size: 0.97rem; }
 
 /* ── the first screen's editor, once it is the visitor's: a transparent textarea over the
    highlighted source, which shows through it ── */
@@ -493,13 +503,25 @@ tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
   .desk { padding: 1rem; }
 }
 
-@media (max-width: 1560px) {
+@media (max-width: 2060px) {
   .tex-comment { display: none; }
   .include[href$="manual.html"] { margin-left: auto; } /* the right-hand group starts here */
 }
 
-@media (max-width: 1380px) {
+@media (max-width: 1650px) {
   .packages { display: none; }
+}
+
+/* narrower: \href{github}{★ 1.2k} becomes github ★ 1.2k, then \input{manual} becomes manual */
+@media (max-width: 1240px) {
+  .github-cmd .tex-cmd, .github-cmd > .tex-brace, .stars .tex-brace { display: none; }
+}
+@media (max-width: 1100px) {
+  .include .tex-cmd, .include-arg .tex-brace { display: none; }
+}
+@media (max-width: 980px) {
+  .pagecolor { display: none; } /* the page follows the system's colours, as on a phone */
+  .topbar { gap: 1.5rem; }
 }
 
 @media (max-width: 900px) {
@@ -518,7 +540,9 @@ tbody td:first-child { white-space: nowrap; padding-right: 1.4rem; }
   body { font-size: 1.06rem; }
   /* a phone shows scribe  manual  changelog  \download; its colours follow the phone */
   .brand-cmd, .brand-brace, .pagecolor, .include .tex-cmd, .include-arg .tex-brace, .download-arg { display: none; }
-  .topbar { gap: 0.9rem; padding: 0 1rem; font-size: 13px; }
+  /* a phone shows the star and the count; the word only when there is no count */
+  .github-cmd:has(.stars:not([hidden])) > .tex-arg { display: none; }
+  .topbar { gap: 0.75rem; padding: 0 1rem; font-size: 13px; }
   .article { padding-top: 3rem; }
   .maketitle h1 { font-size: 2.7rem; }
   .subtitle { font-size: 1.3rem; }
@@ -633,3 +657,10 @@ html.lenis, html.lenis body { height: auto; }
 .manual-page .listing { margin-top: 1.6rem; }
 .manual-page .listing pre { font-size: 0.8rem; }
 .manual-page .keys td:nth-child(odd) { white-space: nowrap; }
+
+@media (max-width: 400px) {
+  .topbar { gap: 0.6rem; padding: 0 0.75rem; }
+}
+@media (max-width: 380px) {
+  .star-count { display: none; } /* the star alone, still a link to GitHub */
+}

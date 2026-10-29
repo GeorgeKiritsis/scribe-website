@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://georgekiritsis.github.io/scribe-website/sitemap.xml
+Sitemap: https://scribe.georgekiritsis.com/sitemap.xml

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://georgekiritsis.github.io/scribe-website/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://georgekiritsis.github.io/scribe-website/manual.html</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://georgekiritsis.github.io/scribe-website/changelog.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://scribe.georgekiritsis.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://scribe.georgekiritsis.com/manual.html</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://scribe.georgekiritsis.com/changelog.html</loc><changefreq>weekly</changefreq></url>
 </urlset>

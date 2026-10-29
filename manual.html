@@ -6,7 +6,16 @@
   <title>Manual · Scribe</title>
   <meta name="description" content="How to use Scribe: notebooks that feed the paper, notes with maths, references, and every shortcut." />
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <link rel="canonical" href="https://georgekiritsis.github.io/scribe-website/manual.html" />
+  <link rel="canonical" href="https://scribe.georgekiritsis.com/manual.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Scribe" />
+  <meta property="og:title" content="Manual · Scribe" />
+  <meta property="og:description" content="How to use Scribe: notebooks that feed the paper, notes with maths, references, and every shortcut." />
+  <meta property="og:url" content="https://scribe.georgekiritsis.com/manual.html" />
+  <meta property="og:image" content="https://scribe.georgekiritsis.com/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#fffefb" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#141312" media="(prefers-color-scheme: dark)" />
   <link rel="preload" href="assets/fonts/LM-regular.woff2" as="font" type="font/woff2" crossorigin />
@@ -21,11 +30,12 @@
   <!-- the menu, written as the first lines of a LaTeX file -->
   <nav class="topbar" aria-label="Scribe">
     <a class="brand" href="index.html" aria-label="Scribe, back to the top"><span><span class="tex-cmd brand-cmd">\documentclass</span><span class="tex-brace brand-brace">{</span><span class="tex-arg">scribe</span><span class="tex-brace brand-brace">}</span></span></a>
-    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="index.html#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#tables">tables</a><span class="tex-brace">}</span></span>
+    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="index.html#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#tikz">tikz</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#review">review</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#notes">notes</a><span class="tex-brace">}</span></span>
     <span class="tex-comment">% offline, and free for everyone, forever</span>
     <a class="include" href="manual.html" aria-current="page"><span class="tex-cmd">\input</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">manual</span><span class="tex-brace">}</span></span></a>
     <a class="include" href="changelog.html"><span class="tex-cmd">\include</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">changelog</span><span class="tex-brace">}</span></span></a>
     <button class="pagecolor" type="button" aria-label="Dark or light page"><span class="tex-cmd">\pagecolor</span><span class="pagecolor-arg"><span class="tex-brace">{</span><span class="tex-arg pagecolor-name">white</span><span class="tex-brace">}</span></span></button>
+    <a class="github-cmd" href="https://github.com/Scribe-IDE/Scribe" aria-label="Scribe on GitHub"><span class="tex-cmd">\href</span><span class="tex-brace">{</span><span class="tex-arg">github</span><span class="tex-brace">}</span><span class="stars" hidden><span class="tex-brace">{</span><svg class="star" width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.95 4.1 4.5.55-3.3 3.1.85 4.45L8 11.6l-4 2.2.85-4.45-3.3-3.1 4.5-.55z"/></svg><span class="star-count"></span><span class="tex-brace">}</span></span></a>
     <a class="download-cmd" href="index.html#download"><span class="tex-cmd">\download</span></a>
   </nav>
 
@@ -41,6 +51,10 @@
         <li><a href="#start">Getting started</a></li>
         <li><a href="#notebooks">Notebooks and the paper</a></li>
         <li><a href="#writing">Writing LaTeX</a></li>
+        <li><a href="#tikz">TikZ</a></li>
+        <li><a href="#assistant">The assistant</a></li>
+        <li><a href="#review">Track changes and revisions</a></li>
+        <li><a href="#looks">Looks</a></li>
         <li><a href="#notes">Notes</a></li>
         <li><a href="#references">References and reading</a></li>
         <li><a href="#keys">Keyboard shortcuts</a></li>
@@ -85,8 +99,12 @@ nbmath(<span class="s">"model"</span>, sympy_expression)                        
       <h2>Writing LaTeX</h2>
       <p>Completion knows your labels, citations, figures and notebook values. Errors come with a line in plain words and an underline at their place; turn on <strong>Compile on Save</strong> or <strong>Compile as You Type</strong> in the Build menu or in Settings.</p>
       <dl class="tech-list single">
-        <div><dt>Tables.</dt><dd>With the cursor in a <code>tabular</code>, <strong>Edit → Edit Table</strong> opens it as a grid; elsewhere it inserts a new table. Paste a block from a spreadsheet into any cell.</dd></div>
-        <div><dt>Check Before Submitting.</dt><dd>In the Build menu: citations without an entry, references to missing labels, figures the text never mentions, missing images, stale notebook results, TODOs left in, and what arXiv would reject.</dd></div>
+        <div><dt>Hover.</dt><dd>Rest the pointer on <code>\ref</code> to see the equation typeset, the figure drawn or the section's title; on <code>\cite</code> for the paper's title, authors and year; on <code>\nbval</code> for the value.</dd></div>
+        <div><dt>Writing checks.</dt><dd>Eleven slips are underlined as you type, each with a fix in its tooltip: a breakable space before <code>\ref</code>, a repeated word, straight quotes, <code>$$ … $$</code>, <code>\bf</code> and friends, <code>...</code>, a space before <code>\footnote</code>, <code>\label</code> before <code>\caption</code>, unbalanced <code>\left</code> and <code>\right</code>, the space after “e.g.” and after a sentence ending in capitals. Each can be turned off in Settings.</dd></div>
+        <div><dt>Snippets.</dt><dd>Type <code>fig</code>, <code>nbfig</code>, <code>tab</code>, <code>eq</code>, <code>ali</code>, <code>item</code>, <code>enum</code>, <code>sec</code>, <code>sub</code>, <code>frac</code>, <code>beg</code> or <code>thm</code>, then Tab, and Tab again between the places to fill. <strong>Edit → Snippets</strong> adds your own, or imports a VS Code <code>latex.json</code>.</dd></div>
+        <div><dt>Equations.</dt><dd><strong>Insert → Equation</strong> (<kbd>⌥⌘E</kbd>) opens the maths at the cursor in an editor where it is typed as it looks: <kbd>/</kbd> for a fraction, <kbd>^</kbd> and <kbd>_</kbd>, and a keyboard of symbols. It writes back LaTeX, keeping the environment and the <code>\label</code>.</dd></div>
+        <div><dt>Tables.</dt><dd>With the cursor in a <code>tabular</code>, <strong>Insert → Table</strong> opens it as a grid; elsewhere it inserts a new table. Paste a block from a spreadsheet into any cell.</dd></div>
+        <div><dt>Check Before Submitting.</dt><dd>In the Review menu: citations without an entry, references to missing labels, figures the text never mentions, missing images, stale notebook results, TODOs left in, and what arXiv would reject.</dd></div>
         <div><dt>Export for Submission.</dt><dd>In the File menu: one zip of plain LaTeX a journal can compile, with every <code>\input</code> inlined and every notebook value written in.</dd></div>
         <div><dt>History.</dt><dd>The clock in the sidebar lists earlier versions of the open file, kept at every save. Click one to see what changed since; <strong>Restore</strong> brings it back, and <kbd>⌘Z</kbd> undoes that.</dd></div>
         <div><dt>Git and the terminal.</dt><dd>The git panel commits, pushes and shows diffs; <strong>View → Toggle Terminal</strong> opens your own shell in the project folder.</dd></div>
@@ -94,9 +112,57 @@ nbmath(<span class="s">"model"</span>, sympy_expression)                        
       </dl>
     </section>
 
+    <section id="tikz">
+      <h2>TikZ</h2>
+      <p>Put the cursor in a <code>tikzpicture</code>, in a <code>.tex</code> file or a <code>.tikz</code> file of its own, and press <kbd>⌥⌘K</kbd> (<strong>Build → Preview TikZ</strong>). The picture is compiled alone, with the paper's preamble, and drawn in the side pane; it is drawn again after every edit, in about half a second. An error points at its line.</p>
+      <dl class="tech-list single">
+        <div><dt>Moving.</dt><dd>Each point and node has a handle. Drag it and its coordinates change in the source; hold Shift to select several, and move, duplicate or delete them. Arrow keys nudge.</dd></div>
+        <div><dt>Drawing.</dt><dd>The tools draw lines, arrows, polylines, curves, rectangles, circles, ellipses, arcs, nodes, text and points. With the grid on, they snap to it. A line drawn from one node to another is written <code>(a) -- (b)</code>, so it follows the nodes.</dd></div>
+        <div><dt>Styling.</dt><dd>The style bar sets the selection's colour, fill, line width and dash, arrow tips, node shape, font size and opacity. Double-click a node to change its text in place.</dd></div>
+        <div><dt>Writing.</dt><dd>Completion inside a picture offers TikZ options, the paper's colours and styles, node names and anchors. <strong>Insert → TikZ Picture</strong> starts one from a few shapes and adds the libraries it needs to the preamble.</dd></div>
+        <div><dt>Export.</dt><dd>As PDF, SVG or PNG, or <em>Replace with the image</em>: the picture becomes an <code>\includegraphics</code> and its TikZ moves to a <code>.tikz</code> file beside it. The Figures panel shows every picture in the paper as a thumbnail.</dd></div>
+      </dl>
+      <p>Everything the canvas does is an edit to the TikZ, so <kbd>⌘Z</kbd> undoes it and the source is never out of step.</p>
+    </section>
+
+    <section id="assistant">
+      <h2>The assistant</h2>
+      <p>Choose a provider in <strong>Settings → AI</strong>: Anthropic (Claude), OpenAI, Google Gemini, Ollama running on your computer, or any service that speaks OpenAI's API (OpenRouter, Groq, LM Studio). Paste your key; it is kept in the system keychain, never in the project. Until a provider is set, nothing is sent anywhere.</p>
+      <dl class="tech-list single">
+        <div><dt>Ask about the paper.</dt><dd><strong>View → Assistant</strong> (<kbd>⌥⌘A</kbd>) opens a chat that knows the outline, the section you are in and your bibliography keys. LaTeX in an answer can be inserted or put in place of the selection with one click. Below the box, the panel says what the next question will send.</dd></div>
+        <div><dt>Edit with AI.</dt><dd>Select some text and press <kbd>⌥⌘I</kbd>: Improve Writing, Shorten, Fix Grammar and Spelling, More Formal, Simpler, Translate to English, Tidy the LaTeX, or Something Else, in your words. The change is shown word by word in the side pane; Accept puts it in, as one edit <kbd>⌘Z</kbd> undoes.</dd></div>
+        <div><dt>Fixing errors.</dt><dd>A compile error in the Problems list has a button that asks for a fix, shown the same way before anything changes.</dd></div>
+        <div><dt>Suggestions as you type.</dt><dd>Turned on in Settings → AI: after a pause, the rest of the sentence appears in grey; <kbd>Tab</kbd> takes it, anything else lets it go.</dd></div>
+      </dl>
+    </section>
+
+    <section id="review">
+      <h2>Track changes and revisions</h2>
+      <p><strong>Review → Track Changes</strong> (<kbd>⇧⌘E</kbd>) marks what you type as <code>\added[id=GK]{…}</code> and what you delete as <code>\deleted[id=GK]{…}</code>, with the initials from Settings → Profile. These are the commands of the <code>changes</code> package, which Scribe adds to the preamble, so the marks show in colour in the PDF, in any editor and on Overleaf, and travel with git. The preamble itself is not tracked.</p>
+      <dl class="tech-list single">
+        <div><dt>Comments.</dt><dd><strong>Add Comment</strong> (<kbd>⌥⌘M</kbd>) on a selection highlights it and puts the comment in the PDF's margin; at the cursor it is a comment on its own.</dd></div>
+        <div><dt>Accepting and rejecting.</dt><dd>The Review panel lists every change and comment across the paper, by author, with Accept, Reject and Resolve, or all of a file at once. In the editor, <kbd>⌥⌘.</kbd> goes to the next change and the Review menu accepts or rejects it. <strong>Show Changes in PDF</strong> switches between the marked-up paper and the paper as if every change were accepted.</dd></div>
+        <div><dt>Comparing with an earlier version.</dt><dd><strong>Review → Compare with Earlier Version</strong> takes a git commit or a version Scribe kept on save, and latexdiff marks what changed in a PDF: deletions struck through in red, additions in blue. It needs latexdiff and latexpand, which come with TeX Live.</dd></div>
+        <div><dt>The response to the reviewers.</dt><dd><strong>Response to Reviewers</strong> creates <code>response.tex</code>, one comment and reply per point. Select text in the marked-up PDF and <strong>Quote Selection for the Response</strong> puts it in the letter with its page.</dd></div>
+        <div><dt>Notes for later.</dt><dd><code>% TODO</code>, <code>% FIXME</code> and <code>\todo{…}</code> are gathered in the Review panel too.</dd></div>
+      </dl>
+    </section>
+
+    <section id="looks">
+      <h2>Looks</h2>
+      <p><strong>Settings → Appearance</strong> holds the look, which belongs to your computer rather than the project.</p>
+      <dl class="tech-list single">
+        <div><dt>Themes.</dt><dd>Scribe Dark and Light, Gruvbox Dark, Solarized Dark and Light, Nord, Catppuccin Mocha and Latte, GitHub Dark and Light, Tokyo Night, or <strong>Match the System</strong> with one light and one dark. Any accent colour replaces the theme's.</dd></div>
+        <div><dt>Your own theme.</dt><dd><strong>View → Theme → Edit Theme</strong> starts from the current one with every colour live; export it as a JSON file to share, or import someone else's.</dd></div>
+        <div><dt>Fonts.</dt><dd>JetBrains Mono, Fira Code, IBM Plex Mono, Iosevka, Source Code Pro, the system's, or any font you have installed; ligatures on or off, line height, and the size of the interface.</dd></div>
+        <div><dt>Dark PDF.</dt><dd><strong>View → Theme → Dark PDF</strong> shows pages light on dark; pictures and included figures keep their own colours. The PDF file itself is unchanged.</dd></div>
+        <div><dt>Focus mode.</dt><dd><kbd>⌥⌘F</kbd>: only the text, centred, with the line you are writing kept in the middle of the screen, and today's word count against a goal you can set. <kbd>Esc</kbd> leaves.</dd></div>
+      </dl>
+    </section>
+
     <section id="notes">
       <h2>Notes</h2>
-      <p>Notes are Markdown files: <strong>File → New Note</strong>, <strong>Today's Note</strong> (<kbd>⌥⌘T</kbd>) for a dated page, or <strong>Quick Note</strong> (<kbd>⌥⌘N</kbd>) to jot a line into <code>notes/Inbox.md</code> without leaving what you're doing. Maths, headings, checkboxes and images show as they will look; the line you are on shows its Markdown.</p>
+      <p>Notes are Markdown files: <strong>Notes → New Note</strong>, <strong>Today's Note</strong> (<kbd>⌥⌘T</kbd>) for a dated page, or <strong>Quick Note</strong> (<kbd>⌥⌘N</kbd>) to jot a line into <code>notes/Inbox.md</code> without leaving what you're doing. Maths, headings, checkboxes and images show as they will look; the line you are on shows its Markdown.</p>
       <div class="table-wrap">
         <table class="keys">
           <caption><span class="label">Table 1:</span> Typing maths in a note.</caption>
@@ -113,8 +179,8 @@ nbmath(<span class="s">"model"</span>, sympy_expression)                        
       <dl class="tech-list single">
         <div><dt>Links and tags.</dt><dd><code>[[Lecture 2]]</code> links to another note, <kbd>⌘</kbd>-click to follow; <code>@kingma2015</code> is a citation; <code>#exam</code> is a tag. The Notes panel searches the text of every note, filters by tag, and shows which notes link to the open one.</dd></div>
         <div><dt>Definitions and theorems.</dt><dd>A line starting <strong>Definition</strong>, <strong>Theorem</strong>, <strong>Lemma</strong>, <strong>Proposition</strong>, <strong>Corollary</strong> or <strong>Example</strong> (bold, or as a heading) is listed in the Notes panel, for revision.</dd></div>
-        <div><dt>Revision cards.</dt><dd>A line starting <code>Q:</code> with the answer on the next line starting <code>A:</code> is a card. <strong>Review</strong> asks the ones that are due; Again, Hard, Good and Easy (keys 1 to 4) decide when each comes back. <strong>File → Export Cards for Anki</strong> writes a file Anki imports.</dd></div>
-        <div><dt>Pictures, sketches and code.</dt><dd>Paste a screenshot or a photo with <kbd>⌘V</kbd>; draw with <strong>Insert Sketch</strong> (<kbd>⌥⌘D</kbd>), and double-click a sketch to draw on it again. Fenced code is highlighted in its language.</dd></div>
+        <div><dt>Revision cards.</dt><dd>A line starting <code>Q:</code> with the answer on the next line starting <code>A:</code> is a card. <strong>Review</strong> asks the ones that are due; Again, Hard, Good and Easy (keys 1 to 4) decide when each comes back. <strong>Notes → Export Cards for Anki</strong> writes a file Anki imports.</dd></div>
+        <div><dt>Pictures, sketches and code.</dt><dd>Paste a screenshot or a photo with <kbd>⌘V</kbd>; draw with <strong>Insert → Sketch</strong> (<kbd>⌥⌘D</kbd>), and double-click a sketch to draw on it again. Fenced code is highlighted in its language.</dd></div>
         <div><dt>Into LaTeX.</dt><dd><strong>Export Note as PDF</strong> typesets the note; <strong>Edit → Copy Note as LaTeX</strong> copies it, or the selection, ready to paste into a paper.</dd></div>
       </dl>
     </section>
@@ -139,6 +205,10 @@ nbmath(<span class="s">"model"</span>, sympy_expression)                        
             <tr><td><kbd>⌘F</kbd></td><td>Find</td><td><kbd>⇧⌘F</kbd></td><td>Search the project</td></tr>
             <tr><td><kbd>⌘S</kbd></td><td>Save</td><td><kbd>⌘W</kbd></td><td>Close the tab</td></tr>
             <tr><td><kbd>⌘/</kbd></td><td>Comment a line</td><td><kbd>⇧⌘C</kbd></td><td>Add a reference by DOI or arXiv ID</td></tr>
+            <tr><td><kbd>⌥⌘K</kbd></td><td>Preview TikZ</td><td><kbd>⌥⌘E</kbd></td><td>Edit an equation</td></tr>
+            <tr><td><kbd>⌥⌘A</kbd></td><td>The assistant</td><td><kbd>⌥⌘I</kbd></td><td>Edit with AI</td></tr>
+            <tr><td><kbd>⇧⌘E</kbd></td><td>Track changes</td><td><kbd>⌥⌘M</kbd></td><td>Add a comment</td></tr>
+            <tr><td><kbd>⌥⌘.</kbd></td><td>Next change or comment</td><td><kbd>⌥⌘F</kbd></td><td>Focus mode</td></tr>
             <tr><td><kbd>⌥⌘N</kbd></td><td>Quick note</td><td><kbd>⌥⌘T</kbd></td><td>Today's note</td></tr>
             <tr><td><kbd>⌥⌘D</kbd></td><td>Insert a sketch</td><td><kbd>⌘B</kbd></td><td>Show or hide the sidebar</td></tr>
             <tr><td><kbd>⌘J</kbd></td><td>Show or hide the log</td><td><kbd>⌘O</kbd></td><td>Open a project</td></tr>
@@ -150,7 +220,7 @@ nbmath(<span class="s">"model"</span>, sympy_expression)                        
   </main>
 
   <footer class="colophon">
-    <p>© 2026 Georgios Kiritsis · <a href="index.html">Back to Scribe</a></p>
+    <p>© 2026 Georgios Kiritsis · <a href="index.html">Back to Scribe</a> · <a href="https://github.com/Scribe-IDE/Scribe">GitHub</a> · MIT licence</p>
   </footer>
 </body>
 </html>

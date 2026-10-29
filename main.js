@@ -5,13 +5,36 @@
 // The site's root, so assets load the same from any page.
 const ROOT = new URL(".", document.currentScript.src).href;
 
-// Where each platform's download is. A platform without a link yet says "Coming soon"
-// instead of offering a download that doesn't exist.
-const DOWNLOADS = {
-  mac: null,     // e.g. "https://github.com/…/releases/latest/download/Scribe.dmg"
-  windows: null,
-  linux: null,
-};
+// Scribe's repository: its releases are the downloads, its stars are counted in the menu bar.
+const REPO = "Scribe-IDE/Scribe";
+const RELEASES = `https://github.com/${REPO}/releases/latest`;
+
+// One look at GitHub's API per visit (an hour at most), shared by the pages, so moving between
+// them costs no requests. Anything that fails leaves the plain links as they are.
+async function github(path) {
+  const key = `scribe.gh.${path}`;
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(key) ?? "null");
+    if (saved && Date.now() - saved.at < 3600e3) return saved.data;
+  } catch {}
+  const res = await fetch(`https://api.github.com/repos/${REPO}${path}`, { headers: { Accept: "application/vnd.github+json" } });
+  if (!res.ok) throw new Error(String(res.status));
+  const data = await res.json();
+  try { sessionStorage.setItem(key, JSON.stringify({ at: Date.now(), data })); } catch {}
+  return data;
+}
+
+// The installer for each platform among a release's files (their names carry the version).
+function installers(assets) {
+  const find = (re) => assets.find((a) => re.test(a.name))?.browser_download_url ?? null;
+  return {
+    mac: find(/\.dmg$/i),
+    windows: find(/-setup\.exe$/i) ?? find(/\.msi$/i),
+    linux: find(/\.AppImage$/i),
+    deb: find(/\.deb$/i),
+    rpm: find(/\.rpm$/i),
+  };
+}
 
 // ---------- Figure 1: ported from papyrus/src/welcome.ts ----------
 const CURVE = Array.from({ length: 81 }, (_, i) => {
@@ -234,18 +257,8 @@ function setupDemos() {
   }
 }
 
-for (const box of document.querySelectorAll(".platform[data-os]")) {
-  const url = DOWNLOADS[box.dataset.os];
-  const button = box.querySelector(".button");
-  if (url) {
-    button.href = url;
-    continue;
-  }
-  const soon = document.createElement("span");
-  soon.className = "button soon";
-  soon.textContent = "Coming soon";
-  button.replaceWith(soon);
-}
+// Until the release is looked up (or if it can't be), every button goes to the releases page.
+for (const button of document.querySelectorAll(".platform .button")) button.href = RELEASES;
 // Section numbers, as \section would set them (the abstract and the appendix aren't numbered)
 document.querySelectorAll(".article > section:not(.abstract):not(.appendix) > h2, .article > section:not(.abstract):not(.appendix) > .feature-text > h2")
   .forEach((h, i) => { h.dataset.n = String(i + 1); });
@@ -314,8 +327,45 @@ const downloadCmd = document.querySelector(".download-cmd");
 if (downloadCmd && os) {
   downloadCmd.insertAdjacentHTML("beforeend",
     `<span class="download-arg"><span class="tex-brace">{</span><span class="tex-arg">${OS_NAMES[os]}</span><span class="tex-brace">}</span></span>`);
-  if (DOWNLOADS[os]) downloadCmd.href = DOWNLOADS[os];
 }
+
+// The latest release: each platform's button downloads its installer, and the version is named.
+github("/releases/latest").then((release) => {
+  const files = installers(release.assets ?? []);
+  for (const box of document.querySelectorAll(".platform[data-os]")) {
+    const url = files[box.dataset.os];
+    if (url) box.querySelector(".button").href = url;
+  }
+  const also = document.querySelector('.platform[data-os="linux"] .also');
+  const extra = [["deb", "Debian, Ubuntu"], ["rpm", "Fedora"]].filter(([k]) => files[k]);
+  if (also && extra.length) {
+    also.replaceChildren("Also as ", ...extra.flatMap(([k, what], i) => {
+      const link = document.createElement("a");
+      link.href = files[k];
+      link.textContent = `.${k}`;
+      return [i ? " or " : "", link, ` (${what})`];
+    }), ".");
+    also.hidden = false;
+  }
+  const version = document.querySelector(".release-version");
+  if (version && release.tag_name) {
+    version.textContent = `Version ${release.tag_name.replace(/^v/, "")}. `;
+    version.hidden = false;
+  }
+  if (downloadCmd && os && files[os]) downloadCmd.href = files[os];
+}).catch(() => {});
+
+// \href{github}{★ 128}: the repository's stars, when GitHub answers
+github("").then((repo) => {
+  const n = repo.stargazers_count;
+  if (typeof n !== "number") return;
+  const short = n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, "")}k` : String(n);
+  for (const stars of document.querySelectorAll(".github-cmd .stars")) {
+    stars.querySelector(".star-count").textContent = short;
+    stars.hidden = false;
+    stars.closest(".github-cmd").setAttribute("aria-label", `Scribe on GitHub, ${n} stars`);
+  }
+}).catch(() => {});
 
 // Shortcuts are written for the Mac (⇧⌘P); elsewhere they read as Windows and Linux write them (Ctrl+Shift+P)
 if (os !== "mac") {

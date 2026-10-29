@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+  \path[use as bounding box] (0,0) rectangle (8,4);
+  \node[draw, rounded corners=2pt, fill=orange!20] (data) at (1.25,2) {Data};
+  \node[draw, rounded corners=2pt] (model) at (4,3) {Model};
+  \node[draw, rounded corners=2pt] (loss) at (4,1) {Loss};
+  \node[draw, circle, fill=gray!10] (out) at (6.75,2) {$\hat y$};
+  \draw[-stealth, thick] (data) -- (model);
+  \draw[-stealth, thick, orange] (model) -- (out);
+  \draw[-stealth, dashed] (out) -- (loss);
+  \draw[-stealth, dashed] (loss) -- node[midway, below] {gradient} (data);
+\end{tikzpicture}

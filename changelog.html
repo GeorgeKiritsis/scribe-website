@@ -6,7 +6,16 @@
   <title>Changelog · Scribe</title>
   <meta name="description" content="What changed in Scribe, the free offline LaTeX and Python editor." />
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <link rel="canonical" href="https://georgekiritsis.github.io/scribe-website/changelog.html" />
+  <link rel="canonical" href="https://scribe.georgekiritsis.com/changelog.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Scribe" />
+  <meta property="og:title" content="Changelog · Scribe" />
+  <meta property="og:description" content="What changed in Scribe, the free offline LaTeX and Python editor." />
+  <meta property="og:url" content="https://scribe.georgekiritsis.com/changelog.html" />
+  <meta property="og:image" content="https://scribe.georgekiritsis.com/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#fffefb" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#141312" media="(prefers-color-scheme: dark)" />
   <link rel="preload" href="assets/fonts/LM-regular.woff2" as="font" type="font/woff2" crossorigin />
@@ -21,11 +30,12 @@
   <!-- the menu, written as the first lines of a LaTeX file -->
   <nav class="topbar" aria-label="Scribe">
     <a class="brand" href="index.html" aria-label="Scribe, back to the top"><span><span class="tex-cmd brand-cmd">\documentclass</span><span class="tex-brace brand-brace">{</span><span class="tex-arg">scribe</span><span class="tex-brace brand-brace">}</span></span></a>
-    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="index.html#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#notes">notes</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#papers">papers</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#tables">tables</a><span class="tex-brace">}</span></span>
+    <span class="packages"><span class="tex-cmd">\usepackage</span><span class="tex-brace">{</span><a class="tex-arg" href="index.html#notebooks">notebooks</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#tikz">tikz</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#review">review</a><span class="tex-comma">,</span> <a class="tex-arg" href="index.html#notes">notes</a><span class="tex-brace">}</span></span>
     <span class="tex-comment">% offline, and free for everyone, forever</span>
     <a class="include" href="manual.html"><span class="tex-cmd">\input</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">manual</span><span class="tex-brace">}</span></span></a>
     <a class="include" href="changelog.html" aria-current="page"><span class="tex-cmd">\include</span><span class="include-arg"><span class="tex-brace">{</span><span class="tex-arg">changelog</span><span class="tex-brace">}</span></span></a>
     <button class="pagecolor" type="button" aria-label="Dark or light page"><span class="tex-cmd">\pagecolor</span><span class="pagecolor-arg"><span class="tex-brace">{</span><span class="tex-arg pagecolor-name">white</span><span class="tex-brace">}</span></span></button>
+    <a class="github-cmd" href="https://github.com/Scribe-IDE/Scribe" aria-label="Scribe on GitHub"><span class="tex-cmd">\href</span><span class="tex-brace">{</span><span class="tex-arg">github</span><span class="tex-brace">}</span><span class="stars" hidden><span class="tex-brace">{</span><svg class="star" width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.95 4.1 4.5.55-3.3 3.1.85 4.45L8 11.6l-4 2.2.85-4.45-3.3-3.1 4.5-.55z"/></svg><span class="star-count"></span><span class="tex-brace">}</span></span></a>
     <a class="download-cmd" href="index.html#download"><span class="tex-cmd">\download</span></a>
   </nav>
 
@@ -36,8 +46,36 @@
     </header>
 
     <section>
-      <h2>Version 1.0.0 <span class="release-note">not released yet</span></h2>
-      <p>Everything below is in the first version, which is being finished now. Release notes will start here once it's out.</p>
+      <h2>Version 1.2.0</h2>
+      <p>Download it from the <a href="https://github.com/Scribe-IDE/Scribe/releases/tag/v1.2.0">release on GitHub</a>; Scribe 1.1.0 offers to update itself.</p>
+      <div class="entry">
+        <h3>29 October 2026</h3>
+        <ul>
+          <li><strong>Track changes and comments</strong>, kept in the source with the <code>changes</code> package: typing and deleting are marked as you go, comments sit in the margin of the PDF, and the Review panel accepts or rejects each one.</li>
+          <li><strong>Shorter menus</strong>, with Insert, Review and Notes menus of their own.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Version 1.1.0 <span class="release-note">the first release</span></h2>
+      <p>The first version with installers for macOS, Windows and Linux, on <a href="https://github.com/Scribe-IDE/Scribe/releases/tag/v1.1.0">GitHub</a>. Besides everything in 1.0.0 below:</p>
+      <div class="entry">
+        <h3>29 October 2026</h3>
+        <ul>
+          <li><strong>An assistant with the model of your choice</strong> (Claude, GPT, Gemini, any OpenAI-compatible service, or Ollama on your computer): a chat that knows the paper, edits to the selection reviewed word by word, fixes for compile errors, and suggestions as you type. Keys stay in the system keychain.</li>
+          <li><strong>TikZ previewed as you type</strong>, with points, nodes and shapes drawn and moved on a grid, a style bar, and export to PDF, SVG or PNG.</li>
+          <li><strong>Help while writing:</strong> hover cards for <code>\ref</code>, <code>\cite</code> and <code>\nbval</code>; eleven writing checks with fixes; snippets; a visual equation editor.</li>
+          <li><strong>Revisions:</strong> compare the paper with an earlier version (latexdiff), and a letter to answer the reviewers.</li>
+          <li><strong>Looks:</strong> eleven themes and your own, editor fonts, PDFs in the dark, a focus mode.</li>
+          <li><strong>Windows and Linux</strong> builds beside macOS, and updates that install themselves.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Version 1.0.0 <span class="release-note">not released on its own</span></h2>
+      <p>The work below went into 1.1.0, the first release.</p>
 
       <div class="entry">
         <h3>14 October 2026</h3>
@@ -75,7 +113,7 @@
   </main>
 
   <footer class="colophon">
-    <p>© 2026 Georgios Kiritsis · <a href="index.html">Back to Scribe</a></p>
+    <p>© 2026 Georgios Kiritsis · <a href="index.html">Back to Scribe</a> · <a href="https://github.com/Scribe-IDE/Scribe">GitHub</a> · MIT licence</p>
   </footer>
 </body>
 </html>

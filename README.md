@@ -32,9 +32,9 @@ To set it up:
 1. Create a GitHub repository named `scribe-website` and push this folder to it.
 2. In the repository, open Settings → Pages and set Source to "GitHub Actions".
 
-The site then lives at https://georgekiritsis.github.io/scribe-website/. If the account or repository name is different, change that address in these places:
+The site then lives at https://scribe.georgekiritsis.com/. If the account or repository name is different, change that address in these places:
 - `robots.txt` and `sitemap.xml`
-- the `canonical` links of the three pages
+- the `canonical` links and the `og:` tags of the three pages
 - the BibTeX entry in Appendix B
 - the `/scribe-website/` path in `404.html`
 
