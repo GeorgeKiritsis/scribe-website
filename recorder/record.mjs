@@ -278,6 +278,26 @@ async function open(scene) {
 }
 
 const SCENES = {
+  // Not a demo: the screenshot at the top of the app's README (papyrus/docs/screenshot*.png).
+  // Run with SCALE=2 for a sharp image.
+  async readme(s) {
+    await open(s);
+    await s.click('#files .item[data-rel="main.tex"]', 1);
+    await wait(900);
+    await s.click("#btn-compile", 1);
+    await wait(2600);
+    // the page with the notebook's figure on it
+    await s.p.evaluate(() => {
+      const span = [...document.querySelectorAll("#pdf .textLayer span")].find((x) => /^Figure 1/.test(x.textContent));
+      const scroll = document.querySelector("#pdf-scroll");
+      if (span) scroll.scrollTop += span.getBoundingClientRect().top - scroll.getBoundingClientRect().top - 420;
+      document.getElementById("__pointer").style.display = "none";
+    });
+    await wait(800);
+    fs.mkdirSync(`${app}/docs`, { recursive: true });
+    await s.p.screenshot({ path: `${app}/docs/screenshot${SUFFIX}.png` });
+  },
+
   // Figure 2: run the figure cell, then compile: the figure and numbers land in the PDF.
   async notebook(s) {
     await open(s);
@@ -530,7 +550,7 @@ for (const [name, run] of Object.entries(SCENES)) {
   if (wanted.length && !wanted.includes(name)) continue;
   const ctx = await browser.newContext({
     viewport: { width: W, height: H },
-    deviceScaleFactor: 1,
+    deviceScaleFactor: Number(process.env.SCALE ?? 1),
     reducedMotion: "no-preference",
     recordVideo: { dir: `${raw}/tmp`, size: { width: W, height: H } },
   });
